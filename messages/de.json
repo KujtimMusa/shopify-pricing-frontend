@@ -151,6 +151,22 @@
     "cannot_apply_warning": "Dieser Preis kann aufgrund kritischer Warnungen nicht angewendet werden. Bitte prüfe die oben genannten Probleme.",
     "margin_warning": "Marge-Warnung",
     "month_est": "/Monat geschätzt"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "dynamicPricing": "Dynamische Preisgestaltung",
+    "recommendations": "Empfehlungen",
+    "products": "Produkte",
+    "competitors": "Wettbewerber",
+    "insights": "Einblicke"
+  },
+  "install": {
+    "title": "PriceIQ installieren",
+    "description": "Verbinde deinen Shopify Shop",
+    "shopDomain": "Shop Domain",
+    "placeholder": "dein-shop.myshopify.com",
+    "install": "App installieren",
+    "redirectMessage": "Du wirst zu Shopify weitergeleitet um die Installation zu bestätigen."
   }
 }
 

@@ -3,7 +3,7 @@ import { defineRouting } from 'next-intl/routing';
 export const routing = defineRouting({
   locales: ['de', 'en'],
   defaultLocale: 'de',
-  localePrefix: 'always'
+  localePrefix: 'as-needed' // Deutsch ohne /de/ Prefix, nur /en/ in URL
 });
 
 

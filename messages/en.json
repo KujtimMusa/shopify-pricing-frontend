@@ -151,6 +151,22 @@
     "cannot_apply_warning": "This price cannot be applied due to critical warnings. Please review the issues above.",
     "margin_warning": "Margin Warning",
     "month_est": "/month est."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "dynamicPricing": "Dynamic Pricing",
+    "recommendations": "Recommendations",
+    "products": "Products",
+    "competitors": "Competitors",
+    "insights": "Insights"
+  },
+  "install": {
+    "title": "Install PriceIQ",
+    "description": "Connect your Shopify shop",
+    "shopDomain": "Shop Domain",
+    "placeholder": "your-shop.myshopify.com",
+    "install": "Install App",
+    "redirectMessage": "You will be redirected to Shopify to confirm the installation."
   }
 }
 

@@ -1,12 +1,31 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Link } from '@/navigation'
 import { ShopSwitcher } from '@/components/ShopSwitcher'
 import { useShop } from '@/hooks/useShop'
 
 export default function Home() {
-  const { currentShop, isDemoMode, shops, loading } = useShop()
+  const { currentShop, isDemoMode, shops, loading, switchToShop } = useShop()
+  const searchParams = useSearchParams()
+  
+  // Auto-Switch nach OAuth Installation
+  useEffect(() => {
+    const shopId = searchParams?.get('shop_id')
+    const mode = searchParams?.get('mode')
+    const installed = searchParams?.get('installed')
+    
+    if (shopId && mode === 'live' && installed === 'true') {
+      console.log('[Home] Auto-switching to installed shop:', shopId)
+      switchToShop(parseInt(shopId), false)
+      
+      // Clean URL (entferne Query-Parameter)
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', window.location.pathname)
+      }
+    }
+  }, [searchParams, switchToShop])
 
   return (
     <div className="min-h-screen bg-gray-50 flex">

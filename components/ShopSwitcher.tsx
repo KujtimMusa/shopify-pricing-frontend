@@ -52,14 +52,25 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
   };
 
   const handleLiveMode = async () => {
-    const liveShops = shops.filter(s => s.type === 'shopify');
-    if (liveShops.length > 0) {
-      // Shop installiert - wechsle zu diesem Shop
-      await handleSwitch(liveShops[0], false);
+    console.log('[ShopSwitcher] 🔘 Live Button clicked');
+    
+    // FIX: Filter Demo Shop nochmal explizit raus
+    const realLiveShops = shops.filter(s => 
+      s.type === 'shopify' && 
+      s.id !== 999 && // Demo Shop ID explizit ausschließen
+      s.type !== 'demo' // Sicherheitscheck
+    );
+    
+    console.log('[ShopSwitcher] liveShops (all):', liveShops.map(s => ({ id: s.id, name: s.name, type: s.type })));
+    console.log('[ShopSwitcher] realLiveShops (filtered):', realLiveShops.map(s => ({ id: s.id, name: s.name, type: s.type })));
+    
+    if (realLiveShops.length > 0) {
+      console.log('[ShopSwitcher] → Switching to real shop:', realLiveShops[0].name);
+      await handleSwitch(realLiveShops[0], false);
     } else {
-      // Kein Shop installiert - wechsle zu Live Mode (zeigt Connect Card)
-      // Nutze Demo Shop ID mit useDemo=false um zu Live Mode zu wechseln
-      // Das Backend wird dann isDemoMode auf false setzen und active_shop_id = 0
+      console.log('[ShopSwitcher] → No real shops, showing connect card');
+      // WICHTIG: Zeige Connect Card
+      // isDemoMode muss false bleiben aber keine Shop-Karte
       if (demoShop) {
         try {
           console.log('[ShopSwitcher] Switching to Live Mode (no shop installed)');
@@ -110,24 +121,37 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
     );
   }
 
-  const demoShop = shops.find(s => s.type === 'demo');
-  const liveShops = shops.filter(s => s.type === 'shopify');
+  const demoShop = shops.find(s => s.type === 'demo' || s.id === 999);
+  
+  // FIX: Filter echte Live Shops - Demo Shop (ID 999) explizit ausschließen
+  const liveShops = shops.filter(s => 
+    s.type === 'shopify' && 
+    s.id !== 999 && // Demo Shop ID explizit ausschließen
+    s.type !== 'demo' // Sicherheitscheck
+  );
   
   // DEBUG: Prüfe auf doppelte Demo Shops
-  const demoShops = shops.filter(s => s.type === 'demo');
+  const demoShops = shops.filter(s => s.type === 'demo' || s.id === 999);
   if (demoShops.length > 1) {
-    console.warn('[ShopSwitcher] ⚠️ MEHRERE DEMO SHOPS GEFUNDEN:', demoShops.map(s => ({ id: s.id, name: s.name })));
+    console.warn('[ShopSwitcher] ⚠️ MEHRERE DEMO SHOPS GEFUNDEN:', demoShops.map(s => ({ id: s.id, name: s.name, type: s.type })));
+  }
+  
+  // DEBUG: Prüfe ob Demo Shop fälschlicherweise in liveShops ist
+  const demoInLiveShops = liveShops.find(s => s.id === 999 || s.type === 'demo');
+  if (demoInLiveShops) {
+    console.error('[ShopSwitcher] ❌ BUG: Demo Shop in liveShops gefunden!', demoInLiveShops);
   }
   
   console.log('[ShopSwitcher] Render:', {
     shopsCount: shops.length,
     shops: shops.map(s => ({ id: s.id, name: s.name, type: s.type })),
-    demoShop: demoShop?.name,
+    demoShop: demoShop ? { id: demoShop.id, name: demoShop.name, type: demoShop.type } : null,
     demoShopsCount: demoShops.length,
     liveShopsCount: liveShops.length,
-    liveShops: liveShops.map(s => ({ id: s.id, name: s.name })),
-    currentShop: currentShop?.name,
-    isDemoMode
+    liveShops: liveShops.map(s => ({ id: s.id, name: s.name, type: s.type })),
+    currentShop: currentShop ? { id: currentShop.id, name: currentShop.name, type: currentShop.type } : null,
+    isDemoMode,
+    demoInLiveShops: demoInLiveShops ? 'BUG!' : 'OK'
   });
 
   return (
@@ -215,11 +239,19 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
         // LIVE MODE
         // ═════════════════════════════════════
         <div className="space-y-2">
-          {liveShops.length > 0 ? (
-            // ─────────────────────────────────
-            // FALL 1: Shopify Shop ist installiert
-            // ─────────────────────────────────
-            liveShops.map((shop) => (
+          {(() => {
+            // FIX: Filter echte Live Shops (ohne Demo Shop!)
+            const realLiveShops = liveShops.filter(s =>
+              s.id !== 999 &&
+              s.type !== 'demo' &&
+              s.type === 'shopify'
+            );
+            
+            return realLiveShops.length > 0 ? (
+              // ─────────────────────────────────
+              // FALL 1: Shopify Shop ist installiert
+              // ─────────────────────────────────
+              realLiveShops.map((shop) => (
               <div
                 key={shop.id}
                 className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
@@ -263,8 +295,8 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
                   </div>
                 </div>
               </div>
-            ))
-          ) : (
+              ))
+            ) : (
             // ─────────────────────────────────
             // FALL 2: Kein Shop installiert
             // ─────────────────────────────────

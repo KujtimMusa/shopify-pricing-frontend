@@ -90,10 +90,18 @@ export function useShop(): ShopContext {
         activeShop = data.shops?.find((s: Shop) => s.type === 'demo') || null;
       } else {
         // Für Live-Shop: Suche nach active_shop_id (ignoriere is_active Flag)
-        activeShop = data.shops?.find((s: Shop) => s.id === activeShopId && s.type === 'shopify') || null;
-        // Fallback: Erster Live-Shop
+        // WICHTIG: Demo Shop (ID 999) explizit ausschließen!
+        activeShop = data.shops?.find((s: Shop) => 
+          s.id === activeShopId && 
+          s.type === 'shopify' && 
+          s.id !== 999  // Demo Shop explizit ausschließen
+        ) || null;
+        // Fallback: Erster Live-Shop (ohne Demo Shop)
         if (!activeShop && data.shops) {
-          activeShop = data.shops.find((s: Shop) => s.type === 'shopify') || null;
+          activeShop = data.shops.find((s: Shop) => 
+            s.type === 'shopify' && 
+            s.id !== 999  // Demo Shop explizit ausschließen
+          ) || null;
         }
       }
       

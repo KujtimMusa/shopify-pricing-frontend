@@ -64,19 +64,19 @@ export function useShop(): ShopContext {
       
       let activeShop = null;
       if (isDemo) {
-        activeShop = data.shops?.find(s => s.type === 'demo') || null;
+        activeShop = data.shops?.find((s: Shop) => s.type === 'demo') || null;
       } else {
         // Für Live-Shop: Suche nach active_shop_id (ignoriere is_active Flag)
-        activeShop = data.shops?.find(s => s.id === activeShopId && s.type === 'shopify') || null;
+        activeShop = data.shops?.find((s: Shop) => s.id === activeShopId && s.type === 'shopify') || null;
         // Fallback: Erster Live-Shop
         if (!activeShop && data.shops) {
-          activeShop = data.shops.find(s => s.type === 'shopify') || null;
+          activeShop = data.shops.find((s: Shop) => s.type === 'shopify') || null;
         }
       }
       
       // Fallback: Nutze is_active Flag
       if (!activeShop && data.shops) {
-        activeShop = data.shops.find(s => s.is_active) || null;
+        activeShop = data.shops.find((s: Shop) => s.is_active) || null;
       }
       
       // Fallback: Erster Shop in Liste
@@ -146,13 +146,13 @@ export function useShop(): ShopContext {
       setIsDemoMode(useDemo);
       
       // Finde den neuen Shop in der Liste
-      let newShop = shops.find(s => s.id === shopId);
+      let newShop = shops.find((s: Shop) => s.id === shopId);
       
       // Falls Shop nicht in Liste, lade Shops neu und suche dort
       if (!newShop) {
         console.warn('[useShop] Shop nicht in Liste gefunden, lade Shops neu...');
         const shopsData = await getAvailableShops();
-        newShop = shopsData.shops?.find(s => s.id === shopId) || null;
+        newShop = shopsData.shops?.find((s: Shop) => s.id === shopId) || null;
         
         // Aktualisiere shops State
         setShops(shopsData.shops || []);

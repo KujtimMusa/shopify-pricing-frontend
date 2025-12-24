@@ -56,9 +56,8 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
     
     // FIX: Filter Demo Shop nochmal explizit raus
     const realLiveShops = shops.filter(s => 
-      s.type === 'shopify' && 
       s.id !== 999 && // Demo Shop ID explizit ausschließen
-      s.type !== 'demo' // Sicherheitscheck
+      s.type === 'shopify' // Nur Shopify Shops
     );
     
     console.log('[ShopSwitcher] liveShops (all):', liveShops.map(s => ({ id: s.id, name: s.name, type: s.type })));
@@ -126,14 +125,12 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
   // FIX: Filter echte Live Shops - Demo Shop (ID 999) explizit ausschließen
   const liveShops = shops.filter(s => 
     s.type === 'shopify' && 
-    s.id !== 999 && // Demo Shop ID explizit ausschließen
-    s.type !== 'demo' // Sicherheitscheck
+    s.id !== 999 // Demo Shop ID explizit ausschließen
   );
   
   // FIX: Filter echte Live Shops für Rendering (ohne Demo Shop!)
   const realLiveShops = liveShops.filter(s =>
     s.id !== 999 &&
-    s.type !== 'demo' &&
     s.type === 'shopify'
   );
   

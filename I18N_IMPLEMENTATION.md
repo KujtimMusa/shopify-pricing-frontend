@@ -210,3 +210,5 @@ export function KeyInsights({ ... }) {
 Siehe `I18N_EXAMPLE_REFACTORING.md` für vollständige Beispiele.
 
 
+
+

@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { getLatestRecommendation, generateRecommendation } from '@/lib/api'
+import { applyRecommendedPrice } from '@/lib/shopifyService'
 import { PriceRecommendationCard } from './pricing/PriceRecommendationCard'
+import { useShop } from '@/hooks/useShop'
 
 interface RecommendationData {
   id: number
@@ -34,6 +36,7 @@ export default function LatestRecommendation({ productId }: LatestRecommendation
   const [loading, setLoading] = useState(false)
   const [generating, setGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { currentShop, isDemoMode } = useShop()
 
   const loadLatestRecommendation = async () => {
     if (!productId) return
@@ -117,6 +120,53 @@ export default function LatestRecommendation({ productId }: LatestRecommendation
       setError(err.message || 'Fehler beim Generieren der Empfehlung')
     } finally {
       setGenerating(false)
+    }
+  }
+
+  const handleApplyPrice = async (price: number) => {
+    if (!productId) {
+      alert('Bitte wähle eine Produkt-ID aus!')
+      return
+    }
+    
+    // Demo Mode: Keine echte Shopify Integration
+    if (isDemoMode) {
+      alert('Demo Mode: Preis kann nicht auf Shopify angewendet werden.')
+      return
+    }
+    
+    if (!currentShop?.id) {
+      alert('Kein Shop ausgewählt. Bitte wähle einen Shop aus.')
+      return
+    }
+    
+    // Konvertiere productId zu number falls nötig
+    const productIdNum = typeof productId === 'string' ? parseInt(productId, 10) : productId
+    if (isNaN(productIdNum)) {
+      alert('Ungültige Produkt-ID')
+      return
+    }
+    
+    try {
+      console.log('[LatestRecommendation] Applying price:', { productIdNum, price, shopId: currentShop.id })
+      
+      const result = await applyRecommendedPrice({
+        product_id: productIdNum,
+        recommended_price: price
+      })
+      
+      console.log('[LatestRecommendation] Price applied successfully:', result)
+      
+      // Erfolgsmeldung
+      alert(`Preis erfolgreich auf Shopify aktualisiert: €${result.new_price.toFixed(2)}`)
+      
+      // Reload Recommendation um aktualisierten Preis zu sehen
+      await loadLatestRecommendation()
+      
+    } catch (err: any) {
+      console.error('[LatestRecommendation] Error applying price:', err)
+      alert(`Fehler beim Anwenden des Preises: ${err.message || 'Unbekannter Fehler'}`)
+      throw err
     }
   }
 
@@ -209,6 +259,7 @@ export default function LatestRecommendation({ productId }: LatestRecommendation
       recommendation={transformedRecommendation}
       onRefresh={handleGenerate}
       onDismiss={() => {}}
+      onApply={handleApplyPrice}
     />
   )
 }

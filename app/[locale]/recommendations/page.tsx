@@ -7,6 +7,7 @@ import { ShopSwitcher } from '@/components/ShopSwitcher'
 import { useShop } from '@/hooks/useShop'
 import LatestRecommendation from '@/components/LatestRecommendation'
 import { CompetitorAnalysis } from '@/components/CompetitorAnalysis'
+import { CompetitorAnalysisButton } from '@/components/CompetitorAnalysisButton'
 import { MarginDisplay } from '@/components/margin/MarginDisplay'
 import { CostInputModal } from '@/components/margin/CostInputModal'
 import { fetchProducts, calculateMargin, saveProductCosts } from '@/lib/api'
@@ -189,6 +190,25 @@ function RecommendationsContent() {
               <div className="mb-8">
                 <LatestRecommendation productId={productId} />
               </div>
+
+              {/* NEU: Wettbewerbsanalyse-Trigger, sichtbar in Demo und Live */}
+              {currentPrice > 0 && (
+                <section className="mt-6 mb-8">
+                  <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                    Wettbewerbsanalyse
+                  </h3>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Starte eine aktuelle Wettbewerbsanalyse für dieses Produkt.
+                    {isDemoMode && ' Im Demo-Modus werden synthetische Competitor-Daten verwendet.'}
+                  </p>
+
+                  <CompetitorAnalysisButton
+                    productId={productId}
+                    productTitle={productTitle || `Product ${productId}`}
+                    currentPrice={currentPrice}
+                  />
+                </section>
+              )}
         </div>
       </main>
 

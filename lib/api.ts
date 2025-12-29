@@ -154,7 +154,7 @@ export interface CompetitorSearchResponse {
 }
 
 export async function searchCompetitors(
-  productId: number,
+  productId: number | string,
   options?: {
     maxResults?: number;
     forceRefresh?: boolean;
@@ -168,7 +168,8 @@ export async function searchCompetitors(
     `${API_URL}/competitors/products/${productId}/competitor-search?${params}`,
     { 
       method: 'POST',
-      headers: getHeaders()
+      headers: getHeaders(),
+      credentials: 'include'
     }
   );
   

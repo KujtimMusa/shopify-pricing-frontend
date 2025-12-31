@@ -21,6 +21,7 @@ interface PriceStory {
   total_impact_pct: number;
   base_price: number;
   recommended_price: number;
+  price_change?: number;  // 🆕 NEU: Actual price change
   confidence: number;
   summary: string;
 }
@@ -184,9 +185,16 @@ export function PriceStoryExplainer({ priceStory }: Props) {
               />
             </div>
             <div className="text-right">
-              <div className={`text-3xl font-bold tabular-nums ${priceStory.total_impact > 0 ? 'text-green-600' : 'text-orange-600'}`}>
-                {priceStory.total_impact > 0 ? '+' : ''}{formatCurrency(priceStory.total_impact)}
-              </div>
+              {/* 🆕 GEÄNDERT: Nutze price_change wenn verfügbar, sonst total_impact */}
+              {priceStory.price_change !== undefined ? (
+                <div className={`text-3xl font-bold tabular-nums ${priceStory.price_change > 0 ? 'text-green-600' : priceStory.price_change < 0 ? 'text-orange-600' : 'text-gray-600'}`}>
+                  {priceStory.price_change > 0 ? '+' : ''}{formatCurrency(priceStory.price_change)}
+                </div>
+              ) : (
+                <div className={`text-3xl font-bold tabular-nums ${priceStory.total_impact > 0 ? 'text-green-600' : 'text-orange-600'}`}>
+                  {priceStory.total_impact > 0 ? '+' : ''}{formatCurrency(priceStory.total_impact)}
+                </div>
+              )}
               <div className="text-xs text-gray-600 tabular-nums">
                 {formatCurrency(priceStory.base_price)} → {formatCurrency(priceStory.recommended_price)}
               </div>

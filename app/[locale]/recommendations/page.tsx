@@ -34,15 +34,29 @@ function RecommendationsContent() {
       try {
         console.log('[RecommendationsPage] Loading product data:', { productId, shopId: currentShop.id, isDemoMode })
         const products = await fetchProducts() // Backend nutzt ShopContext
-        const product = products.find((p: any) => p.id === productId)
+        
+        // Debug: Log product types
+        console.log('[RecommendationsPage] Products received:', products.length, 'First ID type:', typeof products[0]?.id)
+        console.log('[RecommendationsPage] Searching for:', productId, 'Type:', typeof productId)
+        
+        // WICHTIG: Loose comparison für Type-Mismatch (String vs Number)
+        const product = products.find((p: any) => String(p.id) === String(productId))
         
         if (!product) {
-          console.error('[RecommendationsPage] Product not found in current shop', { productId, currentShop, productsCount: products.length })
+          console.error('[RecommendationsPage] Product not found in current shop', { 
+            productId, 
+            productIdType: typeof productId,
+            currentShop, 
+            productsCount: products.length,
+            availableIds: products.slice(0, 5).map((p: any) => ({ id: p.id, idType: typeof p.id }))
+          })
           setMarginData({ has_cost_data: false, error: `Produkt ${productId} nicht im aktuellen Shop gefunden. Bitte Shop wechseln oder Produkt-ID prüfen.` })
           setCurrentPrice(0)
           setProductTitle(`Product ${productId} (nicht gefunden)`)
           return
         }
+        
+        console.log('[RecommendationsPage] Product found:', { id: product.id, title: product.title, price: product.price })
         
         setCurrentPrice(product.price || 0)
         setProductTitle(product.title || product.name || `Product ${productId}`)
@@ -76,8 +90,10 @@ function RecommendationsContent() {
           const loadProductData = async () => {
             try {
               const products = await fetchProducts()
-              const product = products.find((p: any) => p.id === productId)
+              // WICHTIG: Loose comparison für Type-Mismatch (String vs Number)
+              const product = products.find((p: any) => String(p.id) === String(productId))
               if (product) {
+                console.log('[RecommendationsPage] Product reloaded after shop switch:', { id: product.id, title: product.title, price: product.price })
                 setCurrentPrice(product.price || 0)
                 setProductTitle(product.title || product.name || `Product ${productId}`)
               } else {

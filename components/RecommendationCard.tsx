@@ -3,6 +3,7 @@
 import { ArrowUp, ArrowDown, RefreshCw, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
 import MetricCard from './MetricCard'
 import { formatRelativeTime, formatStrategyName, getConfidenceColor, getConfidenceMessage } from '@/lib/recommendationUtils'
+import { ConfidenceExplanation } from './ConfidenceExplanation'
 
 interface RecommendationData {
   id: number
@@ -202,6 +203,15 @@ export default function RecommendationCard({
         <p className="text-xs text-gray-600">
           {getConfidenceMessage(data.confidence)}
         </p>
+      </div>
+
+      {/* Confidence Explanation */}
+      <div className="mb-6">
+        <ConfidenceExplanation
+          confidence={data.confidence}
+          competitorCount={data.competitor_avg_price ? 1 : 0}
+          salesDataDays={data.sales_7d ? 7 : 0}
+        />
       </div>
 
       {/* Actions */}

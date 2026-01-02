@@ -70,6 +70,8 @@ export function CostInputModal({
   
   const loadExistingCosts = async () => {
     try {
+      setIsLoading(true)
+      setError(null)
       const data = await getProductCosts(productId)
       if (data) {
         setCostData({
@@ -80,10 +82,29 @@ export function CostInputModal({
           country_code: data.country_code,
           category: data.category
         })
+      } else {
+        // 404 - No cost data exists yet, show empty form
+        setCostData({
+          purchase_cost: 0,
+          shipping_cost: 0,
+          packaging_cost: 0,
+          payment_provider: 'stripe',
+          country_code: 'DE',
+          category: undefined
+        })
+        setError(null) // No error for 404 - this is expected
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to load costs:', error)
-      setError('Fehler beim Laden der Kosten')
+      // Only show error if it's not a 404
+      if (error?.response?.status !== 404 && error?.status !== 404) {
+        setError('Fehler beim Laden der Kosten')
+      } else {
+        // 404 is expected - no cost data exists yet
+        setError(null)
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
   

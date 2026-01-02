@@ -8,6 +8,8 @@ import { KeyInsights } from './KeyInsights'
 import { DetailedBreakdown } from './DetailedBreakdown'
 import { CompetitorPositionSlider } from './CompetitorPositionSlider'
 import { ActionButtons } from './ActionButtons'
+import { ConfidenceExplanation } from '../ConfidenceExplanation'
+import { PriceRecommendationBreakdown } from '../PriceRecommendationBreakdown'
 import { formatCurrency, formatPercentage, formatTimeAgo } from '@/lib/formatters'
 import { generateRecommendationTexts } from '@/lib/recommendationTexts'
 
@@ -265,6 +267,15 @@ export function PriceRecommendationCard({
           reasoning={recommendationTexts.confidence}
           compact={false}
         />
+        
+        {/* Confidence Explanation */}
+        <div className="mt-4">
+          <ConfidenceExplanation
+            confidence={recommendation.confidence}
+            competitorCount={recommendation.competitor_data?.prices?.length || 0}
+            salesDataDays={30} // Default, could be extracted from recommendation
+          />
+        </div>
         
         {/* Warum diese Empfehlung - Bullet Points */}
         {recommendationTexts.bulletPoints.length > 0 && (

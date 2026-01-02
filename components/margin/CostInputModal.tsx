@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { X, Info, TrendingUp, Loader2 } from 'lucide-react'
-import { API_URL, getProductCosts, getCategoryDefaults, estimateCostsFromPrice } from '@/lib/api'
+import { X, Info, TrendingUp, Loader2, Edit2, Check, X as XIcon } from 'lucide-react'
+import { API_URL, getProductCosts, getCategoryDefaults, estimateCostsFromPrice, updateProductCosts, saveProductCosts } from '@/lib/api'
 
 interface CostInputModalProps {
   isOpen: boolean
@@ -52,6 +52,8 @@ export function CostInputModal({
   const [showEstimates, setShowEstimates] = useState(false)
   const [categoryDefaults, setCategoryDefaults] = useState<CategoryDefaults | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [savedCostData, setSavedCostData] = useState<ProductCostData | null>(null)
   
   const categories = ['fashion', 'electronics', 'beauty', 'home', 'food']
   const paymentProviders = [
@@ -74,6 +76,16 @@ export function CostInputModal({
       setError(null)
       const data = await getProductCosts(productId)
       if (data) {
+        // Save original data for view mode
+        setSavedCostData({
+          purchase_cost: data.purchase_cost,
+          shipping_cost: data.shipping_cost,
+          packaging_cost: data.packaging_cost,
+          payment_provider: data.payment_provider,
+          country_code: data.country_code,
+          category: data.category
+        })
+        // Populate form with saved data
         setCostData({
           purchase_cost: data.purchase_cost,
           shipping_cost: data.shipping_cost,
@@ -82,8 +94,10 @@ export function CostInputModal({
           country_code: data.country_code,
           category: data.category
         })
+        setIsEditing(false) // Start in view mode
       } else {
         // 404 - No cost data exists yet, show empty form
+        setSavedCostData(null)
         setCostData({
           purchase_cost: 0,
           shipping_cost: 0,
@@ -92,6 +106,7 @@ export function CostInputModal({
           country_code: 'DE',
           category: undefined
         })
+        setIsEditing(true) // Auto-enable edit for new costs
         setError(null) // No error for 404 - this is expected
       }
     } catch (error: any) {
@@ -101,6 +116,8 @@ export function CostInputModal({
         setError('Fehler beim Laden der Kosten')
       } else {
         // 404 is expected - no cost data exists yet
+        setSavedCostData(null)
+        setIsEditing(true)
         setError(null)
       }
     } finally {
@@ -176,8 +193,21 @@ export function CostInputModal({
     setError(null)
     
     try {
+      // Use PUT for update, POST for create
+      if (savedCostData) {
+        // Update existing
+        await updateProductCosts(productId, costData)
+      } else {
+        // Create new
+        await saveProductCosts(productId, costData)
+      }
+      
+      // Call parent callback
       await onSave(costData)
-      onClose()
+      
+      // Reload to get updated data
+      await loadExistingCosts()
+      setIsEditing(false) // Back to view mode
     } catch (error: any) {
       console.error('Failed to save costs:', error)
       // 🆕 Verbesserte Error-Message
@@ -186,6 +216,15 @@ export function CostInputModal({
     } finally {
       setIsSaving(false)
     }
+  }
+
+  const handleCancelEdit = () => {
+    // Reset form to saved data
+    if (savedCostData) {
+      setCostData({ ...savedCostData })
+    }
+    setIsEditing(false)
+    setError(null)
   }
   
   if (!isOpen) return null
@@ -232,6 +271,62 @@ export function CostInputModal({
         
         {/* Body */}
         <div className="p-6 space-y-6">
+          
+          {/* VIEW MODE: Show Saved Data + Edit Button */}
+          {savedCostData && !isEditing && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-lg text-gray-900">📊 Gespeicherte Kosten</h3>
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2"
+                >
+                  <Edit2 className="w-4 h-4" />
+                  Bearbeiten
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <span className="text-gray-600">Einkauf:</span>
+                  <span className="font-bold ml-2 text-gray-900">€{savedCostData.purchase_cost.toFixed(2)}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Versand:</span>
+                  <span className="font-bold ml-2 text-gray-900">€{savedCostData.shipping_cost.toFixed(2)}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Verpackung:</span>
+                  <span className="font-bold ml-2 text-gray-900">€{savedCostData.packaging_cost.toFixed(2)}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Payment:</span>
+                  <span className="font-bold ml-2 text-gray-900">{savedCostData.payment_provider}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">MwSt:</span>
+                  <span className="font-bold ml-2 text-gray-900">{savedCostData.country_code}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Kategorie:</span>
+                  <span className="font-bold ml-2 text-gray-900">{savedCostData.category || 'N/A'}</span>
+                </div>
+              </div>
+              
+              <div className="mt-4 pt-4 border-t border-green-300">
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-gray-900">Gesamt Kosten:</span>
+                  <span className="text-2xl font-bold text-green-600">
+                    €{(savedCostData.purchase_cost + savedCostData.shipping_cost + savedCostData.packaging_cost).toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* EDIT MODE: Show Form */}
+          {(isEditing || !savedCostData) && (
+            <>
           
           {/* Category Selection */}
           <div>
@@ -426,32 +521,68 @@ export function CostInputModal({
               </>
             )}
           </div>
+            </>
+          )}
           
         </div>
         
           {/* Footer */}
           <div className="flex gap-3 p-6 border-t bg-gray-50 sticky bottom-0">
-            <button
-              onClick={onClose}
-              disabled={isSaving}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition disabled:opacity-50"
-            >
-              Abbrechen
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={isSaving || costData.purchase_cost === 0}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {isSaving ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Speichern...</span>
-                </>
-              ) : (
-                <span>Speichern</span>
-              )}
-            </button>
+            {savedCostData && isEditing ? (
+              <>
+                <button
+                  onClick={handleCancelEdit}
+                  disabled={isSaving}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  <XIcon className="w-4 h-4" />
+                  Abbrechen
+                </button>
+                <button
+                  onClick={handleSave}
+                  disabled={isSaving || costData.purchase_cost === 0}
+                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Speichern...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Speichern</span>
+                    </>
+                  )}
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onClose}
+                  disabled={isSaving}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition disabled:opacity-50"
+                >
+                  {savedCostData ? 'Schließen' : 'Abbrechen'}
+                </button>
+                {!savedCostData && (
+                  <button
+                    onClick={handleSave}
+                    disabled={isSaving || costData.purchase_cost === 0}
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {isSaving ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Speichern...</span>
+                      </>
+                    ) : (
+                      <span>Kosten erfassen</span>
+                    )}
+                  </button>
+                )}
+              </>
+            )}
           </div>
           
         </div>

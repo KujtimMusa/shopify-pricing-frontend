@@ -5,7 +5,7 @@ import { TrendingUp, Store, Package, DollarSign, Info } from 'lucide-react'
 import { formatCurrency, formatPercentage } from '@/lib/formatters'
 
 interface DetailedBreakdownProps {
-  strategyDetails: Array<{
+  strategyDetails?: Array<{
     strategy: string
     recommended_price: number
     confidence: number
@@ -31,12 +31,20 @@ interface DetailedBreakdownProps {
       url?: string
     }>
   } | null
+  shapExplanation?: Array<{
+    feature: string
+    impact: number
+    pct: number
+  }>
+  recommendedPrice?: number
 }
 
 export function DetailedBreakdown({
   strategyDetails,
   marginAnalysis,
-  competitorData
+  competitorData,
+  shapExplanation,
+  recommendedPrice
 }: DetailedBreakdownProps) {
   
   const strategyConfig: Record<string, { icon: any; label: string; color: string; defaultWeight: number }> = {
@@ -68,6 +76,55 @@ export function DetailedBreakdown({
   
   return (
     <div className="space-y-6">
+      
+      {/* SHAP Explanation - Why This Price? (ONLY SHAP, NO DATA COMPLAINTS) */}
+      {shapExplanation && shapExplanation.length > 0 && recommendedPrice && (
+        <div className="bg-orange-50 border-2 border-orange-200 rounded-lg p-6">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
+            Warum genau €{recommendedPrice.toFixed(2)}?
+          </h3>
+          <div className="space-y-3">
+            {shapExplanation.map((item, idx) => {
+              const isPositive = item.impact > 0
+              const isNegative = item.impact < 0
+              const isNeutral = item.impact === 0
+              
+              // Determine icon/color based on impact
+              let icon = '🟢'
+              if (isNegative) icon = '🔴'
+              else if (isNeutral) icon = '🟡'
+              
+              return (
+                <div
+                  key={idx}
+                  className={`flex items-center justify-between p-3 rounded-lg ${
+                    isPositive ? 'bg-green-100 border border-green-200' : 
+                    isNegative ? 'bg-red-100 border border-red-200' : 
+                    'bg-yellow-100 border border-yellow-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{icon}</span>
+                    <span className="font-medium text-gray-900">
+                      {item.feature}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`font-bold ${
+                      isPositive ? 'text-green-700' : isNegative ? 'text-red-700' : 'text-yellow-700'
+                    }`}>
+                      {isPositive ? '+' : ''}€{Math.abs(item.impact).toFixed(2)}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      ({item.pct}%)
+                    </span>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
       
       {/* Strategy Breakdown */}
       {strategyDetails && strategyDetails.length > 0 && (

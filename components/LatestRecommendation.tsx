@@ -6,6 +6,7 @@ import { applyRecommendedPrice } from '@/lib/shopifyService'
 import { PriceRecommendationCard } from './pricing/PriceRecommendationCard'
 import { PriceStoryExplainer } from './explainability/PriceStoryExplainer'
 import { EmptyAnalysisState } from './EmptyAnalysisState'
+import { PriceRecommendationBreakdown } from './PriceRecommendationBreakdown'
 import { useShop } from '@/hooks/useShop'
 
 interface RecommendationData {
@@ -319,9 +320,9 @@ export default function LatestRecommendation({ productId }: LatestRecommendation
               demandAdjustment: (recommendation.demand_growth || 0) * recommendation.current_price * 0.1,
               inventoryAdjustment: recommendation.days_of_stock ? (recommendation.days_of_stock < 15 ? -recommendation.current_price * 0.05 : 0) : 0
             }}
-            averageCompetitorPrice={recommendation.competitor_avg_price}
-            demandGrowth={recommendation.demand_growth || 0}
-            daysOfStock={recommendation.days_of_stock || 0}
+            averageCompetitorPrice={recommendation.competitor_avg_price ?? undefined}
+            demandGrowth={recommendation.demand_growth ?? 0}
+            daysOfStock={recommendation.days_of_stock ?? 0}
             onApply={handleApplyPrice}
             onKeep={() => {}}
           />

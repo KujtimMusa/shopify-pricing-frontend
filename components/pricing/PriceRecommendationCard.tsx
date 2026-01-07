@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AlertTriangle, Clock, ChevronDown, ChevronUp, RefreshCw } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { ConfidenceIndicator } from './ConfidenceIndicator'
@@ -192,6 +192,19 @@ export function PriceRecommendationCard({
   const productTitle = recommendation.product_title || recommendation.product_name || `Product ${recommendation.product_id}`
   const timestamp = recommendation.generated_at || recommendation.created_at || new Date().toISOString()
   
+  // DEBUG: Verify data structure
+  useEffect(() => {
+    console.log('🔍 PriceRecommendationCard Debug:', {
+      hasStrategyDetails: !!recommendation.strategy_details,
+      strategyCount: recommendation.strategy_details?.length || 0,
+      strategies: recommendation.strategy_details?.map((s: any) => s.strategy),
+      recommendedPrice: recommendation.recommended_price,
+      currentPrice: recommendation.current_price,
+      selectedStrategy,
+      displayedPrice
+    })
+  }, [recommendation, selectedStrategy, displayedPrice])
+  
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
       
@@ -295,6 +308,19 @@ export function PriceRecommendationCard({
           )}
         </div>
         
+        {/* DEBUG TEST - Remove after debugging */}
+        <div className="mt-4 p-4 bg-red-50 border-2 border-red-500 rounded">
+          <h3 className="font-bold text-red-900">🔴 DEBUG TEST</h3>
+          <p className="text-sm">Selected Strategy: {selectedStrategy}</p>
+          <p className="text-sm">Has Strategy Details: {recommendation.strategy_details ? 'YES' : 'NO'}</p>
+          <p className="text-sm">Strategy Count: {recommendation.strategy_details?.length || 0}</p>
+          {recommendation.strategy_details && (
+            <pre className="text-xs mt-2 overflow-auto">
+              {JSON.stringify(recommendation.strategy_details, null, 2)}
+            </pre>
+          )}
+        </div>
+
         {/* NEW: Calculation Breakdown Panel */}
         {recommendation.strategy_details && recommendation.strategy_details.length > 0 && (
           <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">

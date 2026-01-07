@@ -196,27 +196,108 @@ export function PriceRecommendationCard({
     <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
       
       {/* ==========================================
-          CONFIDENCE SECTION - Now at TOP!
+          HERO SECTION - Main Decision
           ========================================== */}
       
-      <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-        <ConfidenceIndicator 
-          confidence={recommendation.confidence}
-          reasoning={recommendationTexts.confidence}
-          compact={false}
-          confidenceBasis={recommendation.confidence_basis}
-        />
-      </div>
-      
-      {/* ==========================================
-          CALCULATION BREAKDOWN - Main Content
-          ========================================== */}
-      
-      <div className="p-6">
+      <div className="p-6 pb-4 bg-gradient-to-br from-blue-50 to-white">
+        
+        {/* Header */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold text-gray-900 mb-1">
+              {productTitle}
+            </h2>
+            <p className="text-xs text-gray-500">
+              {t('product_id')}: {recommendation.product_id}
+            </p>
+          </div>
+          
+          {/* Confidence Badge */}
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 border border-emerald-100">
+            {Math.round(recommendation.confidence * 100)}% {t('confidence')}
+          </span>
+        </div>
+        
+        {/* Headline */}
+        {recommendationTexts.headline && (
+          <div className="mb-6">
+            <p className="text-base font-medium text-gray-900">
+              {recommendationTexts.headline}
+            </p>
+          </div>
+        )}
+        
+        {/* Price Comparison */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
+          
+          {/* Current Price */}
+          <div className="bg-white rounded-lg p-4 border border-gray-200">
+            <p className="text-sm text-gray-600 mb-1 font-medium">{t('current')}</p>
+            <p className="text-3xl font-bold text-gray-900">
+              {formatCurrency(recommendation.current_price)}
+            </p>
+          </div>
+          
+          {/* Recommended Price */}
+          <div className={`rounded-lg p-4 border-2 ${
+            isCriticalWarning ? 'bg-red-50 border-red-300' :
+            hasMarginWarning ? 'bg-orange-50 border-orange-300' :
+            'bg-green-50 border-green-300'
+          }`}>
+            <p className={`text-sm font-medium mb-1 ${
+              isCriticalWarning ? 'text-red-700' :
+              hasMarginWarning ? 'text-orange-700' :
+              'text-green-700'
+            }`}>
+              {t('recommended')}
+              {selectedStrategy !== 'balanced' && (
+                <span className="ml-2 text-xs font-normal">
+                  ({t('using_strategy').replace('{strategy}', t(`strategy_${selectedStrategy}`))})
+                </span>
+              )}
+            </p>
+            <p className={`text-3xl font-bold ${
+              isCriticalWarning ? 'text-red-900' :
+              hasMarginWarning ? 'text-orange-900' :
+              'text-green-900'
+            }`}>
+              {formatCurrency(displayedPrice)}
+            </p>
+          </div>
+        </div>
+        
+        {/* Price Change Indicator */}
+        <div className="flex items-center justify-center mb-4">
+          {noChange ? (
+            <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
+              <span className="text-gray-600 font-medium">{t('no_change')}</span>
+            </div>
+          ) : (
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${
+              priceIncrease ? 'bg-blue-100' : 'bg-orange-100'
+            }`}>
+              <span className="text-2xl">
+                {priceIncrease ? '📈' : '📉'}
+              </span>
+              <span className={`text-lg font-bold ${
+                priceIncrease ? 'text-blue-700' : 'text-orange-700'
+              }`}>
+                {priceChange > 0 ? '+' : ''}
+                {formatCurrency(priceChange)}
+              </span>
+              <span className={`text-lg font-semibold ${
+                priceIncrease ? 'text-blue-600' : 'text-orange-600'
+              }`}>
+                ({displayedPriceChangePct > 0 ? '+' : ''}
+                {formatPercentage(displayedPriceChangePct)})
+              </span>
+            </div>
+          )}
+        </div>
         
         {/* NEW: Enhanced Calculation Breakdown Panel with Visual Weighting */}
         {recommendation.strategy_details && recommendation.strategy_details.length > 0 && (
-          <div className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-300">
+          <div className="mt-6 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-300">
             <h4 className="text-sm font-semibold text-indigo-900 mb-3 flex items-center gap-2">
               <span>🧮</span>
               Wie wird {priceChange > 0 ? '+' : ''}{formatCurrency(priceChange)} berechnet?
@@ -396,6 +477,31 @@ export function PriceRecommendationCard({
           </div>
         )}
 
+        {/* Action Buttons */}
+        {(onApply || onDismiss) && (
+          <ActionButtons
+            recommendedPrice={displayedPrice}
+            onApply={handleApply}
+            onDismiss={onDismiss || (() => {})}
+            isApplying={isApplying}
+            isDisabled={isCriticalWarning}
+            marginAnalysis={recommendation.margin_analysis}
+          />
+        )}
+        
+      </div>
+      
+      {/* ==========================================
+          CONFIDENCE SECTION
+          ========================================== */}
+      
+      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+        <ConfidenceIndicator 
+          confidence={recommendation.confidence}
+          reasoning={recommendationTexts.confidence}
+          compact={false}
+          confidenceBasis={recommendation.confidence_basis}
+        />
       </div>
       
       {/* ==========================================
@@ -433,23 +539,6 @@ export function PriceRecommendationCard({
         </div>
       )}
       
-      
-      {/* ==========================================
-          ACTION BUTTONS - At Bottom
-          ========================================== */}
-      
-      {(onApply || onDismiss) && (
-        <div className="px-6 py-4 bg-white border-t border-gray-200">
-          <ActionButtons
-            recommendedPrice={displayedPrice}
-            onApply={handleApply}
-            onDismiss={onDismiss || (() => {})}
-            isApplying={isApplying}
-            isDisabled={isCriticalWarning}
-            marginAnalysis={recommendation.margin_analysis}
-          />
-        </div>
-      )}
       
       {/* ==========================================
           FOOTER - Metadata

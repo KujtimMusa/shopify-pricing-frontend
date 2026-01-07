@@ -101,9 +101,41 @@ export function PriceRecommendationCard({
   
   const [isApplying, setIsApplying] = useState(false)
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [selectedStrategy, setSelectedStrategy] = useState<string>('balanced')
   
-  // Calculate derived values
-  const priceChange = recommendation.price_change ?? (recommendation.recommended_price - recommendation.current_price)
+  // Calculate recommended price based on selected strategy
+  const getRecommendedPrice = () => {
+    if (selectedStrategy === 'balanced') {
+      return recommendation.recommended_price // Use weighted average
+    }
+    
+    // Use specific strategy price
+    const strategy = recommendation.strategy_details?.find(
+      (s: any) => s.strategy === selectedStrategy
+    )
+    
+    return strategy?.recommended_price || recommendation.recommended_price
+  }
+  
+  const displayedPrice = getRecommendedPrice()
+  const displayedPriceChange = displayedPrice - recommendation.current_price
+  const displayedPriceChangePct = (displayedPriceChange / recommendation.current_price) * 100
+  
+  // Helper function for strategy descriptions
+  const getStrategyDescription = (strategy: string): string => {
+    const descriptions: Record<string, string> = {
+      'balanced': t('strategy_balanced_description'),
+      'competitive': t('strategy_competitive_description'),
+      'demand': t('strategy_demand_description'),
+      'inventory': t('strategy_inventory_description'),
+      'cost': t('strategy_cost_description')
+    }
+    
+    return descriptions[strategy] || descriptions['balanced']
+  }
+  
+  // Calculate derived values (use displayedPrice for consistency)
+  const priceChange = displayedPriceChange
   const priceIncrease = priceChange > 0
   const priceDecrease = priceChange < 0
   const noChange = priceChange === 0
@@ -137,7 +169,7 @@ export function PriceRecommendationCard({
     if (!onApply) return
     setIsApplying(true)
     try {
-      await onApply(recommendation.recommended_price)
+      await onApply(displayedPrice) // Use displayedPrice (selected strategy)
     } catch (error) {
       console.error('Failed to apply price:', error)
     } finally {
@@ -218,13 +250,18 @@ export function PriceRecommendationCard({
               'text-green-700'
             }`}>
               {t('recommended')}
+              {selectedStrategy !== 'balanced' && (
+                <span className="ml-2 text-xs font-normal">
+                  ({t('using_strategy').replace('{strategy}', t(`strategy_${selectedStrategy}`))})
+                </span>
+              )}
             </p>
             <p className={`text-3xl font-bold ${
               isCriticalWarning ? 'text-red-900' :
               hasMarginWarning ? 'text-orange-900' :
               'text-green-900'
             }`}>
-              {formatCurrency(recommendation.recommended_price)}
+              {formatCurrency(displayedPrice)}
             </p>
           </div>
         </div>
@@ -251,17 +288,174 @@ export function PriceRecommendationCard({
               <span className={`text-lg font-semibold ${
                 priceIncrease ? 'text-blue-600' : 'text-orange-600'
               }`}>
-                ({recommendation.price_change_pct > 0 ? '+' : ''}
-                {formatPercentage(recommendation.price_change_pct)})
+                ({displayedPriceChangePct > 0 ? '+' : ''}
+                {formatPercentage(displayedPriceChangePct)})
               </span>
             </div>
           )}
         </div>
         
+        {/* NEW: Calculation Breakdown Panel */}
+        {recommendation.strategy_details && recommendation.strategy_details.length > 0 && (
+          <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <span>🧮</span>
+              {t('calculation_breakdown')}
+            </h4>
+            
+            {/* Step 1: Individual Strategy Impacts */}
+            <div className="space-y-2 mb-4">
+              <p className="text-xs font-medium text-gray-600 mb-2">
+                {t('step1_individual_factors')}
+              </p>
+              {recommendation.strategy_details.map((strategy: any, idx: number) => {
+                const impact = strategy.recommended_price - recommendation.current_price
+                const impactPct = (impact / recommendation.current_price) * 100
+                
+                // Icon mapping
+                const icons: Record<string, string> = {
+                  'competitive': '🏪',
+                  'demand': '📊',
+                  'inventory': '📦',
+                  'cost': '💰'
+                }
+                
+                return (
+                  <div key={idx} className="flex items-center justify-between text-xs py-1.5 px-3 bg-white rounded border border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <span>{icons[strategy.strategy] || '⚖️'}</span>
+                      <span className="font-medium text-gray-700">
+                        {t(`strategy_${strategy.strategy}`)}
+                      </span>
+                      <span className="text-gray-500">
+                        ({Math.round(strategy.confidence * 100)}% {t('confidence')})
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={`font-bold ${impact < 0 ? 'text-orange-600' : 'text-green-600'}`}>
+                        {impact > 0 ? '+' : ''}{formatCurrency(impact)}
+                      </span>
+                      <span className="text-gray-500">
+                        ({impactPct > 0 ? '+' : ''}{formatPercentage(impactPct)})
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Step 2: Weighting Explanation */}
+            <div className="mb-4 p-3 bg-blue-50 rounded border border-blue-200">
+              <p className="text-xs font-medium text-blue-900 mb-2">
+                {t('step2_weighting')}
+              </p>
+              <div className="space-y-1.5">
+                {recommendation.strategy_details.map((strategy: any, idx: number) => {
+                  // Calculate effective weight (base weight * confidence)
+                  const baseWeights: Record<string, number> = {
+                    'competitive': 0.35,
+                    'demand': 0.40,
+                    'inventory': 0.25,
+                    'cost': 0.25
+                  }
+                  
+                  const baseWeight = baseWeights[strategy.strategy] || 0.1
+                  const effectiveWeight = baseWeight * strategy.confidence
+                  
+                  return (
+                    <div key={idx} className="flex items-center justify-between text-xs text-blue-800">
+                      <span>
+                        {t(`strategy_${strategy.strategy}`)}:
+                      </span>
+                      <span className="font-mono">
+                        {(baseWeight * 100).toFixed(0)}% × {(strategy.confidence * 100).toFixed(0)}% = 
+                        <strong className="ml-1">{(effectiveWeight * 100).toFixed(1)}%</strong>
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Step 3: Final Weighted Average */}
+            <div className="p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded border-2 border-indigo-300">
+              <p className="text-xs font-semibold text-indigo-900 mb-2">
+                {t('step3_final_calculation')}
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-indigo-800">
+                  {t('weighted_average_all_strategies')}
+                </span>
+                <div className="text-right">
+                  <div className="text-lg font-bold text-indigo-900 tabular-nums">
+                    {priceChange > 0 ? '+' : ''}{formatCurrency(priceChange)}
+                  </div>
+                  <div className="text-xs text-indigo-600">
+                    ({formatPercentage(displayedPriceChangePct)})
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Info Box */}
+            <div className="mt-3 p-2 bg-yellow-50 rounded border border-yellow-200">
+              <p className="text-xs text-yellow-800 leading-relaxed">
+                💡 {t('calculation_explainer')}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* NEW: Interactive Strategy Selector */}
+        {recommendation.strategy_details && recommendation.strategy_details.length > 1 && (
+          <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              {t('strategy_selector_label')}
+            </label>
+            
+            <select
+              value={selectedStrategy}
+              onChange={(e) => setSelectedStrategy(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="balanced">
+                ⚖️ {t('strategy_balanced')} ({t('standard')})
+              </option>
+              
+              {recommendation.strategy_details.map((strategy: any) => {
+                const impact = strategy.recommended_price - recommendation.current_price
+                const impactPct = ((impact / recommendation.current_price) * 100).toFixed(1)
+                
+                const icons: Record<string, string> = {
+                  'competitive': '🏪',
+                  'demand': '📊',
+                  'inventory': '📦',
+                  'cost': '💰'
+                }
+                
+                return (
+                  <option key={strategy.strategy} value={strategy.strategy}>
+                    {icons[strategy.strategy] || '⚖️'} {t(`strategy_${strategy.strategy}`)} 
+                    ({strategy.confidence > 0 ? (strategy.confidence * 100).toFixed(0) : 0}% {t('confidence')}) 
+                    → {impact > 0 ? '+' : ''}{impactPct}%
+                  </option>
+                )
+              })}
+            </select>
+            
+            {/* Strategy Description */}
+            <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200">
+              <p className="text-xs text-blue-800 leading-relaxed">
+                {getStrategyDescription(selectedStrategy)}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Action Buttons */}
         {(onApply || onDismiss) && (
           <ActionButtons
-            recommendedPrice={recommendation.recommended_price}
+            recommendedPrice={displayedPrice}
             onApply={handleApply}
             onDismiss={onDismiss || (() => {})}
             isApplying={isApplying}

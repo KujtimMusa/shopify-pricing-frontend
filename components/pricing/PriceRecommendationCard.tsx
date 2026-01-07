@@ -192,19 +192,6 @@ export function PriceRecommendationCard({
   const productTitle = recommendation.product_title || recommendation.product_name || `Product ${recommendation.product_id}`
   const timestamp = recommendation.generated_at || recommendation.created_at || new Date().toISOString()
   
-  // DEBUG: Verify data structure
-  useEffect(() => {
-    console.log('🔍 PriceRecommendationCard Debug:', {
-      hasStrategyDetails: !!recommendation.strategy_details,
-      strategyCount: recommendation.strategy_details?.length || 0,
-      strategies: recommendation.strategy_details?.map((s: any) => s.strategy),
-      recommendedPrice: recommendation.recommended_price,
-      currentPrice: recommendation.current_price,
-      selectedStrategy,
-      displayedPrice
-    })
-  }, [recommendation, selectedStrategy, displayedPrice])
-  
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
       
@@ -308,76 +295,57 @@ export function PriceRecommendationCard({
           )}
         </div>
         
-        {/* DEBUG TEST - Remove after debugging */}
-        <div className="mt-4 p-4 bg-red-50 border-2 border-red-500 rounded">
-          <h3 className="font-bold text-red-900">🔴 DEBUG TEST</h3>
-          <p className="text-sm">Selected Strategy: {selectedStrategy}</p>
-          <p className="text-sm">Has Strategy Details: {recommendation.strategy_details ? 'YES' : 'NO'}</p>
-          <p className="text-sm">Strategy Count: {recommendation.strategy_details?.length || 0}</p>
-          {recommendation.strategy_details && (
-            <pre className="text-xs mt-2 overflow-auto">
-              {JSON.stringify(recommendation.strategy_details, null, 2)}
-            </pre>
-          )}
-        </div>
-
-        {/* NEW: Calculation Breakdown Panel */}
+        {/* NEW: Enhanced Calculation Breakdown Panel with Visual Weighting */}
         {recommendation.strategy_details && recommendation.strategy_details.length > 0 && (
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+          <div className="mt-6 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-300">
+            <h4 className="text-sm font-semibold text-indigo-900 mb-3 flex items-center gap-2">
               <span>🧮</span>
-              {t('calculation_breakdown')}
+              Wie wird {priceChange > 0 ? '+' : ''}{formatCurrency(priceChange)} berechnet?
             </h4>
             
-            {/* Step 1: Individual Strategy Impacts */}
-            <div className="space-y-2 mb-4">
-              <p className="text-xs font-medium text-gray-600 mb-2">
-                {t('step1_individual_factors')}
-              </p>
-              {recommendation.strategy_details.map((strategy: any, idx: number) => {
-                const impact = strategy.recommended_price - recommendation.current_price
-                const impactPct = (impact / recommendation.current_price) * 100
-                
-                // Icon mapping
-                const icons: Record<string, string> = {
-                  'competitive': '🏪',
-                  'demand': '📊',
-                  'inventory': '📦',
-                  'cost': '💰'
-                }
-                
-                return (
-                  <div key={idx} className="flex items-center justify-between text-xs py-1.5 px-3 bg-white rounded border border-gray-200">
-                    <div className="flex items-center gap-2">
-                      <span>{icons[strategy.strategy] || '⚖️'}</span>
-                      <span className="font-medium text-gray-700">
-                        {t(`strategy_${strategy.strategy}`)}
-                      </span>
-                      <span className="text-gray-500">
-                        ({Math.round(strategy.confidence * 100)}% {t('confidence')})
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`font-bold ${impact < 0 ? 'text-orange-600' : 'text-green-600'}`}>
-                        {impact > 0 ? '+' : ''}{formatCurrency(impact)}
-                      </span>
-                      <span className="text-gray-500">
-                        ({impactPct > 0 ? '+' : ''}{formatPercentage(impactPct)})
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+            {/* Explanation */}
+            <p className="text-xs text-indigo-800 mb-4 leading-relaxed">
+              Die Empfehlung ist ein <strong>gewichteter Durchschnitt</strong>, NICHT die Summe. 
+              Jede Strategie wird mit ihrer <strong>Confidence gewichtet</strong>.
+            </p>
 
-            {/* Step 2: Weighting Explanation */}
-            <div className="mb-4 p-3 bg-blue-50 rounded border border-blue-200">
-              <p className="text-xs font-medium text-blue-900 mb-2">
-                {t('step2_weighting')}
+            {/* Step 1: Individual Strategy Prices */}
+            <div className="mb-4">
+              <p className="text-xs font-semibold text-indigo-900 mb-2">
+                1️⃣ Einzelne Strategien-Empfehlungen:
               </p>
               <div className="space-y-1.5">
                 {recommendation.strategy_details.map((strategy: any, idx: number) => {
-                  // Calculate effective weight (base weight * confidence)
+                  const impact = strategy.recommended_price - recommendation.current_price
+                  
+                  const icons: Record<string, string> = {
+                    'competitive': '🏪',
+                    'demand': '📊',
+                    'inventory': '📦',
+                    'cost': '💰'
+                  }
+                  
+                  return (
+                    <div key={idx} className="flex items-center justify-between text-xs py-1 px-3 bg-white/60 rounded">
+                      <span className="text-gray-700">
+                        {icons[strategy.strategy] || '⚖️'} {t(`strategy_${strategy.strategy}`)} ({(strategy.confidence * 100).toFixed(0)}%)
+                      </span>
+                      <span className="font-mono font-bold text-gray-900">
+                        {impact > 0 ? '+' : ''}{formatCurrency(impact)}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Step 2: Weighting Calculation with Visual Bars */}
+            <div className="mb-4 p-3 bg-white/80 rounded-lg border border-indigo-200">
+              <p className="text-xs font-semibold text-indigo-900 mb-3">
+                2️⃣ Gewichtete Beiträge (Confidence × Basis-Gewicht):
+              </p>
+              <div className="space-y-2.5">
+                {recommendation.strategy_details.map((strategy: any, idx: number) => {
                   const baseWeights: Record<string, number> = {
                     'competitive': 0.35,
                     'demand': 0.40,
@@ -388,46 +356,77 @@ export function PriceRecommendationCard({
                   const baseWeight = baseWeights[strategy.strategy] || 0.1
                   const effectiveWeight = baseWeight * strategy.confidence
                   
+                  // Calculate total weight for normalization
+                  const totalWeight = recommendation.strategy_details.reduce((sum: number, s: any) => {
+                    const bw = baseWeights[s.strategy] || 0.1
+                    return sum + (bw * s.confidence)
+                  }, 0)
+                  
+                  const normalizedWeight = effectiveWeight / totalWeight
+                  const impact = strategy.recommended_price - recommendation.current_price
+                  const weightedContribution = impact * normalizedWeight
+                  
                   return (
-                    <div key={idx} className="flex items-center justify-between text-xs text-blue-800">
-                      <span>
-                        {t(`strategy_${strategy.strategy}`)}:
-                      </span>
-                      <span className="font-mono">
-                        {(baseWeight * 100).toFixed(0)}% × {(strategy.confidence * 100).toFixed(0)}% = 
-                        <strong className="ml-1">{(effectiveWeight * 100).toFixed(1)}%</strong>
-                      </span>
+                    <div key={idx}>
+                      {/* Formula */}
+                      <div className="flex items-center justify-between text-[10px] mb-1">
+                        <span className="text-indigo-700 font-medium">
+                          {t(`strategy_${strategy.strategy}`)}:
+                        </span>
+                        <span className="font-mono text-indigo-900">
+                          {(baseWeight * 100).toFixed(0)}% × {(strategy.confidence * 100).toFixed(0)}% = 
+                          <strong className="ml-1 text-indigo-600">{(normalizedWeight * 100).toFixed(1)}%</strong>
+                        </span>
+                      </div>
+                      
+                      {/* Visual Bar + Result */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-indigo-400 to-indigo-600 transition-all duration-500"
+                            style={{ width: `${normalizedWeight * 100}%` }}
+                          />
+                        </div>
+                        <span className="text-xs font-bold text-indigo-900 tabular-nums min-w-[70px] text-right">
+                          = {weightedContribution > 0 ? '+' : ''}{formatCurrency(weightedContribution)}
+                        </span>
+                      </div>
                     </div>
                   )
                 })}
               </div>
             </div>
 
-            {/* Step 3: Final Weighted Average */}
-            <div className="p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded border-2 border-indigo-300">
+            {/* Step 3: Final Sum */}
+            <div className="p-4 bg-gradient-to-r from-indigo-100 via-purple-100 to-indigo-100 rounded-xl border-2 border-indigo-400 shadow-sm">
               <p className="text-xs font-semibold text-indigo-900 mb-2">
-                {t('step3_final_calculation')}
+                3️⃣ Finale Summe (Gewichteter Durchschnitt):
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-indigo-800">
-                  {t('weighted_average_all_strategies')}
+                <span className="text-sm text-indigo-800 font-medium">
+                  Summe aller gewichteten Beiträge
                 </span>
                 <div className="text-right">
-                  <div className="text-lg font-bold text-indigo-900 tabular-nums">
+                  <div className="text-3xl font-bold text-indigo-900 tabular-nums">
                     {priceChange > 0 ? '+' : ''}{formatCurrency(priceChange)}
                   </div>
-                  <div className="text-xs text-indigo-600">
+                  <div className="text-xs text-indigo-700 mt-1">
                     ({formatPercentage(displayedPriceChangePct)})
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Info Box */}
-            <div className="mt-3 p-2 bg-yellow-50 rounded border border-yellow-200">
-              <p className="text-xs text-yellow-800 leading-relaxed">
-                💡 {t('calculation_explainer')}
-              </p>
+            {/* Info Callout */}
+            <div className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+              <div className="flex items-start gap-2">
+                <span className="text-lg flex-shrink-0">💡</span>
+                <p className="text-xs text-yellow-900 leading-relaxed">
+                  <strong>Warum nicht die einfache Summe?</strong> Weil Strategien unterschiedlich zuverlässig sind. 
+                  Wettbewerb mit 98% Confidence hat deutlich mehr Einfluss als Nachfrage mit nur 75% Confidence. 
+                  Die gewichtete Berechnung verhindert, dass unsichere Daten zu starken Einfluss haben.
+                </p>
+              </div>
             </div>
           </div>
         )}

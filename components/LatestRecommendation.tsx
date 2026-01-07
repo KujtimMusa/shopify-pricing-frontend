@@ -264,14 +264,24 @@ export default function LatestRecommendation({ productId }: LatestRecommendation
   const reasoningObj = typeof reasoning === 'object' && reasoning !== null ? reasoning : {}
   const strategies = (reasoningObj as any).strategies || {}
   
-  // Extract strategy_details array from strategies object
-  const strategyDetails = Object.entries(strategies).map(([strategy, data]: [string, any]) => ({
-    strategy,
-    recommended_price: data?.price || data?.recommended_price || recommendation.recommended_price,
-    confidence: data?.confidence || 0.5,
-    reasoning: data?.reasoning || '',
-    competitor_context: data?.competitor_context || data?.competitive?.competitor_context
-  }))
+  // Extract strategy_details array - prefer from API response, fallback to reasoning.strategies
+  let strategyDetails: any[] = []
+  
+  // First, try to get from API response (new format)
+  if ((recommendation as any).strategy_details && Array.isArray((recommendation as any).strategy_details)) {
+    strategyDetails = (recommendation as any).strategy_details
+  } else if ((recommendation as any).strategyDetails && Array.isArray((recommendation as any).strategyDetails)) {
+    strategyDetails = (recommendation as any).strategyDetails
+  } else {
+    // Fallback: Extract from strategies object (old format)
+    strategyDetails = Object.entries(strategies).map(([strategy, data]: [string, any]) => ({
+      strategy,
+      recommended_price: data?.price || data?.recommended_price || recommendation.recommended_price,
+      confidence: data?.confidence || 0.5,
+      reasoning: data?.reasoning || '',
+      competitor_context: data?.competitor_context || data?.competitive?.competitor_context
+    }))
+  }
   
   // Build competitor_data from available fields
   const competitorContext = strategies.competitive?.competitor_context || strategies.competitive?.competitor_context

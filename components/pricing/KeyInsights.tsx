@@ -79,29 +79,9 @@ export function KeyInsights({
   // Show top 3-4 insights
   const topInsights = insights.slice(0, 4)
   
-  // 🆕 GEÄNDERT: Zeige IMMER mindestens 1 Insight (Confidence Explanation)
+  // ✅ Don't show empty placeholder - return null if no meaningful insights
   if (topInsights.length === 0) {
-    // Fallback: Zeige Confidence-basierte Insight
-    const baseConfidence = Math.max(...strategyDetails.map((s: any) => s.confidence || 0.5));
-    const confidencePct = Math.round(baseConfidence * 100);
-
-    const confidenceInsight: Insight = {
-      type: 'confidence',
-      severity: confidencePct >= 80 ? 'info' : confidencePct >= 60 ? 'medium' : 'high',
-      icon: confidencePct >= 80 ? CheckCircle : confidencePct >= 60 ? Info : AlertTriangle,
-      title: confidencePct >= 80 ? 'Hohe Datenqualität' : confidencePct >= 60 ? 'Mittlere Datenqualität' : 'Begrenzte Datenqualität',
-      description: confidencePct >= 80
-        ? 'Die Empfehlung basiert auf starken Datensignalen und klaren Marktindikatoren.'
-        : confidencePct >= 60
-        ? 'Die Empfehlung basiert auf moderaten Datensignalen. Weitere Daten würden die Sicherheit erhöhen.'
-        : 'Die Empfehlung basiert auf begrenzten Daten. Vorsicht bei der Umsetzung empfohlen.',
-      details: `Confidence: ${confidencePct}% (basierend auf verfügbaren Strategien und Validierungsdaten)`,
-      color: confidencePct >= 80 ? 'text-green-600' : confidencePct >= 60 ? 'text-blue-600' : 'text-orange-600',
-      bgColor: confidencePct >= 80 ? 'bg-green-50' : confidencePct >= 60 ? 'bg-blue-50' : 'bg-orange-50',
-      borderColor: confidencePct >= 80 ? 'border-green-300' : confidencePct >= 60 ? 'border-blue-300' : 'border-orange-300'
-    };
-
-    topInsights.push(confidenceInsight);
+    return null
   }
   
   return (
@@ -160,50 +140,40 @@ function prioritizeInsights(data: {
   const { t, tMarket } = data
   const insights: Insight[] = []
   
-  // PRIORITY 0: ALWAYS show confidence explanation (NEW!)
-  // 🆕 NEU: Zeige IMMER Confidence-Erklärung als ersten Insight
+  // PRIORITY 0: Only show confidence explanation if confidence is LOW (< 70%)
+  // ✅ Don't show "Begrenzte Datenbasis" warning for high confidence
   const baseConfidence = Math.max(...data.strategyDetails.map((s: any) => s.confidence || 0.5));
   const confidencePct = Math.round(baseConfidence * 100);
 
-  if (confidencePct >= 80) {
-    insights.push({
-      type: 'confidence_high',
-      severity: 'info',
-      icon: CheckCircle,
-      title: 'Starke Datenbasis',
-      description: `Die Empfehlung basiert auf ${data.strategyDetails.length} Strategien mit hoher Sicherheit (${confidencePct}%).`,
-      details: data.marginAnalysis?.details?.costs?.purchase
-        ? 'Kosten, Sales-Historie und Marktdaten verfügbar.'
-        : 'Marktdaten und Verkaufstrends verfügbar.',
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-300'
-    });
-  } else if (confidencePct >= 60) {
-    insights.push({
-      type: 'confidence_medium',
-      severity: 'medium',
-      icon: Info,
-      title: 'Moderate Datenbasis',
-      description: `Die Empfehlung basiert auf ${data.strategyDetails.length} Strategien mit mittlerer Sicherheit (${confidencePct}%).`,
-      details: 'Weitere Daten (z.B. Kosten oder Sales-Historie) würden die Sicherheit erhöhen.',
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-300'
-    });
-  } else {
-    insights.push({
-      type: 'confidence_low',
-      severity: 'high',
-      icon: AlertTriangle,
-      title: 'Begrenzte Datenbasis',
-      description: `Die Empfehlung basiert auf begrenzten Daten (${confidencePct}% Sicherheit).`,
-      details: 'Vorsicht: Wenige Strategien oder Daten verfügbar. Sammle mehr Daten vor Umsetzung.',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-300'
-    });
+  // Only show confidence insight if confidence is below 70% (to avoid misleading warnings)
+  if (confidencePct < 70) {
+    if (confidencePct >= 60) {
+      insights.push({
+        type: 'confidence_medium',
+        severity: 'medium',
+        icon: Info,
+        title: 'Moderate Datenbasis',
+        description: `Die Empfehlung basiert auf ${data.strategyDetails.length} Strategien mit mittlerer Sicherheit (${confidencePct}%).`,
+        details: 'Weitere Daten (z.B. Kosten oder Sales-Historie) würden die Sicherheit erhöhen.',
+        color: 'text-blue-600',
+        bgColor: 'bg-blue-50',
+        borderColor: 'border-blue-300'
+      });
+    } else {
+      insights.push({
+        type: 'confidence_low',
+        severity: 'high',
+        icon: AlertTriangle,
+        title: 'Begrenzte Datenbasis',
+        description: `Die Empfehlung basiert auf begrenzten Daten (${confidencePct}% Sicherheit).`,
+        details: 'Vorsicht: Wenige Strategien oder Daten verfügbar. Sammle mehr Daten vor Umsetzung.',
+        color: 'text-orange-600',
+        bgColor: 'bg-orange-50',
+        borderColor: 'border-orange-300'
+      });
+    }
   }
+  // For high confidence (>= 70%), don't show confidence insight - it's already shown in ConfidenceIndicator
   
   // PRIORITY 1: Critical margin warning
   if (data.marginAnalysis && !data.marginAnalysis.is_safe) {

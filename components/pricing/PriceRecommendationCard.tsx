@@ -5,8 +5,6 @@ import { AlertTriangle, Clock, ChevronDown, ChevronUp, RefreshCw } from 'lucide-
 import { useTranslations } from 'next-intl'
 import { ConfidenceIndicator } from './ConfidenceIndicator'
 import { KeyInsights } from './KeyInsights'
-import { DetailedBreakdown } from './DetailedBreakdown'
-import { CompetitorPositionSlider } from './CompetitorPositionSlider'
 import { ActionButtons } from './ActionButtons'
 import { PriceRecommendationBreakdown } from '../PriceRecommendationBreakdown'
 import { formatCurrency, formatPercentage, formatTimeAgo } from '@/lib/formatters'
@@ -101,7 +99,6 @@ export function PriceRecommendationCard({
   const tCommon = useTranslations('common')
   const tMarket = useTranslations('market')
   
-  const [showDetails, setShowDetails] = useState(false)
   const [isApplying, setIsApplying] = useState(false)
   const [isRefreshing, setIsRefreshing] = useState(false)
   
@@ -286,18 +283,6 @@ export function PriceRecommendationCard({
           compact={false}
           confidenceBasis={recommendation.confidence_basis}
         />
-        
-        {/* Warum diese Empfehlung - Bullet Points */}
-        {recommendationTexts.bulletPoints.length > 0 && (
-          <div className="mt-4 rounded-lg bg-white px-4 py-3 text-sm text-gray-700 border border-gray-200">
-            <p className="font-medium mb-2 text-gray-900">{t('why_recommendation')}</p>
-            <ul className="list-disc list-inside space-y-1">
-              {recommendationTexts.bulletPoints.map((bullet, idx) => (
-                <li key={idx} className="text-gray-700">{bullet}</li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
       
       {/* ==========================================
@@ -321,87 +306,20 @@ export function PriceRecommendationCard({
       )}
       
       {/* ==========================================
-          KEY INSIGHTS
+          KEY INSIGHTS (Only show if insights exist)
           ========================================== */}
       
-      <div className="p-6 border-t border-gray-200">
-        <KeyInsights
-          strategyDetails={recommendation.strategy_details || []}
-          marginAnalysis={recommendation.margin_analysis}
-          competitorData={recommendation.competitor_data}
-          warnings={recommendation.warnings || []}
-        />
-        
-        {/* Insights Text */}
-        {recommendationTexts.insights && (
-          <div className="mt-4 flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 bg-gray-50 px-6 py-6 text-center">
-            <p className="text-sm font-medium text-gray-700">
-              {recommendationTexts.insights}
-            </p>
-          </div>
-        )}
-      </div>
-      
-      {/* ==========================================
-          COMPETITOR POSITIONING
-          ========================================== */}
-      
-      {recommendation.competitor_data && (
-        <div className="px-6 py-4 bg-white border-t border-gray-200">
-          <div className="rounded-xl border border-gray-200 bg-white px-5 py-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-lg">🌐</span>
-                <span className="text-sm font-medium text-gray-800">{tMarket('comparison')}</span>
-              </div>
-              <span className="rounded-full bg-purple-50 px-2 py-0.5 text-[11px] font-medium text-purple-700">
-                {tMarket('competitors', { count: recommendation.competitor_data.prices?.length || 0 })}
-              </span>
-            </div>
-            <CompetitorPositionSlider
-              competitorData={recommendation.competitor_data}
-              yourPrice={recommendation.recommended_price}
-            />
-          </div>
+      {recommendation.strategy_details && recommendation.strategy_details.length > 0 && (
+        <div className="p-6 border-t border-gray-200">
+          <KeyInsights
+            strategyDetails={recommendation.strategy_details || []}
+            marginAnalysis={recommendation.margin_analysis}
+            competitorData={recommendation.competitor_data}
+            warnings={recommendation.warnings || []}
+          />
         </div>
       )}
       
-      {/* ==========================================
-          COLLAPSIBLE: DETAILED BREAKDOWN
-          ========================================== */}
-      
-      <div className="border-t border-gray-200">
-        <button
-          onClick={() => setShowDetails(!showDetails)}
-          className="mt-4 w-full px-6 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors text-sm"
-        >
-          <span className="font-medium text-gray-600 flex items-center gap-1">
-            {showDetails ? (
-              <>
-                <ChevronUp className="w-3 h-3" />
-                {t('hide_details')}
-              </>
-            ) : (
-              <>
-                <ChevronDown className="w-3 h-3" />
-                {t('show_details')}
-              </>
-            )}
-          </span>
-        </button>
-        
-        {showDetails && (
-          <div className="px-6 pb-6">
-            <DetailedBreakdown
-              strategyDetails={recommendation.strategy_details || []}
-              marginAnalysis={recommendation.margin_analysis}
-              competitorData={recommendation.competitor_data}
-              shapExplanation={recommendation.shap_explanation}
-              recommendedPrice={recommendation.recommended_price}
-            />
-          </div>
-        )}
-      </div>
       
       {/* ==========================================
           FOOTER - Metadata

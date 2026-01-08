@@ -91,49 +91,6 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-gray-900">Pricing Optimizer</h1>
-        
-        {loading ? (
-          <div className="text-gray-600">Lade Shop-Status...</div>
-        ) : currentShop ? (
-          <div className="mb-8 p-6 bg-green-50 border border-green-200 rounded-lg">
-            <h3 className="text-xl font-semibold mb-2 text-green-900">
-              ✅ {isDemoMode ? 'Demo-Shop aktiv' : 'Shop verbunden'}
-            </h3>
-            <p className="text-green-700 mb-2">
-              Shop: <strong>{currentShop.name}</strong>
-            </p>
-            <p className="text-green-700">
-              {isDemoMode ? (
-                <>
-                  Produkte: <strong>{currentShop.product_count} Demo-Produkte</strong>
-                </>
-              ) : (
-                <>
-                  Produkte: <strong>{currentShop.product_count} Produkte</strong>
-                  {' • '}
-                  URL: <strong>{currentShop.shop_url}</strong>
-                </>
-              )}
-            </p>
-          </div>
-        ) : (
-          <div className="mb-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <h3 className="text-xl font-semibold mb-2 text-yellow-900">⚠️ Kein Shop aktiv</h3>
-            <p className="text-yellow-700 mb-4">
-              Nutze den Shop-Switcher in der Sidebar, um einen Shop auszuwählen oder einen neuen Shopify-Shop zu installieren:
-            </p>
-            <a 
-              href="http://localhost:8000/auth/shopify/install?shop=priceiq-2.myshopify.com"
-              className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Shop installieren
-            </a>
-          </div>
-        )}
-        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link href="/products" className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition border border-gray-200">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900">Produkte</h2>

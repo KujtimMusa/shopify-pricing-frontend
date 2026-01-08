@@ -77,8 +77,15 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar mit Shop-Switcher */}
-      <aside className="w-80 bg-white border-r border-gray-200 p-6 overflow-y-auto">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">PriceIQ</h2>
+      <aside className="w-80 bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200 p-6 overflow-y-auto shadow-sm">
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
+            <span className="text-2xl">💡</span>
+          </div>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            PriceIQ
+          </h2>
+        </div>
         
         {/* Shop Switcher */}
         <div className="mb-6">

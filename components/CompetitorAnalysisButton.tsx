@@ -137,7 +137,10 @@ export function CompetitorAnalysisButton({
           {data.competitors && data.competitors.length > 0 && (
             <div className="mt-4">
               <h4 className="text-sm font-semibold text-gray-900 mb-2">Wettbewerber</h4>
-              <CompetitorList competitors={data.competitors} />
+              <CompetitorList 
+                competitors={data.competitors} 
+                yourPrice={data.your_price || currentPrice || 0}
+              />
             </div>
           )}
 
@@ -153,4 +156,5 @@ export function CompetitorAnalysisButton({
     </div>
   )
 }
+
 

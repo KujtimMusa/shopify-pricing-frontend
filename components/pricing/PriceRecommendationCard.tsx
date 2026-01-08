@@ -5,6 +5,7 @@ import { AlertTriangle, Clock, ChevronDown, ChevronUp, RefreshCw } from 'lucide-
 import { useTranslations } from 'next-intl'
 import { ConfidenceIndicator } from './ConfidenceIndicator'
 import { ActionButtons } from './ActionButtons'
+import { PriceReasoningStory } from './PriceReasoningStory'
 import { formatCurrency, formatPercentage, formatTimeAgo } from '@/lib/formatters'
 import { generateRecommendationTexts } from '@/lib/recommendationTexts'
 
@@ -422,6 +423,18 @@ export function PriceRecommendationCard({
                 </p>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Story-basierte Erklärung: Warum empfehlen wir X€? */}
+        {recommendation.strategy_details && recommendation.strategy_details.length > 0 && (
+          <div className="mt-6">
+            <PriceReasoningStory
+              recommendedPrice={displayedPrice}
+              currentPrice={recommendation.current_price}
+              strategyDetails={recommendation.strategy_details}
+              competitorData={recommendation.competitor_data}
+            />
           </div>
         )}
 

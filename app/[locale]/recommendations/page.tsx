@@ -181,14 +181,25 @@ function RecommendationsContent() {
         )}
         
         <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">Preisempfehlungen</h1>
-          <Link
-            href="/"
-            className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-          >
-            Zurück
-          </Link>
+        {/* Header mit schönem Design */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <span className="text-3xl">📊</span>
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900 mb-1">Produkt-Analysen</h1>
+                <p className="text-gray-600 text-sm">Vollständige Analyse für optimale Preisentscheidungen</p>
+              </div>
+            </div>
+            <Link
+              href="/"
+              className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium shadow-sm hover:shadow-md"
+            >
+              ← Zurück
+            </Link>
+          </div>
         </div>
 
               {/* Produktname - Schönes Design ohne Input */}

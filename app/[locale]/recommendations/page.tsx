@@ -10,6 +10,7 @@ import { CompetitorAnalysis } from '@/components/CompetitorAnalysis'
 import { MarginDisplay } from '@/components/margin/MarginDisplay'
 import { CostInputModal } from '@/components/margin/CostInputModal'
 import { fetchProducts, calculateMargin, saveProductCosts } from '@/lib/api'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
 function RecommendationsContent() {
   const searchParams = useSearchParams()
@@ -19,8 +20,27 @@ function RecommendationsContent() {
   const [marginData, setMarginData] = useState<any>(null)
   const [showCostModal, setShowCostModal] = useState(false)
   const [productTitle, setProductTitle] = useState<string>('')
+  
+  // State für Accordion-Bereiche (welche sind geöffnet)
+  const [openSections, setOpenSections] = useState<{
+    margin: boolean
+    price: boolean
+    competitor: boolean
+  }>({
+    margin: false,
+    price: true, // Preisempfehlung standardmäßig geöffnet
+    competitor: false
+  })
 
   const { isDemoMode, currentShop } = useShop()
+  
+  // Toggle-Funktion für Accordion-Bereiche
+  const toggleSection = (section: 'margin' | 'price' | 'competitor') => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
 
   // Lade Produkt-Preis und Margin-Daten
   useEffect(() => {
@@ -186,36 +206,96 @@ function RecommendationsContent() {
 
               {/* ✅ SECTION 1: MARGIN ANALYSIS (Risk First!) */}
               {currentPrice > 0 && marginData && (
-                <section className="mb-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-3xl">💰</span>
-                    <h2 className="text-2xl font-bold text-gray-900">Margen-Analyse</h2>
-                  </div>
-                  <MarginDisplay 
-                    marginData={marginData || { has_cost_data: false }}
-                    onAddCosts={() => setShowCostModal(true)}
-                    onEditCosts={() => setShowCostModal(true)}
-                  />
+                <section className="mb-6">
+                  <button
+                    onClick={() => toggleSection('margin')}
+                    className="w-full flex items-center justify-between p-6 bg-white rounded-lg border-2 border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-200 text-left"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-4xl">💰</span>
+                      <div>
+                        <h2 className="text-2xl font-bold text-gray-900">Margen-Analyse</h2>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Prüfe deine Kosten und Margen vor Preisänderungen
+                        </p>
+                      </div>
+                    </div>
+                    {openSections.margin ? (
+                      <ChevronUp className="w-6 h-6 text-gray-500" />
+                    ) : (
+                      <ChevronDown className="w-6 h-6 text-gray-500" />
+                    )}
+                  </button>
+                  
+                  {openSections.margin && (
+                    <div className="mt-4 bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 ease-in-out">
+                      <MarginDisplay 
+                        marginData={marginData || { has_cost_data: false }}
+                        onAddCosts={() => setShowCostModal(true)}
+                        onEditCosts={() => setShowCostModal(true)}
+                      />
+                    </div>
+                  )}
                 </section>
               )}
 
               {/* ✅ SECTION 2: PRICE RECOMMENDATION (Action!) */}
-              <section className="mb-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-3xl">💡</span>
-                  <h2 className="text-2xl font-bold text-gray-900">Preisempfehlung</h2>
-                </div>
-                <LatestRecommendation productId={productId} />
+              <section className="mb-6">
+                <button
+                  onClick={() => toggleSection('price')}
+                  className="w-full flex items-center justify-between p-6 bg-white rounded-lg border-2 border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-200 text-left"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="text-4xl">💡</span>
+                    <div>
+                      <h2 className="text-2xl font-bold text-gray-900">Preisempfehlung</h2>
+                      <p className="text-sm text-gray-600 mt-1">
+                        KI-basierte Preisempfehlung basierend auf Marktdaten
+                      </p>
+                    </div>
+                  </div>
+                  {openSections.price ? (
+                    <ChevronUp className="w-6 h-6 text-gray-500" />
+                  ) : (
+                    <ChevronDown className="w-6 h-6 text-gray-500" />
+                  )}
+                </button>
+                
+                {openSections.price && (
+                  <div className="mt-4 bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 ease-in-out">
+                    <LatestRecommendation productId={productId} />
+                  </div>
+                )}
               </section>
 
               {/* ✅ SECTION 3: COMPETITOR ANALYSIS (Context Last!) */}
               {currentPrice > 0 && (
-                <section className="mb-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-3xl">🏪</span>
-                    <h2 className="text-2xl font-bold text-gray-900">Wettbewerbsanalyse</h2>
-                  </div>
-                  <CompetitorAnalysis productId={productId} currentPrice={currentPrice} />
+                <section className="mb-6">
+                  <button
+                    onClick={() => toggleSection('competitor')}
+                    className="w-full flex items-center justify-between p-6 bg-white rounded-lg border-2 border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-200 text-left"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-4xl">🏪</span>
+                      <div>
+                        <h2 className="text-2xl font-bold text-gray-900">Wettbewerbsanalyse</h2>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Vergleiche deine Preise mit der Konkurrenz
+                        </p>
+                      </div>
+                    </div>
+                    {openSections.competitor ? (
+                      <ChevronUp className="w-6 h-6 text-gray-500" />
+                    ) : (
+                      <ChevronDown className="w-6 h-6 text-gray-500" />
+                    )}
+                  </button>
+                  
+                  {openSections.competitor && (
+                    <div className="mt-4 bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 ease-in-out">
+                      <CompetitorAnalysis productId={productId} currentPrice={currentPrice} />
+                    </div>
+                  )}
                 </section>
               )}
         </div>

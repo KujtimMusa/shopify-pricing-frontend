@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { fetchProducts, syncProducts, getRecommendations, calculateMargin, hasCostData } from '@/lib/api'
+import { fetchProducts, syncProducts } from '@/lib/api'
 import { formatCurrency, formatPercentage } from '@/lib/formatters'
 import { ShopSwitcher } from '@/components/ShopSwitcher'
 import { useShop } from '@/hooks/useShop'
@@ -80,8 +80,20 @@ export default function ProductsPage() {
       console.log('[ProductsPage] Products loaded:', data.length, 'products')
       setProducts(data || [])
       
-      // Lade Details für alle Produkte (Margin, Recommendations)
-      await loadProductDetails(data || [])
+      // ✅ FIX: Keine Details-Ladung mehr (verhindert 60+ API-Calls)
+      // Details werden nur bei Bedarf geladen (on-demand)
+      // Status basierend auf Lagerbestand
+      const details: ProductWithDetails[] = data.map(product => ({
+        ...product,
+        status: product.inventory === 0 ? 'critical' : 
+                product.inventory < 10 ? 'warning' : 'optimal',
+        hasCostData: false, // Wird nicht mehr geladen (Performance)
+        margin: undefined, // Wird nicht mehr geladen (Performance)
+        hasRecommendation: false, // Wird nicht mehr geladen (Performance)
+        recommendationPotential: undefined
+      }))
+      
+      setProductsWithDetails(details)
     } catch (error) {
       console.error('[ProductsPage] Fehler beim Laden der Produkte:', error)
       setProducts([])
@@ -89,79 +101,6 @@ export default function ProductsPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  const loadProductDetails = async (products: Product[]) => {
-    const detailsPromises = products.map(async (product) => {
-      const details: ProductWithDetails = {
-        ...product,
-        status: 'optimal',
-        hasCostData: false,
-        hasRecommendation: false
-      }
-
-      // Prüfe ob Kosten vorhanden
-      try {
-        const hasCost = await hasCostData(product.id.toString())
-        details.hasCostData = hasCost
-        
-        if (hasCost) {
-          // Berechne Marge
-          try {
-            const marginData = await calculateMargin(product.id.toString(), product.price)
-            if (marginData.margin) {
-              details.margin = marginData.margin.percent
-              
-              // Status basierend auf Marge
-              if (marginData.margin.percent < 0) {
-                details.status = 'critical'
-              } else if (marginData.margin.percent < 15) {
-                details.status = 'warning'
-              } else {
-                details.status = 'optimal'
-              }
-            }
-          } catch (e) {
-            console.warn(`Could not calculate margin for product ${product.id}:`, e)
-          }
-        }
-      } catch (e) {
-        console.warn(`Could not check cost data for product ${product.id}:`, e)
-      }
-
-      // Prüfe ob Empfehlung vorhanden
-      try {
-        const recs = await getRecommendations(product.id)
-        if (recs.recommendations && recs.recommendations.length > 0) {
-          details.hasRecommendation = true
-          const latestRec = recs.recommendations[0]
-          if (latestRec.recommended_price && latestRec.current_price) {
-            const priceDiff = latestRec.recommended_price - latestRec.current_price
-            // Schätze Potenzial (vereinfacht: 5 Verkäufe/Monat)
-            details.recommendationPotential = priceDiff * 5
-          }
-          
-          // Wenn Empfehlung vorhanden, aber Status noch optimal → warning
-          if (details.status === 'optimal') {
-            details.status = 'optimizable'
-          }
-        }
-      } catch (e) {
-        // Keine Empfehlung vorhanden - OK
-      }
-
-      // Status basierend auf Lagerbestand
-      if (product.inventory === 0) {
-        details.status = 'critical'
-      } else if (product.inventory < 10 && details.status === 'optimal') {
-        details.status = 'warning'
-      }
-
-      return details
-    })
-
-    const details = await Promise.all(detailsPromises)
-    setProductsWithDetails(details)
   }
 
   const handleSync = async () => {
@@ -232,10 +171,10 @@ export default function ProductsPage() {
     const total = productsWithDetails.length
     const withCosts = productsWithDetails.filter(p => p.hasCostData).length
     const critical = productsWithDetails.filter(p => p.status === 'critical').length
-    const withRecommendations = productsWithDetails.filter(p => p.hasRecommendation).length
+    const warning = productsWithDetails.filter(p => p.status === 'warning').length
     
-    // Durchschnittliche Marge
-    const productsWithMargin = productsWithDetails.filter(p => p.margin !== undefined)
+    // Durchschnittliche Marge (nur wenn Kosten vorhanden)
+    const productsWithMargin = productsWithDetails.filter(p => p.margin !== undefined && p.margin !== null)
     const avgMargin = productsWithMargin.length > 0
       ? productsWithMargin.reduce((sum, p) => sum + (p.margin || 0), 0) / productsWithMargin.length
       : 0
@@ -244,7 +183,7 @@ export default function ProductsPage() {
       total,
       withCosts,
       critical,
-      withRecommendations,
+      warning,
       avgMargin
     }
   }, [productsWithDetails])
@@ -380,10 +319,10 @@ export default function ProductsPage() {
               
               <div className="bg-white rounded-lg border border-gray-200 p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="w-5 h-5 text-blue-600" />
-                  <span className="text-sm text-gray-600">Empfehlungen</span>
+                  <AlertCircle className="w-5 h-5 text-yellow-600" />
+                  <span className="text-sm text-gray-600">Achtung</span>
                 </div>
-                <div className="text-2xl font-bold text-blue-600">{summaryStats.withRecommendations}</div>
+                <div className="text-2xl font-bold text-yellow-600">{summaryStats.warning}</div>
               </div>
             </div>
           )}
@@ -522,9 +461,6 @@ function ProductCard({ product }: { product: ProductWithDetails }) {
           )}
         </div>
         
-        {product.hasRecommendation && (
-          <span className="text-2xl" title="Empfehlung verfügbar">💡</span>
-        )}
       </div>
 
       {/* Body - Preise & Marge */}
@@ -537,30 +473,8 @@ function ProductCard({ product }: { product: ProductWithDetails }) {
           </span>
         </div>
 
-        {/* Kosten & Marge (wenn vorhanden) */}
-        {product.cost && (
-          <>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Kosten</span>
-              <span className="text-sm text-gray-700">
-                {formatCurrency(product.cost)}
-              </span>
-            </div>
-            
-            {/* Marge Highlight */}
-            {product.margin !== undefined && (
-              <div className={`flex justify-between items-center p-2 rounded ${
-                product.margin > 30 ? 'bg-green-50' : 
-                product.margin > 15 ? 'bg-yellow-50' : 'bg-red-50'
-              }`}>
-                <span className="text-sm font-medium">Marge</span>
-                <span className="text-lg font-bold">
-                  {product.margin.toFixed(1)}%
-                </span>
-              </div>
-            )}
-          </>
-        )}
+        {/* Kosten & Marge - Wird nicht mehr angezeigt (Performance-Optimierung) */}
+        {/* Details können auf der Empfehlungs-Seite eingesehen werden */}
 
         {/* Lagerbestand */}
         <div className="flex justify-between items-center pt-2 border-t border-gray-100">
@@ -573,15 +487,6 @@ function ProductCard({ product }: { product: ProductWithDetails }) {
           </span>
         </div>
 
-        {/* Potenzial (wenn Empfehlung) */}
-        {product.hasRecommendation && product.recommendationPotential && (
-          <div className="bg-blue-50 border border-blue-200 rounded p-2">
-            <div className="text-xs text-blue-700 mb-1">Optimierungspotenzial</div>
-            <div className="text-lg font-bold text-blue-900">
-              +{formatCurrency(product.recommendationPotential)}/Monat
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Footer - Actions */}

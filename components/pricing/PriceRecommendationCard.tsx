@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl'
 import { ConfidenceIndicator } from './ConfidenceIndicator'
 import { KeyInsights } from './KeyInsights'
 import { ActionButtons } from './ActionButtons'
-import { PriceRecommendationBreakdown } from '../PriceRecommendationBreakdown'
 import { formatCurrency, formatPercentage, formatTimeAgo } from '@/lib/formatters'
 import { generateRecommendationTexts } from '@/lib/recommendationTexts'
 

@@ -5,7 +5,6 @@ import { getLatestRecommendation, generateRecommendation } from '@/lib/api'
 import { applyRecommendedPrice } from '@/lib/shopifyService'
 import { PriceRecommendationCard } from './pricing/PriceRecommendationCard'
 import { EmptyAnalysisState } from './EmptyAnalysisState'
-import { PriceRecommendationBreakdown } from './PriceRecommendationBreakdown'
 import { useShop } from '@/hooks/useShop'
 
 interface RecommendationData {
@@ -317,26 +316,6 @@ export default function LatestRecommendation({ productId }: LatestRecommendation
         onDismiss={() => {}}
         onApply={handleApplyPrice}
       />
-      
-      {/* Price Recommendation Breakdown - Alternative detailed view */}
-      {recommendation && (
-        <div className="mt-6">
-          <PriceRecommendationBreakdown
-            currentPrice={recommendation.current_price}
-            recommendedPrice={recommendation.recommended_price}
-            factors={{
-              competitorAdjustment: (recommendation.competitor_avg_price || 0) - recommendation.current_price,
-              demandAdjustment: (recommendation.demand_growth || 0) * recommendation.current_price * 0.1,
-              inventoryAdjustment: recommendation.days_of_stock ? (recommendation.days_of_stock < 15 ? -recommendation.current_price * 0.05 : 0) : 0
-            }}
-            averageCompetitorPrice={recommendation.competitor_avg_price ?? undefined}
-            demandGrowth={recommendation.demand_growth ?? 0}
-            daysOfStock={recommendation.days_of_stock ?? 0}
-            onApply={handleApplyPrice}
-            onKeep={() => {}}
-          />
-        </div>
-      )}
     </div>
   )
 }

@@ -191,19 +191,22 @@ function RecommendationsContent() {
           </Link>
         </div>
 
-              <div className="mb-6 p-4 bg-white rounded-lg border border-gray-200">
-                <label className="block mb-2 font-semibold text-gray-900">
-                  {productTitle || `Produkt ${productId}`}
-                </label>
-                <div className="flex gap-4">
-                  <input
-                    type="number"
-                    value={productId}
-                    onChange={(e) => setProductId(Number(e.target.value))}
-                    className="px-4 py-2 border border-gray-300 rounded text-gray-900 bg-white"
-                    min="1"
-                    placeholder="Produkt ID"
-                  />
+              {/* Produktname - Schönes Design ohne Input */}
+              <div className="mb-6 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 shadow-sm">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">📦</span>
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {productTitle || `Produkt ${productId}`}
+                    </h2>
+                    {currentPrice > 0 && (
+                      <p className="text-sm text-gray-600 mt-1">
+                        Aktueller Preis: <span className="font-semibold text-gray-900">{currentPrice.toFixed(2)} €</span>
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 

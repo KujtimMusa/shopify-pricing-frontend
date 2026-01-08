@@ -51,7 +51,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar mit Shop-Switcher */}
       <aside className="w-80 bg-white border-r border-gray-200 p-6 overflow-y-auto">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Dynamic Pricing</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">PriceIQ</h2>
         
         {/* Shop Switcher */}
         <div className="mb-6">
@@ -83,19 +83,6 @@ export default function Home() {
       
       {/* Main Content */}
       <main className="flex-1 p-8 overflow-y-auto">
-        {/* Demo Mode Banner */}
-        {isDemoMode && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center gap-2 text-sm text-blue-700">
-              <span>🧪</span>
-              <span className="font-medium">Demo Mode Active</span>
-              <span className="text-blue-600">
-                • Testing with {currentShop?.product_count || 20} synthetic products
-              </span>
-            </div>
-          </div>
-        )}
-        
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-gray-900">Pricing Optimizer</h1>
         

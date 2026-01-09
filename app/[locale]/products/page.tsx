@@ -110,19 +110,22 @@ export default function ProductsPage() {
         <nav className="space-y-2">
           <Link 
             href="/" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1' }}
           >
             Dashboard
           </Link>
           <Link 
             href="/products" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors bg-gray-100"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1', backgroundColor: '#334155' }}
           >
             Produkte
           </Link>
           <Link 
             href="/recommendations" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1' }}
           >
             Empfehlungen
           </Link>
@@ -137,12 +140,12 @@ export default function ProductsPage() {
           <div className="flex items-center justify-between mb-8">
             {/* Left Side */}
             <div>
-              <h1 className="text-5xl font-bold text-gray-900 tracking-tight mb-3">
+              <h1 className="text-5xl font-bold tracking-tight mb-3" style={{ color: '#f1f5f9' }}>
                 Produkte
               </h1>
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 text-gray-600">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100">
+                <div className="flex items-center gap-2" style={{ color: '#94a3b8' }}>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ backgroundColor: '#334155' }}>
                     <Package className="h-4 w-4" />
                   </div>
                   <span className="text-lg font-medium">
@@ -152,7 +155,7 @@ export default function ProductsPage() {
                 
                 {productsWithRecommendations > 0 && (
                   <>
-                    <div className="h-4 w-px bg-gray-300" />
+                    <div className="h-4 w-px" style={{ backgroundColor: '#475569' }} />
                     <div className="flex items-center gap-2 text-purple-600">
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100">
                         <Sparkles className="h-4 w-4" />
@@ -169,7 +172,7 @@ export default function ProductsPage() {
             {/* Right Side - Buttons */}
             <div className="flex items-center gap-3">
               {currentShop && (
-                <div className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-xl font-medium text-gray-700 shadow-sm">
+                <div className="flex items-center gap-2 px-5 py-3 border rounded-xl font-medium shadow-sm" style={{ backgroundColor: '#1e293b', borderColor: '#475569', color: '#cbd5e1' }}>
                   <span>{currentShop.name} {isDemoMode && '(Demo)'}</span>
                 </div>
               )}

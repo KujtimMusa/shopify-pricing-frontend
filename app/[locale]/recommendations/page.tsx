@@ -164,7 +164,7 @@ function RecommendationsContent() {
   }, [showInfoTooltip])
 
   return (
-    <div className="min-h-screen bg-gray-50 flex recommendations-page">
+    <div className="min-h-screen flex recommendations-page" style={{ backgroundColor: '#0f172a' }}>
       {/* Sidebar mit Shop-Switcher */}
       <aside className="w-80 bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200 p-6 overflow-y-auto shadow-sm">
         <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
@@ -185,19 +185,22 @@ function RecommendationsContent() {
         <nav className="space-y-2">
           <Link 
             href="/" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1' }}
           >
             Dashboard
           </Link>
           <Link 
             href="/products" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1' }}
           >
             Produkte
           </Link>
           <Link 
             href="/recommendations" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors bg-gray-100"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1', backgroundColor: '#334155' }}
           >
             Empfehlungen
           </Link>
@@ -361,7 +364,7 @@ function RecommendationsContent() {
                 
                   {openSections.price && (
                     <div className="px-8 pb-6">
-                      <div className="bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 ease-in-out">
+                      <div className="rounded-lg border p-6 transition-all duration-300 ease-in-out" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
                         <LatestRecommendation productId={productId} />
                       </div>
                     </div>
@@ -424,7 +427,7 @@ function RecommendationsContent() {
                   
                     {openSections.competitor && (
                       <div className="px-8 pb-6">
-                        <div className="bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 ease-in-out">
+                        <div className="rounded-lg border p-6 transition-all duration-300 ease-in-out" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
                           <CompetitorAnalysis productId={productId} currentPrice={currentPrice} />
                         </div>
                       </div>

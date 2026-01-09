@@ -553,9 +553,9 @@
 }
 
 .costs-list {
-  background: white;
-  border: 2px solid #f3f4f6;
-  border-radius: 16px;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -688,9 +688,9 @@
 
 .insight-box {
   padding: 20px;
-  background: white;
-  border: 2px solid #f3f4f6;
-  border-radius: 16px;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 0;
   transition: all 0.3s ease;
 }
 
@@ -1185,12 +1185,12 @@
 
 /* Why we recommend Section */
 .why-recommend-section {
-  background: white;
-  border: 3px solid #f3f4f6;
-  border-radius: 20px;
+  background: #1e293b !important;
+  border: 3px solid #475569 !important;
+  border-radius: 0;
   padding: 32px;
   margin-bottom: 32px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .why-recommend-header {
@@ -1232,8 +1232,9 @@
 
 .strategy-card {
   padding: 24px;
-  border: 2px solid #f3f4f6;
-  border-radius: 16px;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 0;
   transition: all 0.3s ease;
 }
 
@@ -1442,9 +1443,9 @@
 
 /* Strategy List */
 .strategies-list {
-  background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 16px;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 0;
   overflow: hidden;
   margin-bottom: 24px;
 }

@@ -18,7 +18,7 @@ export default function MissedRevenueHero({
       <div className="relative flex items-start gap-6">
         {/* Icon */}
         <div className="flex-shrink-0">
-          <div className="flex h-16 w-16 items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500">
+          <div className="flex h-16 w-16 items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500" style={{ borderRadius: '0' }}>
             <Sparkles className="h-8 w-8 text-white" />
           </div>
         </div>

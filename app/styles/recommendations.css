@@ -9,14 +9,12 @@
 
 /* Page Header */
 .recommendations-header {
-  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #fef3f2 100%);
-  border: 2px solid #e0e7ff;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--bg-secondary) 100%);
+  border: 2px solid var(--color-primary-lighter);
   border-radius: 24px;
   padding: 40px;
   margin-bottom: 32px;
-  box-shadow: 
-    0 4px 20px rgba(99, 102, 241, 0.08),
-    0 0 0 1px rgba(99, 102, 241, 0.05) inset;
+  box-shadow: var(--shadow-blue-sm);
   transition: all 0.3s ease;
 }
 
@@ -36,14 +34,12 @@
 .header-main-icon {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 
-    0 10px 30px rgba(99, 102, 241, 0.4),
-    0 0 0 4px rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-blue-md);
   transition: transform 0.3s ease;
 }
 
@@ -88,12 +84,12 @@
 .product-icon {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
+  box-shadow: var(--shadow-blue-sm);
   flex-shrink: 0;
 }
 
@@ -220,15 +216,15 @@
 
 /* Icon Colors */
 .icon-margin {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
 }
 
 .icon-recommendation {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
 }
 
 .icon-competitor {
-  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
 }
 
 /* Section Content */
@@ -425,16 +421,17 @@
   align-items: center;
   gap: 12px;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  border: 2px solid #86efac;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border: 2px solid var(--color-primary-light);
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2);
+  box-shadow: var(--shadow-blue-sm);
+  color: var(--color-primary);
 }
 
 .margin-success-percentage {
   font-size: 28px;
   font-weight: 800;
-  color: #16a34a;
+  color: var(--color-primary);
   line-height: 1;
 }
 
@@ -584,12 +581,12 @@
 
 /* Contribution Margin Box - HERO ELEMENT */
 .contribution-margin-box {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  border: 3px solid #6ee7b7;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border: 3px solid var(--color-primary-lighter);
   border-radius: 20px;
   padding: 28px;
   margin-bottom: 24px;
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+  box-shadow: var(--shadow-blue-md);
   position: relative;
   overflow: hidden;
 }
@@ -617,19 +614,19 @@
 .contribution-check-icon {
   width: 28px;
   height: 28px;
-  color: #16a34a;
+  color: var(--color-primary);
 }
 
 .contribution-label {
   font-size: 16px;
   font-weight: 700;
-  color: #065f46;
+  color: var(--color-primary-dark);
 }
 
 .contribution-amount {
   font-size: 48px;
   font-weight: 800;
-  color: #047857;
+  color: var(--color-primary);
   line-height: 1;
   margin-bottom: 8px;
   position: relative;
@@ -639,7 +636,7 @@
 .contribution-percentage {
   font-size: 20px;
   font-weight: 700;
-  color: #059669;
+  color: var(--color-primary-dark);
   position: relative;
   z-index: 1;
 }
@@ -666,13 +663,13 @@
 }
 
 .insight-box.warning {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border-color: #fbbf24;
+  background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-200) 100%);
+  border-color: var(--border-dark);
 }
 
 .insight-box.success {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  border-color: #6ee7b7;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border-color: var(--color-primary-lighter);
 }
 
 .insight-header {
@@ -688,11 +685,11 @@
 }
 
 .insight-icon.warning {
-  color: #f59e0b;
+  color: var(--color-gray-600);
 }
 
 .insight-icon.success {
-  color: #16a34a;
+  color: var(--color-primary);
 }
 
 .insight-label {
@@ -712,21 +709,21 @@
 
 /* Health Banner - PROMINENT */
 .health-banner {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  border: 3px solid #6ee7b7;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border: 3px solid var(--color-primary-lighter);
   border-radius: 16px;
   padding: 20px 24px;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+  box-shadow: var(--shadow-blue-sm);
 }
 
 .health-icon {
   width: 32px;
   height: 32px;
   flex-shrink: 0;
-  color: #16a34a;
+  color: var(--color-primary);
 }
 
 .health-content {
@@ -736,7 +733,7 @@
 .health-title {
   font-size: 18px;
   font-weight: 800;
-  color: #047857;
+  color: var(--color-primary);
   margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -744,7 +741,7 @@
 
 .health-description {
   font-size: 14px;
-  color: #065f46;
+  color: var(--color-primary-dark);
   line-height: 1.4;
 }
 
@@ -841,8 +838,8 @@
 
 /* Product Header with Confidence */
 .recommendation-header {
-  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-  border: 2px solid #c7d2fe;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--bg-secondary) 100%);
+  border: 2px solid var(--color-primary-lighter);
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 32px;
@@ -872,12 +869,12 @@
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: white;
   border-radius: 16px;
   font-size: 20px;
   font-weight: 800;
-  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+  box-shadow: var(--shadow-blue-md);
 }
 
 /* Recommendation Text */
@@ -912,13 +909,13 @@
 }
 
 .price-box-recommended {
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  border: 3px solid #86efac;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border: 3px solid var(--color-primary-light);
   border-radius: 20px;
   padding: 32px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.2);
+  box-shadow: var(--shadow-blue-md);
   transition: all 0.3s ease;
 }
 
@@ -949,13 +946,13 @@
 }
 
 .price-label-recommended {
-  color: #065f46;
+  color: var(--color-primary-dark);
 }
 
 .price-amount {
   font-size: 56px;
   font-weight: 800;
-  color: #111827;
+  color: var(--color-gray-900);
   line-height: 1;
   margin-bottom: 16px;
   position: relative;
@@ -963,7 +960,7 @@
 }
 
 .price-amount-recommended {
-  color: #047857;
+  color: var(--color-primary);
 }
 
 .price-difference {
@@ -988,8 +985,8 @@
 
 /* ML Confidence Section */
 .ml-confidence-section {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border: 3px solid #93c5fd;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border: 3px solid var(--color-primary-lighter);
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 32px;
@@ -1020,18 +1017,18 @@
 .confidence-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+  box-shadow: var(--shadow-blue-sm);
 }
 
 .confidence-title {
   font-size: 28px;
   font-weight: 800;
-  color: #1e40af;
+  color: var(--color-primary);
 }
 
 /* Progress Bar */
@@ -1051,13 +1048,13 @@
 .confidence-progress-label {
   font-size: 14px;
   font-weight: 600;
-  color: #1e40af;
+  color: var(--color-primary);
 }
 
 .confidence-progress-value {
   font-size: 24px;
   font-weight: 800;
-  color: #1e3a8a;
+  color: var(--color-primary-dark);
 }
 
 .confidence-progress-bar-container {
@@ -1070,7 +1067,7 @@
 
 .confidence-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 999px;
   transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
@@ -1085,7 +1082,7 @@
 .analysis-factors-title {
   font-size: 15px;
   font-weight: 700;
-  color: #1e40af;
+  color: var(--color-primary);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -1105,38 +1102,38 @@
   gap: 10px;
   padding: 12px 16px;
   background: rgba(255, 255, 255, 0.7);
-  border: 2px solid rgba(59, 130, 246, 0.2);
+  border: 2px solid var(--color-primary-lighter);
   border-radius: 12px;
   font-size: 14px;
-  color: #1e40af;
+  color: var(--color-primary-dark);
   transition: all 0.2s;
 }
 
 .factor-item:hover {
   background: white;
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
   transform: translateX(4px);
 }
 
 .factor-check {
   width: 18px;
   height: 18px;
-  color: #16a34a;
+  color: var(--color-primary);
   flex-shrink: 0;
 }
 
 /* Why 96% Box */
 .confidence-explanation {
   padding: 20px;
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border: 2px solid #fbbf24;
+  background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-200) 100%);
+  border: 2px solid var(--border-dark);
   border-radius: 16px;
 }
 
 .confidence-explanation-title {
   font-size: 15px;
   font-weight: 700;
-  color: #92400e;
+  color: var(--color-gray-700);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -1145,7 +1142,7 @@
 
 .confidence-explanation-text {
   font-size: 14px;
-  color: #78350f;
+  color: var(--color-gray-600);
   line-height: 1.5;
 }
 
@@ -1169,12 +1166,12 @@
 .why-recommend-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  box-shadow: var(--shadow-blue-sm);
 }
 
 .why-recommend-title {
@@ -1209,25 +1206,13 @@
   transform: translateX(4px);
 }
 
-/* Strategy Colors */
-.strategy-card.competitive {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border-color: #fecaca;
-}
-
-.strategy-card.demand {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border-color: #bbf7d0;
-}
-
-.strategy-card.inventory {
-  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-  border-color: #fed7aa;
-}
-
+/* Strategy Colors - Unified */
+.strategy-card.competitive,
+.strategy-card.demand,
+.strategy-card.inventory,
 .strategy-card.costs {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-color: #bfdbfe;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  border-color: var(--border-normal);
 }
 
 .strategy-header {
@@ -1266,20 +1251,11 @@
   justify-content: center;
 }
 
-.strategy-icon-container.competitive {
-  background: linear-gradient(135deg, #fca5a5 0%, #f87171 100%);
-}
-
-.strategy-icon-container.demand {
-  background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
-}
-
-.strategy-icon-container.inventory {
-  background: linear-gradient(135deg, #fdba74 0%, #fb923c 100%);
-}
-
+.strategy-icon-container.competitive,
+.strategy-icon-container.demand,
+.strategy-icon-container.inventory,
 .strategy-icon-container.costs {
-  background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
 }
 
 .strategy-title {
@@ -1298,15 +1274,15 @@
 }
 
 .strategy-badge.excellent {
-  background: #dcfce7;
-  color: #16a34a;
-  border: 1px solid #86efac;
+  background: var(--color-primary-lightest);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-lighter);
 }
 
 .strategy-badge.good {
-  background: #dbeafe;
-  color: #2563eb;
-  border: 1px solid #93c5fd;
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  border: 1px solid var(--border-dark);
 }
 
 .strategy-text {
@@ -1376,8 +1352,8 @@
 
 /* How is it calculated Section */
 .calculation-section {
-  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-  border: 3px solid #ddd6fe;
+  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+  border: 3px solid var(--border-normal);
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 32px;
@@ -1393,12 +1369,12 @@
 .calculation-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: var(--shadow-blue-sm);
 }
 
 .calculation-title {
@@ -1409,11 +1385,11 @@
 
 .calculation-notice {
   padding: 16px;
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border: 2px solid #fbbf24;
+  background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-200) 100%);
+  border: 2px solid var(--border-dark);
   border-radius: 12px;
   font-size: 14px;
-  color: #92400e;
+  color: var(--color-gray-700);
   margin-bottom: 24px;
   display: flex;
   align-items: start;
@@ -1424,7 +1400,7 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  color: #f59e0b;
+  color: var(--color-gray-600);
 }
 
 /* Strategy List */
@@ -1542,26 +1518,17 @@
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.weighted-bar-fill.demand {
-  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-}
-
-.weighted-bar-fill.inventory {
-  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
-}
-
-.weighted-bar-fill.costs {
-  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-}
-
+.weighted-bar-fill.demand,
+.weighted-bar-fill.inventory,
+.weighted-bar-fill.costs,
 .weighted-bar-fill.competitive {
-  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
 }
 
 /* Final Sum */
 .final-sum-box {
-  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-  border: 3px solid #a5b4fc;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border: 3px solid var(--color-primary-lighter);
   border-radius: 16px;
   padding: 24px;
 }
@@ -1576,31 +1543,31 @@
 .final-sum-icon {
   width: 24px;
   height: 24px;
-  color: #4f46e5;
+  color: var(--color-primary);
 }
 
 .final-sum-label {
   font-size: 16px;
   font-weight: 700;
-  color: #4338ca;
+  color: var(--color-primary);
 }
 
 .final-sum-calculation {
   font-size: 15px;
-  color: #6366f1;
+  color: var(--color-primary-dark);
   margin-bottom: 16px;
 }
 
 .final-sum-value {
   font-size: 36px;
   font-weight: 800;
-  color: #4338ca;
+  color: var(--color-primary);
   line-height: 1;
 }
 
 .final-sum-percentage {
   font-size: 16px;
-  color: #6366f1;
+  color: var(--color-primary-dark);
   margin-top: 4px;
 }
 
@@ -1735,12 +1702,12 @@
 .competitor-icon-main {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3);
+  box-shadow: var(--shadow-blue-sm);
 }
 
 .competitor-title {
@@ -1797,13 +1764,14 @@
 
 /* Price Position Visualization - HERO */
 .price-position-hero {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border: 3px solid #86efac;
+  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+  border: 3px solid var(--border-normal);
   border-radius: 24px;
   padding: 40px;
   margin-bottom: 32px;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-md);
 }
 
 .price-position-hero::before {
@@ -1840,7 +1808,7 @@
 .price-position-title {
   font-size: 22px;
   font-weight: 700;
-  color: #065f46;
+  color: var(--color-gray-700);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -1876,46 +1844,46 @@
 }
 
 .price-scale-label.cheapest .price-scale-label-icon {
-  background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-gray-200) 0%, var(--color-gray-300) 100%);
+  color: var(--color-gray-700);
 }
 
 .price-scale-label.average .price-scale-label-icon {
-  background: linear-gradient(135deg, #fde047 0%, #facc15 100%);
-  color: #854d0e;
+  background: linear-gradient(135deg, var(--color-primary-lighter) 0%, var(--color-primary-light) 100%);
+  color: var(--color-primary-dark);
 }
 
 .price-scale-label.expensive .price-scale-label-icon {
-  background: linear-gradient(135deg, #fca5a5 0%, #f87171 100%);
+  background: linear-gradient(135deg, var(--color-gray-400) 0%, var(--color-gray-500) 100%);
   color: white;
 }
 
 .price-scale-label-text {
   font-size: 13px;
   font-weight: 600;
-  color: #065f46;
+  color: var(--color-gray-700);
 }
 
 .price-scale-value {
   font-size: 18px;
   font-weight: 800;
-  color: #047857;
+  color: var(--color-gray-700);
 }
 
 /* Gradient Bar */
 .price-scale-bar {
   height: 24px;
   background: linear-gradient(90deg, 
-    #86efac 0%, 
-    #4ade80 25%, 
-    #fde047 50%, 
-    #fbbf24 65%,
-    #fb923c 80%,
-    #f87171 100%
+    var(--color-gray-200) 0%, 
+    var(--color-gray-300) 25%, 
+    var(--color-primary-lighter) 50%, 
+    var(--color-primary-light) 65%,
+    var(--color-gray-400) 80%,
+    var(--color-gray-500) 100%
   );
   border-radius: 999px;
   position: relative;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
   margin-bottom: 16px;
 }
 
@@ -1933,10 +1901,10 @@
 .price-marker-pin {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border: 4px solid white;
   border-radius: 50%;
-  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1948,11 +1916,11 @@
 @keyframes pulse-marker {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
   }
   50% {
     transform: scale(1.1);
-    box-shadow: 0 8px 28px rgba(220, 38, 38, 0.6);
+    box-shadow: 0 8px 28px rgba(59, 130, 246, 0.6);
   }
 }
 
@@ -1965,20 +1933,20 @@
 .price-marker-label {
   padding: 8px 16px;
   background: white;
-  border: 2px solid #dc2626;
+  border: 2px solid var(--color-primary);
   border-radius: 12px;
   font-size: 14px;
   font-weight: 700;
-  color: #dc2626;
+  color: var(--color-primary);
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+  box-shadow: var(--shadow-blue-sm);
 }
 
 /* Warning Box */
 .price-position-warning {
   padding: 20px;
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 2px solid #fecaca;
+  background: rgba(239, 68, 68, 0.05);
+  border: 2px solid rgba(239, 68, 68, 0.2);
   border-radius: 16px;
   display: flex;
   align-items: start;
@@ -2059,41 +2027,20 @@
   color: #9ca3af;
 }
 
-/* Stat Box Colors */
-.stat-box.competitors {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-color: #bfdbfe;
-}
-
-.stat-box.competitors .stat-box-icon {
-  color: #3b82f6;
-}
-
-.stat-box.average-price {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border-color: #bbf7d0;
-}
-
-.stat-box.average-price .stat-box-icon {
-  color: #16a34a;
-}
-
-.stat-box.price-range {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border-color: #fde047;
-}
-
-.stat-box.price-range .stat-box-icon {
-  color: #f59e0b;
-}
-
+/* Stat Box Colors - Unified */
+.stat-box.competitors,
+.stat-box.average-price,
+.stat-box.price-range,
 .stat-box.your-position {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border-color: #fecaca;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  border-color: var(--border-normal);
 }
 
+.stat-box.competitors .stat-box-icon,
+.stat-box.average-price .stat-box-icon,
+.stat-box.price-range .stat-box-icon,
 .stat-box.your-position .stat-box-icon {
-  color: #ef4444;
+  color: var(--color-primary);
 }
 
 /* Product Status Box */
@@ -2148,12 +2095,12 @@
 .competitors-section-icon {
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  box-shadow: var(--shadow-blue-sm);
 }
 
 /* Filter Tabs */
@@ -2231,18 +2178,18 @@
 }
 
 .competitor-rank.top {
-  background: linear-gradient(135deg, #fde047 0%, #facc15 100%);
-  color: #854d0e;
+  background: linear-gradient(135deg, var(--color-primary-lighter) 0%, var(--color-primary-light) 100%);
+  color: var(--color-primary-dark);
 }
 
 .competitor-rank.cheapest {
-  background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
-  color: #065f46;
+  background: linear-gradient(135deg, var(--color-gray-200) 0%, var(--color-gray-300) 100%);
+  color: var(--color-gray-700);
 }
 
 .competitor-rank.expensive {
-  background: linear-gradient(135deg, #fca5a5 0%, #f87171 100%);
-  color: #7f1d1d;
+  background: linear-gradient(135deg, var(--color-gray-300) 0%, var(--color-gray-400) 100%);
+  color: var(--color-gray-700);
 }
 
 /* Card Content */
@@ -2270,11 +2217,11 @@
 }
 
 .avatar-gold {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  background: linear-gradient(135deg, var(--color-primary-lighter) 0%, var(--color-primary-light) 100%);
 }
 
 .avatar-gray {
-  background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+  background: linear-gradient(135deg, var(--color-gray-200) 0%, var(--color-gray-300) 100%);
 }
 
 .competitor-info {
@@ -2352,12 +2299,12 @@
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  border: 2px solid #86efac;
+  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
+  border: 2px solid var(--color-primary-lighter);
   border-radius: 12px;
   font-size: 15px;
   font-weight: 700;
-  color: #16a34a;
+  color: var(--color-primary);
 }
 
 .competitor-savings-icon {
@@ -2367,8 +2314,8 @@
 
 /* Data Quality Footer */
 .data-quality-footer {
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  border: 2px solid #bae6fd;
+  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+  border: 2px solid var(--border-normal);
   border-radius: 16px;
   padding: 20px;
   display: flex;
@@ -2379,12 +2326,12 @@
 .data-quality-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: var(--shadow-blue-sm);
   flex-shrink: 0;
 }
 
@@ -2395,13 +2342,13 @@
 .data-quality-title {
   font-size: 16px;
   font-weight: 700;
-  color: #1e40af;
+  color: var(--color-primary);
   margin-bottom: 4px;
 }
 
 .data-quality-text {
   font-size: 14px;
-  color: #1e3a8a;
+  color: var(--color-gray-700);
   line-height: 1.5;
 }
 
@@ -2414,7 +2361,7 @@
   background: white;
   border-radius: 10px;
   font-size: 13px;
-  color: #6366f1;
+  color: var(--color-primary);
   font-weight: 600;
   display: flex;
   align-items: center;

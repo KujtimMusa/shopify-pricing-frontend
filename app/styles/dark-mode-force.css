@@ -1373,3 +1373,393 @@ Border-Radius System:
 - 50% → Circle (avatars, markers)
 */
 
+/* ============================================
+   FIX: REMOVE NESTED BORDERS & BACKGROUNDS
+   Prevent "boxes within boxes" effect
+   ============================================ */
+
+/* === GLOBAL FIX: Remove borders/backgrounds from nested elements === */
+
+/* Remove backgrounds and borders from ALL nested divs/spans */
+.card > div > div,
+.box > div > div,
+.price-box > div,
+.stat-box > div,
+[class*="card"] > div > div,
+[class*="box"] > div,
+[class*="Box"] > div {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* === PRICE BOXES FIX === */
+
+/* Outer price box should have background/border */
+.price-box,
+.verkaufspreis-box,
+.nettoerlos-box,
+[class*="price-box"],
+[class*="preis-box"] {
+  background-color: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+/* Inner elements - NO backgrounds or borders */
+.price-box > *,
+.price-box div,
+.price-box span,
+.price-box p {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Price labels - just text */
+.price-box-label,
+.price-label,
+.verkaufspreis-label,
+.nettoerlos-label {
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 0 8px 0 !important;
+}
+
+/* Price amounts - just text */
+.price-amount,
+.price-value,
+.price-box-value {
+  color: #f1f5f9 !important;
+  font-size: 32px !important;
+  font-weight: 800 !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Small text under price (like "nach 1900% MwSt") */
+.price-note,
+.price-subtitle,
+.price-box small {
+  color: #64748b !important;
+  font-size: 13px !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 4px 0 0 0 !important;
+}
+
+/* === PRODUCT HEADER FIX === */
+
+/* Outer header should have background */
+.product-detail-header,
+.page-header,
+.dashboard-header,
+[class*="header"] {
+  background-color: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+}
+
+/* Inner elements - NO backgrounds */
+.product-detail-header > *,
+.product-detail-header div,
+.page-header > *,
+.page-header div {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* === HEADING TEXT - NO BACKGROUNDS === */
+
+/* Remove ALL backgrounds from headings */
+h1, h2, h3, h4, h5, h6 {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Specific heading fix */
+.page-title,
+.section-title,
+.product-title,
+.recommendation-title,
+[class*="title"],
+[class*="Title"] {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #f1f5f9 !important;
+}
+
+/* Subtitle - no background */
+.page-subtitle,
+.section-subtitle,
+[class*="subtitle"] {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  color: #94a3b8 !important;
+}
+
+/* === STAT BOXES FIX === */
+
+/* Outer stat box */
+.stat-box,
+.stat-item,
+.stat-card,
+[class*="stat-box"],
+[class*="stat-item"] {
+  background-color: #334155 !important;
+  border: 2px solid #475569 !important;
+  border-radius: 10px !important;
+  padding: 12px !important;
+}
+
+/* Inner stat elements - NO backgrounds */
+.stat-box > *,
+.stat-box div,
+.stat-box span,
+.stat-item > *,
+.stat-item div {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.stat-label {
+  color: #94a3b8 !important;
+  font-size: 11px !important;
+  background: none !important;
+  border: none !important;
+}
+
+.stat-value {
+  color: #f1f5f9 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  background: none !important;
+  border: none !important;
+}
+
+/* === PRODUCT CARD FIX === */
+
+/* Outer product card */
+.product-card {
+  background-color: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+}
+
+/* ALL inner elements - NO backgrounds */
+.product-card > *,
+.product-card div,
+.product-card span,
+.product-card p {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Only the stat items inside product card should have background */
+.product-card .stat-item,
+.product-card .stat-box {
+  background-color: #334155 !important;
+  border: 1px solid #475569 !important;
+}
+
+/* === COLLAPSIBLE SECTIONS FIX === */
+
+/* Outer collapsible card */
+.collapsible-card {
+  background-color: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 16px !important;
+}
+
+/* Collapsible header - NO nested backgrounds */
+.collapsible-header,
+.collapsible-header > *,
+.collapsible-header div {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Collapsible content */
+.collapsible-content {
+  background-color: #0f172a !important;
+  border-top: 1px solid #334155 !important;
+}
+
+/* === MARGIN BOXES FIX === */
+
+/* Contribution margin box */
+.contribution-margin-box,
+.deckungsbeitrag-box {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%) !important;
+  border: 2px solid rgba(16, 185, 129, 0.4) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+}
+
+/* Inner elements - NO backgrounds */
+.contribution-margin-box > *,
+.contribution-margin-box div,
+.deckungsbeitrag-box > *,
+.deckungsbeitrag-box div {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* === BREAK-EVEN BOX FIX === */
+
+.break-even-box {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%) !important;
+  border: 2px solid rgba(245, 158, 11, 0.4) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+}
+
+.break-even-box > *,
+.break-even-box div {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* === MIN RECOMMENDED BOX FIX === */
+
+.min-recommended-box,
+[class*="empfohlen"] {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%) !important;
+  border: 2px solid rgba(16, 185, 129, 0.4) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+}
+
+.min-recommended-box > *,
+.min-recommended-box div {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* === BADGE/LABEL FIX === */
+
+/* Badges should have ONE background only */
+.badge,
+.status-badge,
+[class*="badge"] {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  color: #60a5fa !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+/* No nested backgrounds in badges */
+.badge > *,
+.badge span,
+.status-badge > *,
+.status-badge span {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  color: inherit !important;
+}
+
+/* === TEXT ELEMENTS - NEVER HAVE BACKGROUNDS === */
+
+/* Ensure ALL text elements have NO backgrounds */
+span,
+p,
+strong,
+em,
+small,
+label,
+a {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Exception: Only intentional badges/pills should have backgrounds */
+span.badge,
+span.pill,
+span[class*="badge"],
+span[class*="pill"] {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+}
+
+/* === PREVENT DOUBLE BORDERS === */
+
+/* Remove borders from ALL children of bordered elements */
+[class*="box"] > * > *,
+[class*="card"] > * > *,
+[class*="container"] > * > * {
+  border: none !important;
+}
+
+/* === SPECIFIC ELEMENT OVERRIDES === */
+
+/* Icons should keep their background */
+.product-icon,
+.collapsible-icon,
+[class*="icon-container"] {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  border-radius: 12px !important;
+}
+
+/* Buttons should keep their styles */
+button {
+  background-color: #334155 !important;
+  border: 2px solid #475569 !important;
+}
+
+button[class*="primary"] {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  border: none !important;
+}
+
+/* === REMOVE PSEUDO-ELEMENT BACKGROUNDS === */
+
+*::before,
+*::after {
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* === FINAL CLEANUP === */
+
+/* If an element has NO class suggesting it should have a background, remove it */
+div:not([class*="card"]):not([class*="box"]):not([class*="container"]):not([class*="section"]):not([class*="button"]):not([class*="badge"]):not([class*="icon"]) {
+  background: transparent !important;
+  border: none !important;
+}
+

@@ -434,12 +434,19 @@ export function PriceRecommendationCard({
               currentPrice={recommendation.current_price}
               strategyDetails={recommendation.strategy_details}
               competitorData={recommendation.competitor_data}
+              productName={productTitle}
+              productId={recommendation.product_id}
+              confidence={recommendation.confidence}
+              onApply={onApply ? handleApply : undefined}
+              onDismiss={onDismiss}
+              onRefresh={onRefresh ? handleRefresh : undefined}
+              createdAt={timestamp}
             />
           </div>
         )}
 
-        {/* Action Buttons */}
-        {(onApply || onDismiss) && (
+        {/* Action Buttons - Fallback wenn keine strategy_details */}
+        {(!recommendation.strategy_details || recommendation.strategy_details.length === 0) && (onApply || onDismiss) && (
           <ActionButtons
             recommendedPrice={displayedPrice}
             onApply={handleApply}

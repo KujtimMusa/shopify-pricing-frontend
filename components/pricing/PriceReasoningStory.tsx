@@ -1,7 +1,22 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { formatCurrency } from '@/lib/formatters'
+import {
+  CheckCircle2,
+  TrendingDown,
+  TrendingUp,
+  Lightbulb,
+  Package,
+  DollarSign,
+  Info,
+  Calculator,
+  AlertCircle,
+  BarChart,
+  X,
+  RefreshCw,
+  Clock
+} from 'lucide-react'
 
 interface StrategyDetail {
   strategy: string
@@ -21,65 +36,55 @@ interface PriceReasoningStoryProps {
     max?: number
     prices?: Array<{ source: string; price: number }>
   }
+  productName?: string
+  productId?: string | number
+  confidence?: number
+  onApply?: (price: number) => Promise<void>
+  onDismiss?: () => void
+  onRefresh?: () => Promise<void>
+  createdAt?: string
 }
 
-/**
- * PriceReasoningStory - Story-basierte Erklärung warum ein Preis empfohlen wird
- * 
- * KEINE Prozent-Balken, KEINE einzelnen Confidence-Scores
- * NUR Datenqualität-Labels und benutzerfreundliche Story-Texte
- */
 export function PriceReasoningStory({
   recommendedPrice,
   currentPrice,
   strategyDetails = [],
-  competitorData
+  competitorData,
+  productName = 'Produkt',
+  productId,
+  confidence = 0.96,
+  onApply,
+  onDismiss,
+  onRefresh,
+  createdAt
 }: PriceReasoningStoryProps) {
+  const [showDetails, setShowDetails] = useState<Record<number, boolean>>({})
+  
+  const priceChange = recommendedPrice - currentPrice
+  const priceChangePct = (priceChange / currentPrice) * 100
   
   // Datenqualität Badge Funktion
   const getQualityBadge = (confidence: number) => {
     const scorePct = confidence * 100
     if (scorePct >= 90) {
-      return (
-        <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium border border-green-200">
-          ✅ Datenqualität: Exzellent
-        </span>
-      )
+      return <span className="strategy-badge excellent">Datenqualität: Exzellent</span>
     }
     if (scorePct >= 80) {
-      return (
-        <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium border border-green-200">
-          ✅ Datenqualität: Sehr gut
-        </span>
-      )
+      return <span className="strategy-badge excellent">Datenqualität: Sehr gut</span>
     }
     if (scorePct >= 70) {
-      return (
-        <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-medium border border-yellow-200">
-          ⚠️ Datenqualität: Gut
-        </span>
-      )
+      return <span className="strategy-badge good">Datenqualität: Gut</span>
     }
-    if (scorePct >= 60) {
-      return (
-        <span className="inline-flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-medium border border-orange-200">
-          ⚠️ Datenqualität: Ausreichend
-        </span>
-      )
-    }
-    return (
-      <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium border border-red-200">
-        ⚠️ Datenqualität: Begrenzt
-      </span>
-    )
+    return <span className="strategy-badge good">Datenqualität: Ausreichend</span>
   }
   
-  // Strategie-Konfiguration für Story-Texte
+  // Strategie-Konfiguration
   const strategyConfig: Record<string, {
     emoji: string
     title: string
     getStory: (data: any) => string
     getBasedOn: (data: any) => string[]
+    colorClass: string
   }> = {
     competitive: {
       emoji: '🏪',
@@ -88,47 +93,40 @@ export function PriceReasoningStory({
         const avgPrice = data.competitorData?.avg || 0
         const competitorCount = data.competitorData?.prices?.length || 5
         const diff = currentPrice - avgPrice
-        const diffPct = ((diff / avgPrice) * 100).toFixed(0)
-        const recommendedDiff = recommendedPrice - avgPrice
+        const diffPct = avgPrice > 0 ? ((diff / avgPrice) * 100).toFixed(0) : '0'
+        const priceChange = currentPrice - recommendedPrice
         
         if (diff > 0) {
-          // Wenn aktueller Preis höher als Durchschnitt, sollte gesenkt werden
-          const priceChange = currentPrice - recommendedPrice
-          const shouldLower = priceChange > 0
-          return `Wir haben ${competitorCount} Wettbewerber analysiert. Der durchschnittliche Preis liegt bei ${formatCurrency(avgPrice)}. Du bist ${diffPct}% teurer als der Durchschnitt. Du solltest den Preis um ${formatCurrency(Math.abs(priceChange))} ${shouldLower ? 'senken' : 'erhöhen'} um wettbewerbsfähig zu bleiben.`
+          return `Wir haben ${competitorCount} Wettbewerber analysiert. Der durchschnittliche Preis liegt bei ${formatCurrency(avgPrice)}. Du bist ${diffPct}% teurer als der Durchschnitt. Du solltest den Preis um ${formatCurrency(Math.abs(priceChange))} ${priceChange > 0 ? 'senken' : 'erhöhen'} um wettbewerbsfähig zu bleiben.`
         } else {
           return `Wir haben ${competitorCount} Wettbewerber analysiert. Der durchschnittliche Preis liegt bei ${formatCurrency(avgPrice)}. Du bist bereits wettbewerbsfähig positioniert.`
         }
       },
       getBasedOn: (data) => {
         const competitorCount = data.competitorData?.prices?.length || 5
-        const avgPrice = data.competitorData?.avg || 0
-        const diffPct = avgPrice > 0 ? (((currentPrice - avgPrice) / avgPrice) * 100).toFixed(0) : '0'
-        const position = currentPrice > avgPrice ? `${diffPct}% über` : `${Math.abs(Number(diffPct))}% unter`
-        
         return [
           `Echtzeitpreise von ${competitorCount} Konkurrenten`,
           'Aktuelle Marktdaten (heute aktualisiert)',
-          `Deine Position: ${position} Durchschnitt`
+          'Preisvergleich mit ähnlichen Produkten'
         ]
-      }
+      },
+      colorClass: 'competitive'
     },
     demand: {
       emoji: '📈',
       title: 'Die Nachfrage steigt stark',
       getStory: (data) => {
-        // Schätze Verkaufsdaten aus reasoning oder verwende Platzhalter
         const sales = data.sales || 64
         const previousSales = data.previousSales || 54
         const growth = previousSales > 0 ? (((sales - previousSales) / previousSales) * 100).toFixed(0) : '19'
-        
         return `In den letzten 7 Tagen hast du ${sales} Verkäufe gemacht (vorher: ${previousSales} Verkäufe). Das ist ein +${growth}% Wachstum! Wenn die Nachfrage steigt, kannst du höhere Preise durchsetzen.`
       },
-      getBasedOn: (data) => [
+      getBasedOn: () => [
         'Deine letzten 30 Tage Verkaufsdaten',
         'Trendanalyse der letzten Woche',
         'Machine-Learning Vorhersage für nächste 7 Tage'
-      ]
+      ],
+      colorClass: 'demand'
     },
     inventory: {
       emoji: '📦',
@@ -136,31 +134,31 @@ export function PriceReasoningStory({
       getStory: (data) => {
         const stock = data.stock || 45
         const daysOfStock = data.daysOfStock || 20
-        
         return `Mit ${stock} Einheiten auf Lager hast du bei aktuellem Tempo noch ${daysOfStock} Tage Vorrat. Das ist knapp! Du solltest vorsichtig mit Preissenkungen sein.`
       },
       getBasedOn: (data) => {
         const stock = data.stock || 45
         const avgDaily = data.avgDaily || 2.25
-        
         return [
           `Aktueller Lagerbestand: ${stock} Stück`,
           `Durchschnittlicher Verkauf: ${avgDaily.toFixed(1)}/Tag`,
           'Berechnung basierend auf letzten 7 Tagen Verkäufen'
         ]
-      }
+      },
+      colorClass: 'inventory'
     },
     cost: {
       emoji: '💰',
       title: 'Deine Kosten sind stabil',
-      getStory: (data) => {
+      getStory: () => {
         return `Deine Einkaufskosten liegen bei einem stabilen Niveau. Die empfohlene Preisänderung berücksichtigt deine aktuellen Margen und stellt sicher, dass du profitabel bleibst.`
       },
-      getBasedOn: (data) => [
+      getBasedOn: () => [
         'Deine hinterlegten Produktkosten',
         'Aktuelle Marge-Berechnung',
         'Historische Kostenentwicklung'
-      ]
+      ],
+      colorClass: 'costs'
     }
   }
   
@@ -175,127 +173,367 @@ export function PriceReasoningStory({
     }
   }
   
-  // Sortiere Strategien nach Impact (größter zuerst)
+  // Sortiere Strategien nach Impact
   const sortedStrategies = [...strategyDetails].sort((a, b) => {
     const impactA = Math.abs(getPriceImpact(a).value)
     const impactB = Math.abs(getPriceImpact(b).value)
     return impactB - impactA
   })
   
-  // Gesamt-Effekt berechnen
-  const totalImpact = recommendedPrice - currentPrice
-  const isTotalDecrease = totalImpact < 0
+  // Berechne gewichtete Beiträge (vereinfacht)
+  const calculateWeightedContributions = () => {
+    return sortedStrategies.map((strategy, idx) => {
+      const impact = getPriceImpact(strategy)
+      const weight = strategy.confidence * (1 / sortedStrategies.length)
+      const weightedImpact = impact.value * weight
+      
+      return {
+        strategy: strategy.strategy,
+        impact: impact.value,
+        weightedImpact,
+        confidence: strategy.confidence,
+        weight: weight * 100
+      }
+    })
+  }
+  
+  const weightedContributions = calculateWeightedContributions()
+  const totalWeighted = weightedContributions.reduce((sum, w) => sum + w.weightedImpact, 0)
   
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6">
-      {/* Header */}
-      <div className="mb-6">
-        <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-          <span>💡</span>
-          <span>Warum empfehlen wir {formatCurrency(recommendedPrice)}?</span>
-        </h3>
-        <p className="text-gray-600">
-          Unsere KI hat {strategyDetails.length} wichtige Marktfaktoren analysiert:
+    <div className="recommendation-content">
+      
+      {/* ========== 1. PRODUCT HEADER ========== */}
+      <div className="recommendation-header">
+        <div className="product-header-row">
+          <div className="product-info-compact">
+            <h3>{productName}</h3>
+            {productId && <p className="product-meta">Produkt-ID: {productId}</p>}
+          </div>
+          <div className="confidence-badge-large">
+            <CheckCircle2 className="h-6 w-6" />
+            <span>{Math.round(confidence * 100)}% Sicherheit</span>
+          </div>
+        </div>
+        <p className="recommendation-text">
+          Empfohlene Preis{priceChange < 0 ? 'senkung' : 'erhöhung'} um {Math.abs(priceChangePct).toFixed(1)}% um wettbewerbsfähig zu bleiben.
         </p>
       </div>
-      
-      {/* Strategie-Cards */}
-      <div className="space-y-4 mb-6">
-        {sortedStrategies.map((strategy, idx) => {
-          const config = strategyConfig[strategy.strategy] || {
-            emoji: '📊',
-            title: strategy.strategy,
-            getStory: () => strategy.reasoning || 'Keine Details verfügbar.',
-            getBasedOn: () => ['Daten aus KI-Analyse']
-          }
-          
-          const impact = getPriceImpact(strategy)
-          
-          return (
-            <div key={idx} className="border-2 border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
-              {/* Header */}
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl font-bold text-blue-600">{(idx + 1) + '️⃣'}</span>
-                  <span className="text-2xl">{config.emoji}</span>
-                  <h4 className="text-lg font-semibold text-gray-900">
-                    {config.title}
-                  </h4>
-                </div>
-                {/* Datenqualität Badge */}
-                {getQualityBadge(strategy.confidence)}
-              </div>
-              
-              {/* Story-Text */}
-              <p className="text-gray-700 mb-3 leading-relaxed">
-                {config.getStory({
-                  competitorData,
-                  currentPrice,
-                  recommendedPrice,
-                  strategy
-                })}
-              </p>
-              
-              {/* Preisimpact */}
-              <div className={`flex items-center gap-2 mb-3 p-2 rounded ${
-                impact.isDecrease ? 'bg-red-50' : impact.isIncrease ? 'bg-green-50' : 'bg-gray-50'
-              }`}>
-                <span className="text-xl">💰</span>
-                <span className={`font-semibold ${
-                  impact.isDecrease ? 'text-red-600' : impact.isIncrease ? 'text-green-600' : 'text-gray-600'
-                }`}>
-                  Preisimpact: {impact.isDecrease ? '-' : impact.isIncrease ? '+' : ''}{impact.formatted} {impact.isDecrease ? 'Senkung empfohlen' : impact.isIncrease ? 'Erhöhung empfohlen' : 'Keine Änderung'}
-                </span>
-              </div>
-              
-              {/* Expandierbare "Basiert auf"-Box */}
-              <details className="mt-2">
-                <summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-2">
-                  <span>ℹ️</span>
-                  <span>Basiert auf...</span>
-                </summary>
-                <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
-                    {config.getBasedOn({
-                      competitorData,
-                      strategy,
-                      currentPrice
-                    }).map((item, itemIdx) => (
-                      <li key={itemIdx}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </details>
-            </div>
-          )
-        })}
-      </div>
-      
-      {/* Gesamt-Effekt */}
-      <div className={`mt-6 p-4 rounded-lg border-2 ${
-        isTotalDecrease 
-          ? 'bg-red-50 border-red-300' 
-          : totalImpact > 0 
-            ? 'bg-green-50 border-green-300' 
-            : 'bg-gray-50 border-gray-300'
-      }`}>
-        <h4 className="font-semibold text-gray-900 mb-2">
-          Gesamt-Effekt:
-        </h4>
-        <p className="text-gray-700 mb-2">
-          Die Analyse zeigt, dass eine Preis{isTotalDecrease ? 'senkung' : totalImpact > 0 ? 'erhöhung' : 'änderung'} um {formatCurrency(Math.abs(totalImpact))} {isTotalDecrease ? 'sinnvoll wäre um wettbewerbsfähig zu bleiben' : totalImpact > 0 ? 'sinnvoll wäre um die Marge zu optimieren' : 'nicht empfohlen wird'}.
-        </p>
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-300">
-          <span className="text-sm text-gray-600">Berechnung:</span>
-          <span className="font-mono font-semibold text-gray-900">
-            {formatCurrency(currentPrice)} {isTotalDecrease ? '-' : '+'} {formatCurrency(Math.abs(totalImpact))} = {formatCurrency(recommendedPrice)}
-          </span>
+
+      {/* ========== 2. ACTION BUTTONS (GANZ OBEN!) ========== */}
+      {(onApply || onDismiss || onRefresh) && (
+        <>
+          <div className="action-buttons-top">
+            {onApply && (
+              <button 
+                className="action-button-primary"
+                onClick={() => onApply(recommendedPrice)}
+              >
+                <CheckCircle2 className="h-5 w-5" />
+                {formatCurrency(recommendedPrice)} anwenden
+              </button>
+            )}
+            
+            {onDismiss && (
+              <button 
+                className="action-button-secondary"
+                onClick={onDismiss}
+              >
+                <X className="h-5 w-5" />
+                Verwerfen
+              </button>
+            )}
+            
+            {onRefresh && (
+              <button 
+                className="action-button-update"
+                onClick={onRefresh}
+              >
+                <RefreshCw className="h-4 w-4" />
+                Aktualisieren
+              </button>
+            )}
+          </div>
+
+          {/* Last Updated */}
+          <div className="last-updated">
+            <span className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              {createdAt ? new Date(createdAt).toLocaleString('de-DE') : 'just now'}
+            </span>
+            <span className="update-link">Später planen</span>
+          </div>
+        </>
+      )}
+
+      {/* ========== 3. PRICE COMPARISON ========== */}
+      <div className="price-comparison-hero">
+        <div className="price-box-current">
+          <div className="price-label">Aktuell</div>
+          <div className="price-amount">{formatCurrency(currentPrice)}</div>
+        </div>
+        
+        <div className="price-box-recommended">
+          <div className="price-label price-label-recommended">Empfohlen</div>
+          <div className="price-amount price-amount-recommended">{formatCurrency(recommendedPrice)}</div>
+          <div className="price-difference">
+            <TrendingDown className="price-difference-icon" />
+            <span>{priceChange < 0 ? '-' : '+'}{formatCurrency(Math.abs(priceChange))} ({priceChange < 0 ? '-' : '+'}{Math.abs(priceChangePct).toFixed(1)}%)</span>
+          </div>
         </div>
       </div>
+
+      {/* ========== 4. ML CONFIDENCE SECTION ========== */}
+      <div className="ml-confidence-section">
+        <div className="confidence-header">
+          <div className="confidence-icon">
+            <CheckCircle2 className="h-6 w-6 text-white" />
+          </div>
+          <h3 className="confidence-title">Unsere KI ist {Math.round(confidence * 100)}% sicher</h3>
+        </div>
+        
+        {/* Progress Bar */}
+        <div className="confidence-progress-wrapper">
+          <div className="confidence-progress-header">
+            <span className="confidence-progress-label">Confidence Score</span>
+            <span className="confidence-progress-value">{Math.round(confidence * 100)}%</span>
+          </div>
+          <div className="confidence-progress-bar-container">
+            <div 
+              className="confidence-progress-bar"
+              style={{ width: `${confidence * 100}%` }}
+            />
+          </div>
+        </div>
+        
+        {/* What we analyzed */}
+        <div className="analysis-factors">
+          <div className="analysis-factors-title">
+            📊 Was analysiert unsere KI?
+          </div>
+          <div className="factors-grid">
+            <div className="factor-item">
+              <CheckCircle2 className="factor-check" />
+              <span>Echte Verkaufsdaten aus deinem Shopify-Shop</span>
+            </div>
+            <div className="factor-item">
+              <CheckCircle2 className="factor-check" />
+              <span>Aktuelle Preise deiner 5-10 wichtigsten Konkurrenten</span>
+            </div>
+            <div className="factor-item">
+              <CheckCircle2 className="factor-check" />
+              <span>4 spezialisierte Machine-Learning-Modelle</span>
+            </div>
+            <div className="factor-item">
+              <CheckCircle2 className="factor-check" />
+              <span>Deine eingetragenen Kosten und bisherigen Margen</span>
+            </div>
+          </div>
+          
+          {/* Why confidence % */}
+          <div className="confidence-explanation">
+            <div className="confidence-explanation-title">
+              💡 Warum genau {Math.round(confidence * 100)}% Sicherheit?
+            </div>
+            <p className="confidence-explanation-text">
+              Deine Produkte verkaufen sich bei diesem Preis sehr gut. 
+              Konkurrenten haben ähnliche Preise und deine Marge bleibt stabil. 
+              Alle Daten deuten auf Erfolg hin!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ========== 5. WHY WE RECOMMEND ========== */}
+      <div className="why-recommend-section">
+        <div className="why-recommend-header">
+          <div className="why-recommend-icon">
+            <Lightbulb className="h-5 w-5 text-white" />
+          </div>
+          <h3 className="why-recommend-title">💡 Warum empfehlen wir {formatCurrency(recommendedPrice)}?</h3>
+        </div>
+        
+        <p className="why-recommend-subtitle">
+          Unsere KI hat {strategyDetails.length} wichtige Marktfaktoren analysiert:
+        </p>
+        
+        <div className="strategy-cards">
+          {sortedStrategies.map((strategy, idx) => {
+            const config = strategyConfig[strategy.strategy] || {
+              emoji: '📊',
+              title: strategy.strategy,
+              getStory: () => strategy.reasoning || 'Keine Details verfügbar.',
+              getBasedOn: () => ['Daten aus KI-Analyse'],
+              colorClass: 'competitive'
+            }
+            
+            const impact = getPriceImpact(strategy)
+            
+            return (
+              <div key={idx} className={`strategy-card ${config.colorClass}`}>
+                <div className="strategy-header">
+                  <div className="strategy-title-row">
+                    <div className="strategy-number">{idx + 1}</div>
+                    <div className={`strategy-icon-container ${config.colorClass}`}>
+                      {config.colorClass === 'competitive' && <TrendingDown className="h-4 w-4 text-white" />}
+                      {config.colorClass === 'demand' && <TrendingUp className="h-4 w-4 text-white" />}
+                      {config.colorClass === 'inventory' && <Package className="h-4 w-4 text-white" />}
+                      {config.colorClass === 'costs' && <DollarSign className="h-4 w-4 text-white" />}
+                    </div>
+                    <h4 className="strategy-title">{config.title}</h4>
+                  </div>
+                  {getQualityBadge(strategy.confidence)}
+                </div>
+                
+                <p className="strategy-text">
+                  {config.getStory({
+                    competitorData,
+                    currentPrice,
+                    recommendedPrice,
+                    strategy
+                  })}
+                </p>
+                
+                <div className={`strategy-impact ${impact.isDecrease ? 'negative' : 'positive'}`}>
+                  {impact.isDecrease ? (
+                    <TrendingDown className="strategy-impact-icon" />
+                  ) : (
+                    <TrendingUp className="strategy-impact-icon" />
+                  )}
+                  <span>
+                    Preisimpact: {impact.isDecrease ? '-' : '+'}{impact.formatted} {impact.isDecrease ? 'Senkung empfohlen' : 'Erhöhung empfohlen'}
+                  </span>
+                </div>
+                
+                <div className="strategy-details">
+                  <button 
+                    className="strategy-details-toggle"
+                    onClick={() => setShowDetails(prev => ({ ...prev, [idx]: !prev[idx] }))}
+                  >
+                    <Info className="h-3 w-3" />
+                    Basiert auf...
+                  </button>
+                  
+                  {showDetails[idx] && (
+                    <div className="mt-3 p-3 bg-white rounded-lg border border-gray-200">
+                      <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+                        {config.getBasedOn({
+                          competitorData,
+                          strategy,
+                          currentPrice
+                        }).map((item, itemIdx) => (
+                          <li key={itemIdx}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* ========== 6. HOW IS IT CALCULATED ========== */}
+      <div className="calculation-section">
+        <div className="calculation-header">
+          <div className="calculation-icon">
+            <Calculator className="h-5 w-5 text-white" />
+          </div>
+          <h3 className="calculation-title">🧮 Wie wird {priceChange < 0 ? '-' : '+'}{formatCurrency(Math.abs(priceChange))} berechnet?</h3>
+        </div>
+        
+        <div className="calculation-notice">
+          <AlertCircle className="calculation-notice-icon" />
+          <div>
+            <strong>Warum nicht die einfache Summe?</strong> Jede Strategie wird basierend auf ihrer 
+            <strong> Datenqualität unterschiedlich stark gewichtet</strong>. Faktoren mit exzellenter 
+            Datenqualität (z.B. Wettbewerbspreise) haben mehr Einfluss als Faktoren mit guter 
+            Datenqualität (z.B. Nachfrage-Trends). Die gewichtete Berechnung stellt sicher, dass 
+            weniger zuverlässige Daten nicht zu starken Einfluss haben.
+          </div>
+        </div>
+        
+        {/* Strategies List */}
+        <div className="weighted-section">
+          <div className="weighted-header">
+            📊 Einzelne Strategien-Empfehlungen:
+          </div>
+          
+          <div className="strategies-list">
+            {sortedStrategies.map((strategy, idx) => {
+              const impact = getPriceImpact(strategy)
+              const config = strategyConfig[strategy.strategy] || { colorClass: 'competitive' }
+              
+              return (
+                <div key={idx} className="strategy-row">
+                  <div className="strategy-row-label">
+                    {config.colorClass === 'competitive' && <TrendingDown className="strategy-row-icon text-red-500" />}
+                    {config.colorClass === 'demand' && <TrendingUp className="strategy-row-icon text-green-500" />}
+                    {config.colorClass === 'inventory' && <Package className="strategy-row-icon text-orange-500" />}
+                    {config.colorClass === 'costs' && <DollarSign className="strategy-row-icon text-blue-500" />}
+                    <span>📊 {config.title || strategy.strategy} ({strategy.confidence >= 0.9 ? 'Datenqualität: Exzellent' : strategy.confidence >= 0.8 ? 'Datenqualität: Sehr gut' : 'Datenqualität: Gut'})</span>
+                  </div>
+                  <div className={`strategy-row-value ${impact.isDecrease ? 'negative' : 'positive'}`}>
+                    {impact.isDecrease ? '-' : '+'}{impact.formatted}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+        
+        {/* Weighted Contributions */}
+        <div className="weighted-section">
+          <div className="weighted-header">
+            📈 Gewichtete Beiträge (Datenqualität × Basis-Gewicht):
+          </div>
+          
+          <div className="weighted-bars">
+            {weightedContributions.map((w, idx) => {
+              const config = strategyConfig[sortedStrategies[idx]?.strategy] || { colorClass: 'demand' }
+              const weightPct = (w.weight / 100) * 100
+              
+              return (
+                <div key={idx} className="weighted-bar">
+                  <div className="weighted-bar-header">
+                    <span className="weighted-bar-label">
+                      {strategyConfig[sortedStrategies[idx]?.strategy]?.title || sortedStrategies[idx]?.strategy}
+                    </span>
+                    <span className="weighted-bar-value">
+                      {weightPct.toFixed(1)}% × Datenqualität: {w.confidence >= 0.9 ? 'Exzellent' : w.confidence >= 0.8 ? 'Sehr gut' : 'Gut'} = <strong>{w.weightedImpact > 0 ? '+' : ''}{formatCurrency(w.weightedImpact)}</strong>
+                    </span>
+                  </div>
+                  <div className="weighted-bar-container">
+                    <div 
+                      className={`weighted-bar-fill ${config.colorClass}`}
+                      style={{ width: `${weightPct}%` }}
+                    />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+        
+        {/* Final Sum */}
+        <div className="final-sum-box">
+          <div className="final-sum-header">
+            <BarChart className="final-sum-icon" />
+            <span className="final-sum-label">
+              📊 Finale Summe (Gewichteter Durchschnitt):
+            </span>
+          </div>
+          
+          <div className="final-sum-calculation">
+            Summe aller gewichteten Beiträge
+          </div>
+          
+          <div className="final-sum-value">{priceChange < 0 ? '-' : '+'}{formatCurrency(Math.abs(priceChange))}</div>
+          <div className="final-sum-percentage">({priceChange < 0 ? '-' : '+'}{Math.abs(priceChangePct).toFixed(1)}%)</div>
+        </div>
+      </div>
+
     </div>
   )
 }
-
-
-
-

@@ -2,14 +2,14 @@
 
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { Link } from '@/navigation'
 import { ShopSwitcher } from '@/components/ShopSwitcher'
 import { useShop } from '@/hooks/useShop'
 import { getDashboardStats } from '@/lib/api'
 // import { motion } from 'framer-motion' // Removed due to build issues
 import { ModernCard } from '@/components/ui/modern-card'
-import { MissedRevenueHero } from '@/components/dashboard/MissedRevenueHero'
+import MissedRevenueHero from '@/components/dashboard/MissedRevenueHero'
 import { 
   TrendingUp, 
   AlertCircle, 
@@ -83,6 +83,7 @@ function formatCurrency(num: number): string {
 export default function Home() {
   const { currentShop, isDemoMode, shops, loading: shopLoading, switchToShop } = useShop()
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
   
@@ -223,7 +224,11 @@ export default function Home() {
               </div>
 
               {/* 1. MISSED REVENUE HERO */}
-              <MissedRevenueHero stats={stats} />
+              <MissedRevenueHero 
+                missedRevenue={stats.missed_revenue.total}
+                productCount={stats.missed_revenue.product_count}
+                onOptimizeClick={() => router.push('/products')}
+              />
 
               {/* 2. TRUST LADDER */}
               <TrustLadder stats={stats} />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Package, ArrowRight, Sparkles, RefreshCw } from 'lucide-react'
+import { Package, ArrowRight, ArrowLeft, Sparkles, RefreshCw } from 'lucide-react'
 import { fetchProducts, syncProducts } from '@/lib/api'
 import { ShopSwitcher } from '@/components/ShopSwitcher'
 import { useShop } from '@/hooks/useShop'
@@ -82,7 +82,14 @@ export default function ProductsPage() {
   ).length
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex">
+      {/* Background Pattern */}
+      <div 
+        className="fixed inset-0 opacity-[0.02] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}
+      />
       {/* Sidebar mit Shop-Switcher */}
       <aside className="w-80 bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200 p-6 overflow-y-auto shadow-sm">
         <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
@@ -125,58 +132,85 @@ export default function ProductsPage() {
       {/* Main Content */}
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
-        {/* Page Header mit modernem Styling */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
+        {/* Page Header - Enhanced */}
+        <div className="mb-10">
+          <div className="flex items-center justify-between mb-8">
+            {/* Left Side */}
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
+              <h1 className="text-5xl font-bold text-gray-900 tracking-tight mb-3">
                 Produkte
               </h1>
-              <p className="mt-2 text-lg text-gray-600">
-                {products.length} Produkte{productsWithRecommendations > 0 && ` - ${productsWithRecommendations} mit AI-Empfehlungen`}
-              </p>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100">
+                    <Package className="h-4 w-4" />
+                  </div>
+                  <span className="text-lg font-medium">
+                    {products.length} Produkte
+                  </span>
+                </div>
+                
+                {productsWithRecommendations > 0 && (
+                  <>
+                    <div className="h-4 w-px bg-gray-300" />
+                    <div className="flex items-center gap-2 text-purple-600">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100">
+                        <Sparkles className="h-4 w-4" />
+                      </div>
+                      <span className="text-lg font-semibold">
+                        {productsWithRecommendations} mit AI-Empfehlungen
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
+            {/* Right Side - Buttons */}
             <div className="flex items-center gap-3">
               {currentShop && (
-                <div className="px-4 py-2 bg-gray-100 rounded-lg text-gray-700 text-sm">
-                  {currentShop.name} {isDemoMode && '(Demo)'}
+                <div className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-xl font-medium text-gray-700 shadow-sm">
+                  <span>{currentShop.name} {isDemoMode && '(Demo)'}</span>
                 </div>
               )}
               {!isDemoMode && currentShop && currentShop.type === 'shopify' && (
                 <button
                   onClick={handleSync}
                   disabled={loading}
-                  className="btn-modern btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-xl font-semibold hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
                   {loading ? 'Synchronisiere...' : 'Produkte synchronisieren'}
                 </button>
               )}
               {isDemoMode && (
-                <div className="px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-sm">
-                  Demo-Mode: Keine Synchronisation möglich
+                <div className="flex items-center gap-2 px-5 py-3 bg-gray-100 border border-gray-200 rounded-xl font-medium text-gray-600 cursor-not-allowed">
+                  <RefreshCw className="h-4 w-4" />
+                  <span>Demo-Mode: Keine Synchronisation möglich</span>
                 </div>
               )}
               <Link
                 href="/"
-                className="btn-modern btn-secondary"
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-xl font-semibold hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40"
               >
-                Zurück
+                <ArrowLeft className="h-4 w-4" />
+                <span>Zurück</span>
               </Link>
             </div>
           </div>
         </div>
 
         {loading && products.length === 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="products-grid">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="product-card">
-                <div className="space-y-4">
-                  <div className="skeleton h-6 w-3/4" />
-                  <div className="skeleton h-8 w-1/2" />
-                  <div className="skeleton h-4 w-1/4" />
-                  <div className="skeleton h-10 w-full" />
+              <div key={i} className="skeleton-card">
+                <div className="skeleton-image" />
+                <div className="skeleton-content">
+                  <div className="skeleton-line" style={{ width: '80%', height: '20px' }} />
+                  <div className="skeleton-line" style={{ width: '60%', height: '16px', marginTop: '16px' }} />
+                  <div className="skeleton-line" style={{ width: '40%', height: '32px', marginTop: '20px' }} />
+                  <div className="skeleton-line" style={{ width: '50%', height: '14px', marginTop: '16px' }} />
+                  <div className="skeleton-line" style={{ width: '100%', height: '48px', marginTop: '20px', borderRadius: '12px' }} />
                 </div>
               </div>
             ))}
@@ -226,7 +260,7 @@ export default function ProductsPage() {
             )}
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="products-grid">
             {products.map((product, index) => {
               const hasRecommendation = product.has_recommendation || product.recommendation_count > 0
               const inventory = product.inventory || product.inventory_quantity || 0
@@ -242,43 +276,51 @@ export default function ProductsPage() {
               return (
                 <motion.div
                   key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.02 }}
                   className={`product-card ${hasRecommendation ? 'has-recommendation' : ''}`}
+                  style={{
+                    animationDelay: `${index * 50}ms`,
+                  }}
                 >
-                  {/* AI Badge - NUR WENN RECOMMENDATION EXISTIERT */}
+                  {/* AI Badge - Only if has recommendation */}
                   {hasRecommendation && (
                     <div className="ai-badge">
-                      <Sparkles className="h-3 w-3" />
+                      <Sparkles className="ai-badge-icon" />
                       AI
                     </div>
                   )}
 
-                  {/* Card Content */}
-                  <div className="space-y-4">
-                    {/* Product Title */}
+                  {/* Product Image Area */}
+                  <div className="product-image-container">
+                    <Package className="product-image-icon" />
+                  </div>
+
+                  {/* Product Content */}
+                  <div className="product-content">
+                    {/* Title */}
                     <h3 className="product-title">
                       {product.title}
                     </h3>
 
-                    {/* Price */}
-                    <div>
-                      <div className="product-price">
+                    {/* Price Section */}
+                    <div className="product-price-section">
+                      <div className="product-price-main">
                         €{product.price?.toFixed(2) || '0.00'}
                       </div>
-                      <p className="text-sm text-gray-600">
-                        Preis: <span className="font-medium">€{product.price?.toFixed(2) || '0.00'}</span>
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <span className="product-price-label">Preis:</span>
+                        <span className="product-price-original">
+                          €{product.price?.toFixed(2) || '0.00'}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Inventory - MIT NEUER BADGE STYLE */}
-                    <div>
-                      <span className={`product-inventory ${getInventoryClass(inventory)}`}>
-                        <Package className="h-3 w-3" />
-                        Lager: {inventory}
-                      </span>
+                    {/* Inventory Badge */}
+                    <div className={`inventory-badge ${getInventoryClass(inventory)}`}>
+                      <Package className="inventory-icon h-4 w-4" />
+                      <span>Lager: {inventory}</span>
                     </div>
 
                     {/* Recommendation Link */}
@@ -286,7 +328,7 @@ export default function ProductsPage() {
                       href={`/recommendations?product_id=${product.id}`}
                       className="recommendation-link"
                     >
-                      Preisempfehlungen anzeigen
+                      <span>Preisempfehlungen anzeigen</span>
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>

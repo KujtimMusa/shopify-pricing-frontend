@@ -56,7 +56,7 @@
 }
 
 .header-main-icon:hover {
-  transform: scale(1.05) rotate(-2deg);
+  transform: none;
 }
 
 .header-title {
@@ -98,9 +98,9 @@
 }
 
 .product-info-card:hover {
-  border-color: #64748b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-  transform: translateY(-2px);
+  border-color: #475569;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transform: none;
 }
 
 .product-icon {
@@ -298,7 +298,7 @@
 
 .collapsible-card:hover .chevron-arrow {
   color: #6366f1;
-  transform: translateX(4px);
+  transform: none;
 }
 
 /* Back Button */
@@ -319,13 +319,13 @@
 }
 
 .back-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(71, 85, 105, 0.4);
+  transform: none;
+  box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
   background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
 }
 
 .back-button:active {
-  transform: translateY(0);
+  transform: none;
 }
 
 /* Info Tooltip Styles */
@@ -449,7 +449,7 @@
 .margin-title-icon {
   width: 32px;
   height: 32px;
-  color: #94a3b8;
+  color: #cbd5e1;
 }
 
 /* Success Badge - PROMINENT */
@@ -462,13 +462,13 @@
   border: 2px solid #10b981;
   border-radius: 0;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-  color: #86efac;
+  color: #a7f3d0;
 }
 
 .margin-success-percentage {
   font-size: 28px;
   font-weight: 800;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
   line-height: 1;
 }
 
@@ -511,15 +511,15 @@
 }
 
 .price-box:hover {
-  border-color: #64748b;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border-color: #475569;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transform: none;
 }
 
 .price-box-label {
   font-size: 13px;
   font-weight: 600;
-  color: #94a3b8 !important;
+  color: #cbd5e1 !important;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 8px;
@@ -528,7 +528,7 @@
 .price-box-value {
   font-size: 28px;
   font-weight: 700;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
   line-height: 1;
 }
 
@@ -651,13 +651,13 @@
 .contribution-check-icon {
   width: 28px;
   height: 28px;
-  color: #86efac !important;
+  color: #a7f3d0 !important;
 }
 
 .contribution-label {
   font-size: 16px;
   font-weight: 700;
-  color: #86efac !important;
+  color: #a7f3d0 !important;
 }
 
 .contribution-amount {
@@ -722,17 +722,17 @@
 }
 
 .insight-icon.warning {
-  color: var(--color-gray-600);
+  color: #fcd34d !important;
 }
 
 .insight-icon.success {
-  color: var(--color-primary);
+  color: #a7f3d0 !important;
 }
 
 .insight-label {
   font-size: 13px;
   font-weight: 600;
-  color: #94a3b8 !important;
+  color: #cbd5e1 !important;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -740,7 +740,7 @@
 .insight-value {
   font-size: 24px;
   font-weight: 700;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
   line-height: 1;
 }
 
@@ -770,7 +770,7 @@
 .health-title {
   font-size: 18px;
   font-weight: 800;
-  color: #86efac !important;
+  color: #a7f3d0 !important;
   margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -778,7 +778,7 @@
 
 .health-description {
   font-size: 14px;
-  color: #cbd5e1 !important;
+  color: #e2e8f0 !important;
   line-height: 1.4;
 }
 
@@ -940,9 +940,9 @@
 }
 
 .price-box-current:hover {
-  border-color: #64748b;
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border-color: #475569;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .price-box-recommended {

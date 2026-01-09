@@ -415,8 +415,8 @@ export function PriceReasoningStory({
                   </button>
                   
                   {showDetails[idx] && (
-                    <div className="mt-3 p-3 bg-white rounded-lg border border-gray-200">
-                      <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+                    <div className="mt-3 p-3 rounded-lg border" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
+                      <ul className="list-disc list-inside space-y-1 text-sm" style={{ color: '#cbd5e1' }}>
                         {config.getBasedOn({
                           competitorData,
                           strategy,

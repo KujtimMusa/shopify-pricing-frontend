@@ -161,21 +161,23 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
     <div className={`shop-switcher ${className} relative`}>
       {/* Header mit Buttons */}
       <div className="mb-4">
-        <div className="text-sm font-medium text-gray-700 mb-2">
+        <div className="text-sm font-medium mb-2" style={{ color: '#cbd5e1' }}>
           Aktiver Shop
         </div>
         
         {/* Live/Demo Toggle Buttons */}
-        <div className="flex gap-2 bg-gray-100 p-1 rounded-lg">
+        <div className="flex gap-2 p-1 rounded-lg" style={{ backgroundColor: '#334155' }}>
           {/* Live Button */}
           <button
             onClick={handleLiveMode}
             disabled={loading}
             className={`flex-1 px-4 py-2 rounded-md font-medium transition-all ${
-              !isDemoMode 
-                ? 'bg-white text-blue-600 shadow-sm' 
-                : 'text-gray-600 hover:text-gray-900'
-            } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              loading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            style={{
+              backgroundColor: !isDemoMode ? '#475569' : 'transparent',
+              color: !isDemoMode ? '#60a5fa' : '#cbd5e1'
+            }}
           >
             Live
           </button>
@@ -185,10 +187,12 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
             onClick={handleDemoMode}
             disabled={loading || !demoShop}
             className={`flex-1 px-4 py-2 rounded-md font-medium transition-all ${
-              isDemoMode 
-                ? 'bg-white text-blue-600 shadow-sm' 
-                : 'text-gray-600 hover:text-gray-900'
-            } ${loading || !demoShop ? 'opacity-50 cursor-not-allowed' : ''}`}
+              loading || !demoShop ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            style={{
+              backgroundColor: isDemoMode ? '#475569' : 'transparent',
+              color: isDemoMode ? '#60a5fa' : '#cbd5e1'
+            }}
           >
             Demo
           </button>
@@ -218,18 +222,18 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
             </div>
 
             {/* Demo Shop Card */}
-            <div className="border-2 border-green-500 bg-green-50 rounded-lg p-4">
+            <div className="border-2 border-green-500 rounded-lg p-4" style={{ backgroundColor: '#1e293b' }}>
               <div className="flex items-start gap-3">
                 <div className="text-2xl">🧪</div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <div className="font-semibold text-gray-900">{demoShop.name}</div>
+                    <div className="font-semibold" style={{ color: '#f1f5f9' }}>{demoShop.name}</div>
                     <div className="flex items-center gap-1">
                       <span className="text-green-600 font-medium text-sm">Aktiv</span>
                       <span className="text-green-600">✓</span>
                     </div>
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">
+                  <div className="text-sm mt-1" style={{ color: '#94a3b8' }}>
                     {demoShop.product_count} Produkte • 90 Tage Verlauf
                   </div>
                 </div>
@@ -251,9 +255,12 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
                 key={shop.id}
                 className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
                   shop.is_active 
-                    ? 'border-green-500 bg-green-50' 
-                    : 'border-gray-300 bg-white hover:bg-gray-50'
+                    ? 'border-green-500' 
+                    : 'border-gray-300'
                 } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                style={{
+                  backgroundColor: shop.is_active ? '#1e293b' : '#1e293b',
+                }}
                 onClick={async () => {
                   if (loading) return;
                   await handleSwitch(shop, false);
@@ -264,11 +271,11 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-semibold text-gray-900">
+                        <div className="font-semibold" style={{ color: '#f1f5f9' }}>
                           {shop.name || shop.shop_url || 'Shopify Shop'}
                         </div>
                         {shop.shop_url && (
-                          <div className="text-xs text-gray-500 mt-0.5">
+                          <div className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>
                             {shop.shop_url}
                           </div>
                         )}
@@ -284,7 +291,7 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
                         )}
                       </div>
                     </div>
-                    <div className="text-sm text-gray-600 mt-2">
+                    <div className="text-sm mt-2" style={{ color: '#94a3b8' }}>
                       {shop.product_count || 0} Produkte • Verbunden via Shopify
                     </div>
                   </div>
@@ -295,15 +302,15 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
             // ─────────────────────────────────
             // FALL 2: Kein Shop installiert
             // ─────────────────────────────────
-            <div className="border-2 border-gray-300 border-dashed rounded-lg p-6 bg-gray-50">
+            <div className="border-2 border-gray-300 border-dashed rounded-lg p-6" style={{ backgroundColor: '#1e293b' }}>
               <div className="text-center">
                 <div className="text-5xl mb-4">🏪</div>
                 
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold mb-2" style={{ color: '#f1f5f9' }}>
                   Shopify Shop verbinden
                 </h3>
                 
-                <p className="text-sm text-gray-600 mb-6">
+                <p className="text-sm mb-6" style={{ color: '#94a3b8' }}>
                   Installiere PriceIQ in deinem Shopify Store um automatisch Preis-Optimierungen zu erhalten.
                 </p>
                 
@@ -330,7 +337,7 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
                 </div>
                 
                 {/* Install Method 2: Shopify App Store Link */}
-                <div className="text-sm text-gray-500">
+                <div className="text-sm" style={{ color: '#94a3b8' }}>
                   Oder installiere PriceIQ direkt aus dem{' '}
                   <a 
                     href="https://apps.shopify.com" 

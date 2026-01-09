@@ -163,7 +163,7 @@ export function PriceRecommendationCard({
   const timestamp = recommendation.generated_at || recommendation.created_at || new Date().toISOString()
   
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <div className="rounded-xl shadow-lg border overflow-hidden" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
       
       {/* Story-basierte Erklärung: Warum empfehlen wir X€? */}
       {recommendation.strategy_details && recommendation.strategy_details.length > 0 ? (
@@ -182,15 +182,15 @@ export function PriceRecommendationCard({
         />
       ) : (
         /* Fallback für alte Struktur wenn keine strategy_details */
-        <div className="p-6 pb-4 bg-gradient-to-br from-blue-50 to-white">
+        <div className="p-6 pb-4" style={{ background: 'linear-gradient(to bottom right, #1e293b, #0f172a)' }}>
           
           {/* Header */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
-              <h2 className="text-xl font-semibold text-gray-900 mb-1">
+              <h2 className="text-xl font-semibold mb-1" style={{ color: '#f1f5f9' }}>
                 {productTitle}
               </h2>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs" style={{ color: '#94a3b8' }}>
                 {t('product_id')}: {recommendation.product_id}
               </p>
             </div>
@@ -204,7 +204,7 @@ export function PriceRecommendationCard({
           {/* Headline */}
           {recommendationTexts.headline && (
             <div className="mb-6">
-              <p className="text-base font-medium text-gray-900">
+              <p className="text-base font-medium" style={{ color: '#f1f5f9' }}>
                 {recommendationTexts.headline}
               </p>
             </div>
@@ -214,9 +214,9 @@ export function PriceRecommendationCard({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
             
             {/* Current Price */}
-            <div className="bg-white rounded-lg p-4 border border-gray-200">
-              <p className="text-sm text-gray-600 mb-1 font-medium">{t('current')}</p>
-              <p className="text-3xl font-bold text-gray-900">
+            <div className="rounded-lg p-4 border" style={{ backgroundColor: '#0f172a', borderColor: '#475569' }}>
+              <p className="text-sm mb-1 font-medium" style={{ color: '#94a3b8' }}>{t('current')}</p>
+              <p className="text-3xl font-bold" style={{ color: '#f1f5f9' }}>
                 {formatCurrency(recommendation.current_price)}
               </p>
             </div>
@@ -247,8 +247,8 @@ export function PriceRecommendationCard({
           {/* Price Change Indicator */}
           <div className="flex items-center justify-center mb-4">
             {noChange ? (
-              <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
-                <span className="text-gray-600 font-medium">{t('no_change')}</span>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full" style={{ backgroundColor: '#334155' }}>
+                <span className="font-medium" style={{ color: '#94a3b8' }}>{t('no_change')}</span>
               </div>
             ) : (
               <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${

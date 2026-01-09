@@ -3,7 +3,7 @@
 /* Page Background */
 .recommendations-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #fafafa, #ffffff, #f5f5f5);
+  background: linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a);
   padding: 48px 0;
 }
 
@@ -50,7 +50,7 @@
 .header-title {
   font-size: 40px;
   font-weight: 800;
-  color: #111827;
+  color: #f1f5f9;
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin: 0;
@@ -58,26 +58,26 @@
 
 .header-subtitle {
   font-size: 16px;
-  color: #6b7280;
+  color: #cbd5e1;
   margin-top: 4px;
 }
 
 /* Product Info Card */
 .product-info-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-  border: 2px solid #e5e7eb;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #475569;
   border-radius: 20px;
   padding: 24px;
   display: flex;
   align-items: center;
   gap: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
 
 .product-info-card:hover {
-  border-color: #d1d5db;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-color: #64748b;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   transform: translateY(-2px);
 }
 
@@ -96,14 +96,14 @@
 .product-details h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #111827;
+  color: #f1f5f9;
   margin: 0 0 8px 0;
   line-height: 1.2;
 }
 
 .product-price-display {
   font-size: 14px;
-  color: #6b7280;
+  color: #94a3b8;
 }
 
 .product-price-display strong {
@@ -236,7 +236,7 @@
 .section-title {
   font-size: 22px;
   font-weight: 700;
-  color: #111827;
+  color: #f1f5f9;
   margin: 0 0 6px 0;
   line-height: 1.2;
   display: flex;
@@ -246,7 +246,7 @@
 
 .section-subtitle {
   font-size: 15px;
-  color: #6b7280;
+  color: #cbd5e1;
   margin: 0;
   line-height: 1.4;
 }

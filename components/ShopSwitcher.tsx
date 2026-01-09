@@ -158,7 +158,7 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
   });
 
   return (
-    <div className={`shop-switcher ${className} relative`}>
+    <div className={`shop-switcher ${className} relative`} style={{ borderTop: 'none', border: 'none' }}>
       {/* Header mit Buttons */}
       <div className="mb-4">
         <div className="text-sm font-medium mb-2" style={{ color: '#cbd5e1' }}>

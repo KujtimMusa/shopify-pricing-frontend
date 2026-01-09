@@ -177,7 +177,7 @@ function RecommendationsContent() {
         </div>
         
         {/* Shop Switcher */}
-        <div className="mb-6">
+        <div className="mb-6" style={{ borderTop: 'none' }}>
           <ShopSwitcher />
         </div>
         

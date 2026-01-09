@@ -103,6 +103,16 @@ body {
   color: #cbd5e1 !important;
 }
 
+/* === SHOP SWITCHER === */
+
+.shop-switcher,
+[class*="shop-switcher"],
+[class*="ShopSwitcher"] {
+  border-top: none !important;
+  border: none !important;
+  border-bottom: none !important;
+}
+
 /* === CARDS === */
 
 .product-card,

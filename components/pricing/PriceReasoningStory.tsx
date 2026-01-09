@@ -92,7 +92,10 @@ export function PriceReasoningStory({
         const recommendedDiff = recommendedPrice - avgPrice
         
         if (diff > 0) {
-          return `Wir haben ${competitorCount} Wettbewerber analysiert. Der durchschnittliche Preis liegt bei ${formatCurrency(avgPrice)}. Du bist ${diffPct}% teurer als der Durchschnitt. Du solltest ${formatCurrency(Math.abs(recommendedDiff))} ${recommendedDiff < 0 ? 'senken' : 'erhöhen'} um wettbewerbsfähig zu bleiben.`
+          // Wenn aktueller Preis höher als Durchschnitt, sollte gesenkt werden
+          const priceChange = currentPrice - recommendedPrice
+          const shouldLower = priceChange > 0
+          return `Wir haben ${competitorCount} Wettbewerber analysiert. Der durchschnittliche Preis liegt bei ${formatCurrency(avgPrice)}. Du bist ${diffPct}% teurer als der Durchschnitt. Du solltest den Preis um ${formatCurrency(Math.abs(priceChange))} ${shouldLower ? 'senken' : 'erhöhen'} um wettbewerbsfähig zu bleiben.`
         } else {
           return `Wir haben ${competitorCount} Wettbewerber analysiert. Der durchschnittliche Preis liegt bei ${formatCurrency(avgPrice)}. Du bist bereits wettbewerbsfähig positioniert.`
         }
@@ -292,5 +295,7 @@ export function PriceReasoningStory({
     </div>
   )
 }
+
+
 
 

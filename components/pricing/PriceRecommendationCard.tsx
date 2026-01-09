@@ -321,8 +321,8 @@ export function PriceRecommendationCard({
           FOOTER - Metadata
           ========================================== */}
       
-      <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm text-gray-600">
+      <div className="px-6 py-3 border-t flex items-center justify-between" style={{ backgroundColor: '#0f172a', borderColor: '#334155' }}>
+        <div className="flex items-center gap-2 text-sm" style={{ color: '#94a3b8' }}>
           <Clock className="w-4 h-4" />
           <span>
             {formatTimeAgo(timestamp)}

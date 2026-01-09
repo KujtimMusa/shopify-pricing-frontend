@@ -893,8 +893,8 @@
 }
 
 .price-box-current {
-  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-  border: 3px solid #e5e7eb;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 3px solid #475569;
   border-radius: 20px;
   padding: 32px;
   position: relative;
@@ -903,9 +903,9 @@
 }
 
 .price-box-current:hover {
-  border-color: #d1d5db;
+  border-color: #64748b;
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .price-box-recommended {

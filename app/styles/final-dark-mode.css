@@ -1,0 +1,222 @@
+/* ============================================
+   FINAL DARK MODE - GRAY-BLUE CLEAN
+   Complete reset and proper implementation
+   ============================================ */
+
+/* === FORCE DARK BACKGROUNDS === */
+
+html {
+  background-color: #0f172a !important;
+}
+
+body {
+  background-color: #0f172a !important;
+  color: #cbd5e1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#root,
+#app,
+[id*="root"],
+[id*="app"] {
+  background-color: #0f172a !important;
+  min-height: 100vh !important;
+}
+
+/* === RESET RED/COLORED BACKGROUNDS === */
+
+/* REMOVE all red backgrounds */
+* {
+  background-color: transparent !important;
+}
+
+/* Then ADD backgrounds only where needed */
+
+/* Main page background */
+body,
+html,
+#root,
+main {
+  background-color: #0f172a !important;
+}
+
+/* Sidebar */
+aside,
+nav,
+[class*="sidebar"] {
+  background-color: #1e293b !important;
+  border-right: 1px solid #334155 !important;
+}
+
+/* Cards - Dark gray */
+div[class*="card"],
+div[class*="Card"],
+div[class*="box"],
+div[class*="Box"],
+section[class*="section"] {
+  background-color: #1e293b !important;
+  border: 1px solid #475569 !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  margin-bottom: 16px !important;
+}
+
+/* === ALERT BANNER - DARK RED (not bright red) === */
+
+/* Only the alert banner should have red */
+[class*="alert"],
+[class*="Alert"],
+[class*="verlierst"],
+div:has(> *:contains("Du verlierst")) {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.1) 100%) !important;
+  border: 2px solid rgba(239, 68, 68, 0.4) !important;
+  border-radius: 12px !important;
+}
+
+/* === TEXT COLORS === */
+
+/* Headings - White */
+h1, h2, h3, h4, h5, h6 {
+  color: #f1f5f9 !important;
+  background: transparent !important;
+}
+
+/* Body text - Light gray */
+p, span, div {
+  color: #cbd5e1 !important;
+}
+
+/* Muted text */
+small,
+[class*="subtitle"],
+[class*="meta"] {
+  color: #94a3b8 !important;
+}
+
+/* === PREVENT TEXT OVERFLOW === */
+
+* {
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* But cards should contain content */
+div[class*="card"],
+div[class*="box"] {
+  overflow: hidden !important;
+  word-wrap: break-word !important;
+}
+
+/* === BUTTONS === */
+
+button {
+  background-color: #334155 !important;
+  color: #cbd5e1 !important;
+  border: 2px solid #475569 !important;
+  border-radius: 10px !important;
+  padding: 10px 20px !important;
+}
+
+button[class*="primary"],
+button[class*="Primary"] {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* === ICONS === */
+
+div[class*="icon"],
+span[class*="icon"] {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+}
+
+/* === STATS/METRICS BOXES === */
+
+[class*="stat"],
+[class*="metric"],
+[class*="schnell"] > div {
+  background-color: #1e293b !important;
+  border: 1px solid #475569 !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+}
+
+/* === BADGES === */
+
+[class*="badge"] {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  color: #60a5fa !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+}
+
+/* === PROGRESS BARS === */
+
+[class*="progress"] {
+  background-color: #334155 !important;
+  border-radius: 10px !important;
+}
+
+[class*="progress"] > div {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%) !important;
+  border-radius: 10px !important;
+}
+
+/* === REMOVE ALL RED BORDERS === */
+
+* {
+  border-color: #475569 !important;
+}
+
+/* Only alert should have red border */
+[class*="alert"] {
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+/* === FIX TEXT CLIPPING === */
+
+/* Ensure text doesn't overflow */
+p, span, div, h1, h2, h3, h4, h5, h6 {
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+/* === SPECIFIC FIXES === */
+
+/* Sidebar sections */
+aside div,
+aside button {
+  background-color: transparent !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  margin: 4px !important;
+  padding: 12px !important;
+}
+
+/* Dashboard sections */
+main > div,
+main > section {
+  background-color: transparent !important;
+}
+
+/* Collapsible cards */
+[class*="collapsible"] {
+  background-color: #1e293b !important;
+  border: 1px solid #475569 !important;
+  border-radius: 12px !important;
+}
+
+/* === RESET EVERYTHING FIRST === */
+
+/* Remove all inline styles */
+[style] {
+  background-color: initial !important;
+  border-color: initial !important;
+}
+

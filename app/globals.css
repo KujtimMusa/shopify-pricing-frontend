@@ -1,8 +1,9 @@
-/* ⚠️ WICHTIG: ALS ALLERERSTES IMPORTIEREN! VOR ALLEM ANDEREN! */
-@import './styles/border-radius-override.css';
+/* RESET - Remove all old imports */
+/* @import './styles/dark-mode-force.css'; */
+/* @import './styles/border-radius-override.css'; */
 
-/* WICHTIG: Als ALLERERSTES importieren! VOR ALLEM ANDEREN! */
-@import './styles/dark-mode-force.css';
+/* ONLY THIS ONE - FINAL DARK MODE */
+@import './styles/final-dark-mode.css';
 
 @tailwind base;
 @tailwind components;

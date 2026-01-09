@@ -264,24 +264,21 @@ function RecommendationsContent() {
                             e.stopPropagation()
                             setShowInfoTooltip(prev => ({ ...prev, margin: !prev.margin }))
                           }}
-                          className="relative info-tooltip-button"
+                          className="info-tooltip-button"
                         >
                           <Info className="w-4 h-4 text-gray-400 hover:text-blue-600 transition-colors" />
                           {showInfoTooltip.margin && (
-                            <div className="absolute left-0 bottom-full mb-2 w-80 p-4 bg-gray-900 text-white text-sm rounded-lg shadow-xl z-50">
-                              <div className="font-semibold mb-2">Was passiert hier?</div>
-                              <p className="mb-2">
+                            <div className="info-tooltip-content">
+                              <h4>Was passiert hier?</h4>
+                              <p>
                                 Die Margen-Analyse zeigt dir, ob dein aktueller Preis über deinen Kosten liegt und wie viel Gewinn du pro Verkauf machst.
                               </p>
-                              <p className="mb-2">
+                              <p>
                                 <strong>Wichtig:</strong> Bevor du Preise änderst, solltest du immer prüfen, dass du nicht unter deine Kosten verkaufst!
                               </p>
                               <p>
                                 Hier kannst du auch Kosten für dein Produkt hinterlegen (Einkaufspreis, Versand, Verpackung, etc.).
                               </p>
-                              <div className="absolute bottom-0 left-4 transform translate-y-full">
-                                <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-gray-900"></div>
-                              </div>
                             </div>
                           )}
                         </button>
@@ -328,19 +325,19 @@ function RecommendationsContent() {
                             e.stopPropagation()
                             setShowInfoTooltip(prev => ({ ...prev, price: !prev.price }))
                           }}
-                          className="relative info-tooltip-button"
+                          className="info-tooltip-button"
                         >
                           <Info className="w-4 h-4 text-gray-400 hover:text-blue-600 transition-colors" />
                           {showInfoTooltip.price && (
-                            <div className="absolute left-0 bottom-full mb-2 w-80 p-4 bg-gray-900 text-white text-sm rounded-lg shadow-xl z-50">
-                              <div className="font-semibold mb-2">Was passiert hier?</div>
-                              <p className="mb-2">
+                            <div className="info-tooltip-content">
+                              <h4>Was passiert hier?</h4>
+                              <p>
                                 Unsere KI analysiert verschiedene Faktoren wie Nachfrage, Lagerbestand, Wettbewerbspreise und deine Kosten, um dir eine optimale Preisempfehlung zu geben.
                               </p>
-                              <p className="mb-2">
+                              <p>
                                 <strong>Die Empfehlung berücksichtigt:</strong>
                               </p>
-                              <ul className="list-disc list-inside mb-2 space-y-1">
+                              <ul>
                                 <li>Verkaufsdaten der letzten 30 Tage</li>
                                 <li>Aktuelle Preise deiner Konkurrenten</li>
                                 <li>Deine Lagerbestände</li>
@@ -349,9 +346,6 @@ function RecommendationsContent() {
                               <p>
                                 Du kannst die Empfehlung direkt anwenden oder erst die Details ansehen.
                               </p>
-                              <div className="absolute bottom-0 left-4 transform translate-y-full">
-                                <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-gray-900"></div>
-                              </div>
                             </div>
                           )}
                         </button>
@@ -394,19 +388,19 @@ function RecommendationsContent() {
                               e.stopPropagation()
                               setShowInfoTooltip(prev => ({ ...prev, competitor: !prev.competitor }))
                             }}
-                            className="relative info-tooltip-button"
+                            className="info-tooltip-button"
                           >
                             <Info className="w-4 h-4 text-gray-400 hover:text-blue-600 transition-colors" />
                             {showInfoTooltip.competitor && (
-                              <div className="absolute left-0 bottom-full mb-2 w-80 p-4 bg-gray-900 text-white text-sm rounded-lg shadow-xl z-50">
-                                <div className="font-semibold mb-2">Was passiert hier?</div>
-                                <p className="mb-2">
+                              <div className="info-tooltip-content">
+                                <h4>Was passiert hier?</h4>
+                                <p>
                                   Die Wettbewerbsanalyse zeigt dir, wie dein Preis im Vergleich zu anderen Anbietern steht.
                                 </p>
-                                <p className="mb-2">
+                                <p>
                                   <strong>Du siehst:</strong>
                                 </p>
-                                <ul className="list-disc list-inside mb-2 space-y-1">
+                                <ul>
                                   <li>Preise deiner Konkurrenten (Neuware, Gebraucht, etc.)</li>
                                   <li>Deine Marktposition (günstigster, teuerster, Durchschnitt)</li>
                                   <li>Durchschnittspreis und Preisspanne</li>
@@ -415,9 +409,6 @@ function RecommendationsContent() {
                                 <p>
                                   Nutze diese Informationen, um deine Preise strategisch anzupassen.
                                 </p>
-                                <div className="absolute bottom-0 left-4 transform translate-y-full">
-                                  <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-gray-900"></div>
-                                </div>
                               </div>
                             )}
                           </button>

@@ -490,7 +490,7 @@
 .margin-edit-button:hover {
   background: #475569;
   border-color: #3b82f6;
-  transform: translateY(-1px);
+  transform: none;
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
@@ -957,8 +957,8 @@
 }
 
 .price-box-recommended:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(34, 197, 94, 0.3);
+  transform: none;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
 }
 
 /* Glow Effect */

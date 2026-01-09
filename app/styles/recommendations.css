@@ -197,7 +197,7 @@
 }
 
 .collapsible-header:hover {
-  background-color: rgba(30, 41, 59, 0.5) !important;
+  background-color: transparent !important;
   text-decoration: none !important;
 }
 
@@ -227,8 +227,8 @@
 }
 
 .collapsible-card:hover .section-icon {
-  transform: scale(1.08) rotate(-3deg);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transform: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* Icon Glow Effect */
@@ -513,7 +513,7 @@
 .price-box:hover {
   border-color: #64748b;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  transform: translateY(-2px);
+  transform: none;
 }
 
 .price-box-label {
@@ -573,12 +573,12 @@
 }
 
 .cost-item:hover {
-  background: #334155;
+  background: #1e293b;
 }
 
 .cost-item-label {
   font-size: 15px;
-  color: #cbd5e1 !important;
+  color: #e2e8f0 !important;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -587,14 +587,14 @@
 .cost-item-bullet {
   width: 6px;
   height: 6px;
-  background: #3b82f6;
+  background: #60a5fa;
   border-radius: 0;
 }
 
 .cost-item-value {
   font-size: 16px;
   font-weight: 600;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
 }
 
 /* Total Row - Emphasized */
@@ -607,13 +607,13 @@
 .cost-item.total-row .cost-item-label {
   font-size: 16px;
   font-weight: 700;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
 }
 
 .cost-item.total-row .cost-item-value {
   font-size: 20px;
   font-weight: 800;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
 }
 
 /* Contribution Margin Box - HERO ELEMENT */
@@ -663,7 +663,7 @@
 .contribution-amount {
   font-size: 48px;
   font-weight: 800;
-  color: #f1f5f9 !important;
+  color: #ffffff !important;
   line-height: 1;
   margin-bottom: 8px;
   position: relative;
@@ -673,7 +673,7 @@
 .contribution-percentage {
   font-size: 20px;
   font-weight: 700;
-  color: #86efac !important;
+  color: #a7f3d0 !important;
   position: relative;
   z-index: 1;
 }
@@ -760,7 +760,7 @@
   width: 32px;
   height: 32px;
   flex-shrink: 0;
-  color: #86efac !important;
+  color: #a7f3d0 !important;
 }
 
 .health-content {

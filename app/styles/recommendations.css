@@ -504,8 +504,8 @@
 
 .price-box {
   padding: 20px;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border: 2px solid #475569;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
   border-radius: 0;
   transition: all 0.3s ease;
 }
@@ -930,8 +930,8 @@
 }
 
 .price-box-current {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border: 3px solid #475569;
+  background: #1e293b !important;
+  border: 3px solid #475569 !important;
   border-radius: 0;
   padding: 32px;
   position: relative;
@@ -1022,9 +1022,9 @@
 
 /* ML Confidence Section */
 .ml-confidence-section {
-  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
-  border: 3px solid var(--color-primary-lighter);
-  border-radius: 20px;
+  background: #1e293b !important;
+  border: 3px solid #475569 !important;
+  border-radius: 0;
   padding: 32px;
   margin-bottom: 32px;
   position: relative;

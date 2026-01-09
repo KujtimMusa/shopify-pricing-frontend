@@ -38,9 +38,9 @@ export default function MissedRevenueHero({
 
           <div className="flex items-baseline gap-2 pt-2">
             <span className="text-4xl font-bold text-white">
-              -{missedRevenue.toLocaleString('de-DE')} €
+              {Math.abs(missedRevenue).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
             </span>
-            <span className="text-red-100">potenzial verloren</span>
+            <span className="text-red-100">Umsatz verpasst</span>
           </div>
         </div>
 

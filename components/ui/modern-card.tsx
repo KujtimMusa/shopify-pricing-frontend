@@ -16,16 +16,23 @@ export function ModernCard({
   ...props
 }: ModernCardProps) {
   const variants = {
-    default: "bg-white border border-gray-200 shadow-lg",
-    glass: "bg-white/70 backdrop-blur-xl border border-white/30 shadow-xl",
-    gradient: "bg-gradient-to-br from-white to-gray-50 border-0 shadow-xl",
+    default: "border shadow-lg",
+    glass: "backdrop-blur-xl border shadow-xl",
+    gradient: "border-0 shadow-xl",
+  }
+  
+  const variantStyles = {
+    default: { backgroundColor: '#1e293b', borderColor: '#475569' },
+    glass: { backgroundColor: 'rgba(30, 41, 59, 0.7)', borderColor: 'rgba(71, 85, 105, 0.3)' },
+    gradient: { background: 'linear-gradient(to bottom right, #1e293b, #0f172a)' },
   }
 
   return (
     <div
-      className={`rounded-2xl overflow-hidden transition-all duration-300 animate-fade-in ${
+      className={`overflow-hidden transition-all duration-300 animate-fade-in ${
         variants[variant]
-      } ${hoverable ? "hover:shadow-2xl hover:-translate-y-1 cursor-pointer" : ""} ${className}`}
+      } ${hoverable ? "hover:shadow-2xl cursor-pointer" : ""} ${className}`}
+      style={variantStyles[variant]}
       {...props}
     >
       {children}

@@ -37,16 +37,16 @@ export function MarginDisplay({ marginData, compact = false, onAddCosts, onEditC
   
   if (!marginData.has_cost_data) {
     return (
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <div className="border p-4" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
         <div className="flex items-start gap-3">
-          <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+          <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center" style={{ backgroundColor: '#334155' }}>
             <span className="text-lg">💡</span>
           </div>
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">
+            <h3 className="text-sm font-semibold mb-1" style={{ color: '#f1f5f9' }}>
               Noch präziser mit Kostendaten
             </h3>
-            <p className="text-xs text-gray-600 mb-3">
+            <p className="text-xs mb-3" style={{ color: '#cbd5e1' }}>
               Die Preisempfehlung funktioniert auch ohne Kosten. 
               <strong> Mit Kostendaten</strong> können wir zusätzlich deine <strong>Marge optimieren</strong> und 
               sicherstellen, dass du immer profitabel bleibst.
@@ -54,7 +54,7 @@ export function MarginDisplay({ marginData, compact = false, onAddCosts, onEditC
             {onAddCosts && (
               <button 
                 onClick={onAddCosts}
-                className="text-xs font-medium text-blue-600 hover:text-blue-700 underline transition"
+                className="text-xs font-medium underline transition" style={{ color: '#60a5fa' }}
               >
                 Kosten hinterlegen (optional)
               </button>
@@ -72,10 +72,10 @@ export function MarginDisplay({ marginData, compact = false, onAddCosts, onEditC
     : 'text-red-600'
   
   const marginBgColor = marginData.is_above_min_margin 
-    ? 'bg-green-50 border-green-200' 
+    ? { backgroundColor: '#064e3b', borderColor: '#10b981' }
     : marginData.is_above_break_even 
-    ? 'bg-orange-50 border-orange-200' 
-    : 'bg-red-50 border-red-200'
+    ? { backgroundColor: '#78350f', borderColor: '#f59e0b' }
+    : { backgroundColor: '#7f1d1d', borderColor: '#ef4444' }
   
   const marginIcon = marginData.is_above_min_margin 
     ? <CheckCircle className="w-5 h-5 text-green-600" />
@@ -86,12 +86,12 @@ export function MarginDisplay({ marginData, compact = false, onAddCosts, onEditC
   // Compact version (for inline use)
   if (compact) {
     return (
-      <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border-2 ${marginBgColor}`}>
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 border-2" style={marginBgColor}>
         {marginIcon}
         <span className={`font-semibold ${marginColor}`}>
           {marginData.margin?.percent.toFixed(1)}% Marge
         </span>
-        <span className="text-sm text-gray-600">
+        <span className="text-sm" style={{ color: '#94a3b8' }}>
           (€{marginData.margin?.euro.toFixed(2)})
         </span>
       </div>

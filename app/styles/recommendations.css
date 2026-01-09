@@ -326,14 +326,15 @@
   width: 320px;
   max-width: 90vw;
   padding: 16px;
-  background: #111827;
-  color: white;
+  background: #1e293b;
+  color: #f1f5f9;
   font-size: 14px;
   line-height: 1.5;
-  border-radius: 12px;
+  border-radius: 0;
+  border: 2px solid #475569;
   box-shadow: 
-    0 10px 40px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(71, 85, 105, 0.3);
   z-index: 99999 !important;
   pointer-events: auto;
   animation: tooltipFadeIn 0.2s ease-out;
@@ -350,7 +351,7 @@
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid #111827;
+  border-top: 8px solid #1e293b;
 }
 
 @keyframes tooltipFadeIn {

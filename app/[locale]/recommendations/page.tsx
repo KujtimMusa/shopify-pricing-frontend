@@ -269,7 +269,7 @@ function RecommendationsContent() {
                           }}
                           className="info-tooltip-button"
                         >
-                          <Info className="w-4 h-4 text-gray-400 hover:text-blue-600 transition-colors" />
+                          <Info className="w-4 h-4 transition-colors" style={{ color: '#94a3b8' }} />
                           {showInfoTooltip.margin && (
                             <div className="info-tooltip-content">
                               <h4>Was passiert hier?</h4>
@@ -328,7 +328,7 @@ function RecommendationsContent() {
                           }}
                           className="info-tooltip-button"
                         >
-                          <Info className="w-4 h-4 text-gray-400 hover:text-blue-600 transition-colors" />
+                          <Info className="w-4 h-4 transition-colors" style={{ color: '#94a3b8' }} />
                           {showInfoTooltip.price && (
                             <div className="info-tooltip-content">
                               <h4>Was passiert hier?</h4>
@@ -391,7 +391,7 @@ function RecommendationsContent() {
                             }}
                             className="info-tooltip-button"
                           >
-                            <Info className="w-4 h-4 text-gray-400 hover:text-blue-600 transition-colors" />
+                            <Info className="w-4 h-4 transition-colors" style={{ color: '#94a3b8' }} />
                             {showInfoTooltip.competitor && (
                               <div className="info-tooltip-content">
                                 <h4>Was passiert hier?</h4>

@@ -222,16 +222,13 @@ export function PriceRecommendationCard({
             </div>
             
             {/* Recommended Price */}
-            <div className={`p-4 border-2 ${
-              isCriticalWarning ? 'bg-red-50 border-red-300' :
-              hasMarginWarning ? 'bg-orange-50 border-orange-300' :
-              'bg-green-50 border-green-300'
-            }`}>
-              <p className={`text-sm font-medium mb-1 ${
-                isCriticalWarning ? 'text-red-700' :
-                hasMarginWarning ? 'text-orange-700' :
-                'text-green-700'
-              }`}>
+            <div className="p-4 border-2" style={{
+              backgroundColor: isCriticalWarning ? '#7f1d1d' : hasMarginWarning ? '#78350f' : '#064e3b',
+              borderColor: isCriticalWarning ? '#ef4444' : hasMarginWarning ? '#f59e0b' : '#10b981'
+            }}>
+              <p className="text-sm font-medium mb-1" style={{
+                color: isCriticalWarning ? '#fca5a5' : hasMarginWarning ? '#fbbf24' : '#86efac'
+              }}>
                 {t('recommended')}
               </p>
               <p className={`text-3xl font-bold ${

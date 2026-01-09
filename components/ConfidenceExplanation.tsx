@@ -35,14 +35,14 @@ export function ConfidenceExplanation({
   }
   
   return (
-    <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+    <div className="p-3 border" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
       <div className="flex items-start gap-2">
-        <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+        <Info className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: '#60a5fa' }} />
         <div className="flex-1">
-          <p className="text-sm font-medium text-blue-900 mb-1">
+          <p className="text-sm font-medium mb-1" style={{ color: '#f1f5f9' }}>
             Confidence-Erklärung
           </p>
-          <ul className="text-xs text-blue-800 space-y-1">
+          <ul className="text-xs space-y-1" style={{ color: '#cbd5e1' }}>
             {explanations.map((explanation, idx) => (
               <li key={idx}>• {explanation}</li>
             ))}

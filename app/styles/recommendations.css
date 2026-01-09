@@ -143,13 +143,13 @@
 /* Collapsible Section Cards */
 .collapsible-card {
   position: relative;
-  background: white;
-  border: 2px solid #f3f4f6;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
   border-radius: 0;
   margin-bottom: 16px;
   overflow: visible; /* Changed from hidden to visible for tooltips */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 
@@ -1364,7 +1364,7 @@
 .strategy-details {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #475569 !important;
 }
 
 .strategy-details-toggle {
@@ -1454,7 +1454,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #475569 !important;
   transition: background 0.2s;
 }
 

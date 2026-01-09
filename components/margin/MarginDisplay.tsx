@@ -112,7 +112,7 @@ export function MarginDisplay({ marginData, compact = false, onAddCosts, onEditC
         <div className="flex items-center gap-3">
           {marginData.margin && (
             <div className="margin-success-badge">
-              <CheckCircle2 className="h-6 w-6 text-green-600" />
+              <CheckCircle2 className="h-6 w-6" style={{ color: '#86efac' }} />
               <span className="margin-success-percentage">
                 {marginData.margin.percent.toFixed(1)}%
               </span>

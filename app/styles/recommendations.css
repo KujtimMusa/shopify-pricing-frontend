@@ -422,9 +422,9 @@
 /* Content Area */
 .margin-content {
   padding: 32px;
-  background: linear-gradient(to bottom, #1e293b, #0f172a);
+  background: #0f172a !important;
   border-radius: 0;
-  border: 2px solid #475569;
+  border: 2px solid #475569 !important;
 }
 
 /* Header Row with Title & Success Badge */
@@ -599,8 +599,8 @@
 
 /* Total Row - Emphasized */
 .cost-item.total-row {
-  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
-  border-top: 2px solid #475569;
+  background: #1e293b !important;
+  border-top: 2px solid #475569 !important;
   padding: 20px;
 }
 
@@ -700,13 +700,13 @@
 }
 
 .insight-box.warning {
-  background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
-  border-color: #f59e0b;
+  background: #1e293b !important;
+  border-color: #f59e0b !important;
 }
 
 .insight-box.success {
-  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-  border-color: #10b981;
+  background: #1e293b !important;
+  border-color: #10b981 !important;
 }
 
 .insight-header {
@@ -875,9 +875,9 @@
 
 /* Product Header with Confidence */
 .recommendation-header {
-  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--bg-secondary) 100%);
-  border: 2px solid var(--color-primary-lighter);
-  border-radius: 20px;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
+  border-radius: 0;
   padding: 24px;
   margin-bottom: 32px;
 }
@@ -1390,9 +1390,9 @@
 
 /* How is it calculated Section */
 .calculation-section {
-  background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
-  border: 3px solid var(--border-normal);
-  border-radius: 20px;
+  background: #1e293b !important;
+  border: 3px solid #475569 !important;
+  border-radius: 0;
   padding: 32px;
   margin-bottom: 32px;
 }
@@ -1565,9 +1565,9 @@
 
 /* Final Sum */
 .final-sum-box {
-  background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-primary-lighter) 100%);
-  border: 3px solid var(--color-primary-lighter);
-  border-radius: 16px;
+  background: #1e293b !important;
+  border: 3px solid #475569 !important;
+  border-radius: 0;
   padding: 24px;
 }
 

@@ -166,12 +166,12 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
         </div>
         
         {/* Live/Demo Toggle Buttons */}
-        <div className="flex gap-2 p-1 rounded-lg" style={{ backgroundColor: '#334155' }}>
+        <div className="flex gap-2 p-1" style={{ backgroundColor: '#334155' }}>
           {/* Live Button */}
           <button
             onClick={handleLiveMode}
             disabled={loading}
-            className={`flex-1 px-4 py-2 rounded-md font-medium transition-all ${
+            className={`flex-1 px-4 py-2 font-medium transition-all ${
               loading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             style={{
@@ -186,7 +186,7 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
           <button
             onClick={handleDemoMode}
             disabled={loading || !demoShop}
-            className={`flex-1 px-4 py-2 rounded-md font-medium transition-all ${
+            className={`flex-1 px-4 py-2 font-medium transition-all ${
               loading || !demoShop ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             style={{
@@ -222,7 +222,7 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
             </div>
 
             {/* Demo Shop Card */}
-            <div className="border-2 border-green-500 rounded-lg p-4" style={{ backgroundColor: '#1e293b' }}>
+            <div className="border-2 border-green-500 p-4" style={{ backgroundColor: '#1e293b' }}>
               <div className="flex items-start gap-3">
                 <div className="text-2xl">🧪</div>
                 <div className="flex-1">
@@ -253,7 +253,7 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
             realLiveShops.map((shop) => (
               <div
                 key={shop.id}
-                className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                className={`border-2 p-4 cursor-pointer transition-all ${
                   shop.is_active 
                     ? 'border-green-500' 
                     : 'border-gray-300'
@@ -302,7 +302,7 @@ export function ShopSwitcher({ className = '' }: ShopSwitcherProps) {
             // ─────────────────────────────────
             // FALL 2: Kein Shop installiert
             // ─────────────────────────────────
-            <div className="border-2 border-gray-300 border-dashed rounded-lg p-6" style={{ backgroundColor: '#1e293b' }}>
+            <div className="border-2 border-gray-300 border-dashed p-6" style={{ backgroundColor: '#1e293b' }}>
               <div className="text-center">
                 <div className="text-5xl mb-4">🏪</div>
                 

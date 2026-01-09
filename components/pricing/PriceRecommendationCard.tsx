@@ -163,7 +163,7 @@ export function PriceRecommendationCard({
   const timestamp = recommendation.generated_at || recommendation.created_at || new Date().toISOString()
   
   return (
-    <div className="rounded-xl shadow-lg border overflow-hidden" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
+    <div className="shadow-lg border overflow-hidden" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
       
       {/* Story-basierte Erklärung: Warum empfehlen wir X€? */}
       {recommendation.strategy_details && recommendation.strategy_details.length > 0 ? (
@@ -214,7 +214,7 @@ export function PriceRecommendationCard({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
             
             {/* Current Price */}
-            <div className="rounded-lg p-4 border" style={{ backgroundColor: '#0f172a', borderColor: '#475569' }}>
+            <div className="p-4 border" style={{ backgroundColor: '#0f172a', borderColor: '#475569' }}>
               <p className="text-sm mb-1 font-medium" style={{ color: '#94a3b8' }}>{t('current')}</p>
               <p className="text-3xl font-bold" style={{ color: '#f1f5f9' }}>
                 {formatCurrency(recommendation.current_price)}

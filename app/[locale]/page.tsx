@@ -515,7 +515,7 @@ function NextSteps({ stats }: { stats: DashboardStats }) {
       <div className="p-8 space-y-4">
         {/* Urgent CTA Box */}
         {urgentStep && (
-          <div className="relative overflow-hidden border-2 p-6 animate-fade-in" style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', borderColor: '#f59e0b' }}>
+          <div className="relative overflow-hidden border-2 p-6 animate-fade-in" style={{ background: 'linear-gradient(to right, #1e293b, #0f172a)', borderColor: '#f59e0b', borderRadius: '0' }}>
             {/* Glow effect */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-orange-300/20 rounded-full blur-3xl" />
             
@@ -534,7 +534,7 @@ function NextSteps({ stats }: { stats: DashboardStats }) {
               </p>
               
               <Link href={urgentStep.href}>
-                <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95">
+                <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 px-6 shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95" style={{ borderRadius: '0' }}>
                   {urgentStep.action}
                   <ArrowRight className="h-4 w-4" />
                 </button>

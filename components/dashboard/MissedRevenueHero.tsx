@@ -14,7 +14,7 @@ export default function MissedRevenueHero({
   onOptimizeClick
 }: MissedRevenueHeroProps) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-500 via-red-600 to-red-700 p-8 shadow-xl">
+    <div className="relative overflow-hidden bg-gradient-to-r from-red-500 via-red-600 to-red-700 p-8 shadow-xl" style={{ borderRadius: '0' }}>
       <div className="relative flex items-start gap-6">
         {/* Icon */}
         <div className="flex-shrink-0">
@@ -46,7 +46,7 @@ export default function MissedRevenueHero({
         {/* CTA Button */}
         <button 
           onClick={onOptimizeClick}
-          className="flex items-center gap-2 px-6 py-3 bg-white text-red-600 hover:bg-red-50 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-white text-red-600 hover:bg-red-50 font-semibold shadow-lg hover:shadow-xl transition-all" style={{ borderRadius: '0' }}>
         >
           Produkte optimieren
           <ArrowRight className="h-4 w-4" />

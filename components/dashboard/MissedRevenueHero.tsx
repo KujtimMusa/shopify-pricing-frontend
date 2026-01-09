@@ -46,7 +46,8 @@ export default function MissedRevenueHero({
         {/* CTA Button */}
         <button 
           onClick={onOptimizeClick}
-          className="flex items-center gap-2 px-6 py-3 bg-white text-red-600 hover:bg-red-50 font-semibold shadow-lg hover:shadow-xl transition-all" style={{ borderRadius: '0' }}>
+          className="flex items-center gap-2 px-6 py-3 bg-white text-red-600 hover:bg-red-50 font-semibold shadow-lg hover:shadow-xl transition-all" 
+          style={{ borderRadius: '0' }}
         >
           Produkte optimieren
           <ArrowRight className="h-4 w-4" />

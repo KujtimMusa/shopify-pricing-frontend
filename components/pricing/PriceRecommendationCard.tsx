@@ -299,13 +299,13 @@ export function PriceRecommendationCard({
           ========================================== */}
       
       {isCriticalWarning && (
-        <div className="px-6 py-4 bg-red-50 border-t border-red-200">
+        <div className="px-6 py-4 border-t" style={{ backgroundColor: '#7f1d1d', borderColor: '#ef4444' }}>
           <div className="flex items-start gap-3">
-            <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: '#fca5a5' }} />
             <div>
-              <h4 className="font-semibold text-red-900 mb-1">{t('critical_warning')}</h4>
+              <h4 className="font-semibold mb-1" style={{ color: '#f1f5f9' }}>{t('critical_warning')}</h4>
               {recommendation.warnings?.filter(w => w.severity === 'HIGH' || w.severity === 'high').map((warning, idx) => (
-                <p key={idx} className="text-sm text-red-800 mb-2">
+                <p key={idx} className="text-sm mb-2" style={{ color: '#fca5a5' }}>
                   {warning.message}
                 </p>
               ))}

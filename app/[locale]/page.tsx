@@ -166,10 +166,10 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen flex" style={{ backgroundColor: '#0f172a' }}>
       {/* Sidebar mit Shop-Switcher */}
-      <aside className="w-80 bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200 p-6 overflow-y-auto shadow-sm">
-        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
+      <aside className="w-80 border-r p-6 overflow-y-auto shadow-sm" style={{ background: 'linear-gradient(to bottom, #1e293b, #0f172a, #1e293b)', borderColor: '#334155' }}>
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b" style={{ borderColor: '#334155' }}>
           <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
             <span className="text-2xl">💡</span>
           </div>
@@ -187,19 +187,22 @@ export default function Home() {
         <nav className="space-y-2">
           <Link 
             href="/" 
-            className="block px-4 py-2 text-gray-700 rounded-lg bg-gray-100 transition-colors"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1', backgroundColor: '#334155' }}
           >
             Dashboard
           </Link>
           <Link 
             href="/products" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1' }}
           >
             Produkte
           </Link>
           <Link 
             href="/recommendations" 
-            className="block px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+            className="block px-4 py-2 rounded-lg transition-colors"
+            style={{ color: '#cbd5e1' }}
           >
             Empfehlungen
           </Link>
@@ -207,18 +210,18 @@ export default function Home() {
       </aside>
       
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
+      <main className="flex-1 p-8 overflow-y-auto" style={{ background: 'linear-gradient(to bottom right, #0f172a, #1e293b)' }}>
         <div className="max-w-7xl mx-auto space-y-8">
           {loading || shopLoading ? (
-            <div className="text-center py-12 text-gray-600">Lade Dashboard...</div>
+            <div className="text-center py-12" style={{ color: '#94a3b8' }}>Lade Dashboard...</div>
           ) : stats ? (
             <>
               {/* Page Header */}
               <div className="space-y-2 animate-fade-in">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+                <h1 className="text-4xl font-bold tracking-tight" style={{ color: '#f1f5f9' }}>
                   Dashboard
                 </h1>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg" style={{ color: '#94a3b8' }}>
                   Willkommen zurück! Hier ist deine Übersicht.
                 </p>
               </div>
@@ -299,10 +302,10 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
               <Trophy className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900">
+              <h3 className="text-xl font-bold" style={{ color: '#f1f5f9' }}>
                 Deine Optimierungs-Reise
               </h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm" style={{ color: '#94a3b8' }}>
                 {config.name}
               </p>
             </div>
@@ -310,23 +313,23 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
           
           {/* XP Display */}
           <div className="text-right">
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold" style={{ color: '#f1f5f9' }}>
               {points}/{next_level_points}
             </p>
-            <p className="text-xs text-gray-600">Punkte</p>
+            <p className="text-xs" style={{ color: '#94a3b8' }}>Punkte</p>
           </div>
         </div>
         
         {/* Progress Bar */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-600">{Math.round(progress)}% zum nächsten Level</span>
+            <span style={{ color: '#94a3b8' }}>{Math.round(progress)}% zum nächsten Level</span>
             {points_needed && points_needed > 0 && (
               <span className="font-semibold text-purple-600">Noch {points_needed} Punkte</span>
             )}
           </div>
           
-          <div className="relative h-3 overflow-hidden rounded-full bg-gray-200">
+          <div className="relative h-3 overflow-hidden rounded-full" style={{ backgroundColor: '#475569' }}>
             {/* Animated gradient progress */}
             <div
               className={`h-full bg-gradient-to-r ${config.color} animate-gradient`}
@@ -345,8 +348,8 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
               key={achievement.id}
               className={`relative flex flex-col items-center gap-2 rounded-xl p-4 transition-all hover:scale-105 animate-fade-in ${
                 achievement.completed
-                  ? "bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200"
-                  : "bg-gray-50 border-2 border-gray-200 opacity-60"
+                  ? "border-2 opacity-100"
+                  : "border-2 opacity-60"
               }`}
               style={{ animationDelay: `${idx * 0.1}s` }}
             >
@@ -361,7 +364,7 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
               <div className={`text-3xl ${achievement.completed && "animate-bounce"}`}>
                 {achievement.icon}
               </div>
-              <p className="text-xs text-center font-medium text-gray-700">
+              <p className="text-xs text-center font-medium" style={{ color: '#cbd5e1' }}>
                 {achievement.label}
               </p>
             </div>
@@ -370,8 +373,8 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
         
         {/* Next Steps */}
         {pending_steps && pending_steps.length > 0 && (
-          <div className="space-y-3 pt-4 border-t border-gray-200">
-            <p className="text-sm font-medium text-gray-900">
+          <div className="space-y-3 pt-4 border-t" style={{ borderColor: '#334155' }}>
+            <p className="text-sm font-medium" style={{ color: '#f1f5f9' }}>
               Noch zu erledigen:
             </p>
             
@@ -382,12 +385,12 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 <Link href={getActionHref(step.action)}>
-                  <div className="flex items-center gap-3 p-3 rounded-lg bg-white border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all cursor-pointer">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-600 font-semibold text-sm">
+                  <div className="flex items-center gap-3 p-3 rounded-lg border hover:border-purple-300 hover:shadow-md transition-all cursor-pointer" style={{ backgroundColor: '#1e293b', borderColor: '#475569' }}>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full font-semibold text-sm" style={{ backgroundColor: '#7c3aed', color: '#fff' }}>
                       {step.points}
                     </div>
-                    <p className="flex-1 text-sm text-gray-700">{step.text}</p>
-                    <ArrowRight className="h-4 w-4 text-gray-400" />
+                    <p className="flex-1 text-sm" style={{ color: '#cbd5e1' }}>{step.text}</p>
+                    <ArrowRight className="h-4 w-4" style={{ color: '#94a3b8' }} />
                   </div>
                 </Link>
               </div>
@@ -461,13 +464,13 @@ const QuickActions = ({ stats }: { stats: DashboardStats }) => {
                     
                     {/* Content */}
                     <div className="space-y-2">
-                      <h4 className="text-2xl font-bold text-gray-900">
+                      <h4 className="text-2xl font-bold" style={{ color: '#f1f5f9' }}>
                         {formatNumber(action.value)}
                       </h4>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm" style={{ color: '#94a3b8' }}>
                         {action.title}
                       </p>
-                      <div className="inline-flex items-center px-2 py-1 rounded-full bg-gray-100 text-xs text-gray-600">
+                      <div className="inline-flex items-center px-2 py-1 rounded-full text-xs" style={{ backgroundColor: '#334155', color: '#94a3b8' }}>
                         {action.description}
                       </div>
                     </div>
@@ -552,8 +555,8 @@ function NextSteps({ stats }: { stats: DashboardStats }) {
                 <Link href={step.href}>
                   <div className="flex items-start justify-between gap-4 p-4 rounded-lg bg-blue-50 border-2 border-blue-200 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer">
                     <div className="flex-1">
-                      <div className="font-semibold mb-1 text-gray-900">{step.title}</div>
-                      <p className="text-sm text-gray-700 mb-2">{step.description}</p>
+                      <div className="font-semibold mb-1" style={{ color: '#f1f5f9' }}>{step.title}</div>
+                      <p className="text-sm mb-2" style={{ color: '#cbd5e1' }}>{step.description}</p>
                       <div className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
                         {step.action} <ArrowRight className="w-4 h-4" />
                       </div>

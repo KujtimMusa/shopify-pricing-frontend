@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
 
 interface ModernCardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "glass" | "gradient"
@@ -23,17 +22,14 @@ export function ModernCard({
   }
 
   return (
-    <motion.div
-      className={`rounded-2xl overflow-hidden transition-all duration-300 ${
+    <div
+      className={`rounded-2xl overflow-hidden transition-all duration-300 animate-fade-in ${
         variants[variant]
       } ${hoverable ? "hover:shadow-2xl hover:-translate-y-1 cursor-pointer" : ""} ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
       {...props}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 

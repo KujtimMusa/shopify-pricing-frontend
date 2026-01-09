@@ -6,7 +6,7 @@ import { Link } from '@/navigation'
 import { ShopSwitcher } from '@/components/ShopSwitcher'
 import { useShop } from '@/hooks/useShop'
 import { getDashboardStats } from '@/lib/api'
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion' // Removed due to build issues
 import { ModernCard } from '@/components/ui/modern-card'
 import { 
   TrendingUp, 
@@ -211,18 +211,14 @@ export default function Home() {
           ) : stats ? (
             <>
               {/* Page Header */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-2"
-              >
+              <div className="space-y-2 animate-fade-in">
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                   Dashboard
                 </h1>
                 <p className="text-lg text-gray-600">
                   Willkommen zurück! Hier ist deine Übersicht.
                 </p>
-              </motion.div>
+              </div>
 
               {/* 1. MISSED REVENUE HERO */}
               <MissedRevenueHero stats={stats} />
@@ -257,10 +253,8 @@ function MissedRevenueHero({ stats }: { stats: DashboardStats }) {
   const percentIncrease = total > 0 ? Math.round((total / (total * 0.3)) * 100) : 0
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-500 via-red-600 to-red-700 p-8 shadow-xl"
+    <div
+      className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-500 via-red-600 to-red-700 p-8 shadow-xl animate-fade-in"
     >
       {/* Subtle pattern overlay */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.05\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-10" />
@@ -316,17 +310,12 @@ function MissedRevenueHero({ stats }: { stats: DashboardStats }) {
               
               {/* Amount with animated counter */}
               <div className="space-y-2">
-                <motion.div
-                  className="flex items-baseline gap-2"
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2, type: "spring" }}
-                >
+                <div className="flex items-baseline gap-2 animate-fade-in">
                   <Plus className="h-8 w-8 text-green-600" />
                   <span className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                     {formatCurrency(total)}
                   </span>
-                </motion.div>
+                </div>
                 <p className="text-sm text-gray-600">
                   mehr Umsatz möglich
                 </p>
@@ -350,20 +339,16 @@ function MissedRevenueHero({ stats }: { stats: DashboardStats }) {
               
               {/* CTA Button */}
               <Link href="/products">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                >
+                <button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95">
                   <Target className="h-5 w-5" />
                   Produkte optimieren
-                </motion.button>
+                </button>
               </Link>
             </div>
           </ModernCard>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -443,11 +428,9 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
           
           <div className="relative h-3 overflow-hidden rounded-full bg-gray-200">
             {/* Animated gradient progress */}
-            <motion.div
+            <div
               className={`h-full bg-gradient-to-r ${config.color} animate-gradient`}
-              initial={{ width: 0 }}
-              animate={{ width: `${Math.min(progress, 100)}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
+              style={{ width: `${Math.min(progress, 100)}%` }}
             />
             
             {/* Shine effect */}
@@ -458,16 +441,14 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
         {/* Achievement Cards */}
         <div className="grid grid-cols-3 gap-3">
           {achievements.map((achievement, idx) => (
-            <motion.div
+            <div
               key={achievement.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: idx * 0.1 }}
-              className={`relative flex flex-col items-center gap-2 rounded-xl p-4 transition-all hover:scale-105 ${
+              className={`relative flex flex-col items-center gap-2 rounded-xl p-4 transition-all hover:scale-105 animate-fade-in ${
                 achievement.completed
                   ? "bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200"
                   : "bg-gray-50 border-2 border-gray-200 opacity-60"
               }`}
+              style={{ animationDelay: `${idx * 0.1}s` }}
             >
               {achievement.completed && (
                 <div className="absolute -top-2 -right-2">
@@ -483,7 +464,7 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
               <p className="text-xs text-center font-medium text-gray-700">
                 {achievement.label}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
         
@@ -495,11 +476,10 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
             </p>
             
             {pending_steps.map((step, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.1 }}
+                className="animate-fade-in"
+                style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 <Link href={getActionHref(step.action)}>
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-white border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all cursor-pointer">
@@ -510,7 +490,7 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
                     <ArrowRight className="h-4 w-4 text-gray-400" />
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
@@ -564,10 +544,9 @@ function QuickActions({ stats }: { stats: DashboardStats }) {
         {actions.map((action, idx) => {
           const IconComponent = action.icon
           return (
-            <motion.div
+            <div
               key={idx}
-              whileHover={{ y: -4, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              className="hover:-translate-y-1 hover:scale-105 transition-all duration-300"
             >
               <Link href={action.href}>
                 <ModernCard className={`relative overflow-hidden group`}>
@@ -601,7 +580,7 @@ function QuickActions({ stats }: { stats: DashboardStats }) {
                   </div>
                 </ModernCard>
               </Link>
-            </motion.div>
+            </div>
           )
         })}
       </div>
@@ -633,11 +612,7 @@ function NextSteps({ stats }: { stats: DashboardStats }) {
       <div className="p-8 space-y-4">
         {/* Urgent CTA Box */}
         {urgentStep && (
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200 p-6"
-          >
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200 p-6 animate-fade-in">
             {/* Glow effect */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-orange-300/20 rounded-full blur-3xl" />
             
@@ -656,28 +631,23 @@ function NextSteps({ stats }: { stats: DashboardStats }) {
               </p>
               
               <Link href={urgentStep.href}>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                >
+                <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95">
                   {urgentStep.action}
                   <ArrowRight className="h-4 w-4" />
-                </motion.button>
+                </button>
               </Link>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* Other Steps */}
         {otherSteps.length > 0 && (
           <div className="space-y-3">
             {otherSteps.map((step, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.1 }}
+                className="animate-fade-in"
+                style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 <Link href={step.href}>
                   <div className="flex items-start justify-between gap-4 p-4 rounded-lg bg-blue-50 border-2 border-blue-200 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer">
@@ -690,7 +660,7 @@ function NextSteps({ stats }: { stats: DashboardStats }) {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}

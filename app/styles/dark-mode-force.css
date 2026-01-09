@@ -11,13 +11,22 @@
 
 /* === REMOVE TEXT SELECTION/MARKING === */
 
-/* Disable text selection on interactive elements */
+/* Disable text selection on interactive elements and headers */
 button,
 .collapsible-header,
 .collapsible-card,
 [role="button"],
 [onclick],
-a {
+a,
+h1, h2, h3, h4, h5, h6,
+.header-title,
+.header-subtitle,
+.recommendations-header,
+.recommendations-header *,
+.product-info-card,
+.product-details,
+.section-title,
+.section-subtitle {
   user-select: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;

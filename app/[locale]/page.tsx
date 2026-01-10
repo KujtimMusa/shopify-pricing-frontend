@@ -171,21 +171,23 @@ export default function Home() {
     <div className="min-h-screen flex" style={{ backgroundColor: '#0f172a' }}>
       {/* Sidebar mit Shop-Switcher */}
       <aside className="w-80 border-r p-6 overflow-y-auto shadow-sm" style={{ background: 'linear-gradient(to bottom, #1e293b, #0f172a, #1e293b)', borderColor: '#334155' }}>
-        <div className="mb-6 px-2">
+        <div className="px-4 pt-6 pb-4 border-b border-gray-800/30">
           {/* Logo & Brand */}
-          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-800/50">
-            <div className="relative group">
-              {/* Icon Container mit Glow */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="relative group cursor-pointer">
+              {/* Icon mit Premium Glow */}
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-blue-500/40 group-hover:scale-105">
-                <span className="text-2xl">💡</span>
+                <span className="text-xl">💡</span>
               </div>
+              {/* Subtle Glow Background */}
+              <div className="absolute inset-0 bg-blue-500/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
             </div>
             
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-white tracking-tight mb-0.5">
+              <h2 className="text-lg font-bold text-white tracking-tight leading-none">
                 PriceIQ
               </h2>
-              <p className="text-xs font-medium text-slate-400 tracking-wide uppercase">
+              <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-widest mt-0.5">
                 Pricing Intelligence
               </p>
             </div>
@@ -299,28 +301,36 @@ export default function Home() {
           ) : stats ? (
             <>
               {/* Page Header */}
-              <div className="mb-8 animate-fade-in">
-                {/* Breadcrumb */}
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs text-slate-500 font-medium">PriceIQ</span>
-                  <span className="text-slate-700">/</span>
-                  <span className="text-xs text-slate-400 font-medium">Dashboard</span>
-                </div>
+              <div className="mb-10 animate-fade-in">
+                {/* Elegant Breadcrumb */}
+                <nav className="flex items-center gap-2 mb-4" aria-label="Breadcrumb">
+                  <span className="text-xs font-medium text-slate-500">PriceIQ</span>
+                  <svg className="w-3 h-3 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  <span className="text-xs font-semibold text-slate-300">Dashboard</span>
+                </nav>
                 
-                {/* Title mit Badge */}
-                <div className="flex items-center gap-3 mb-3">
-                  <h1 className="text-4xl font-bold text-white tracking-tight">
-                    Dashboard
-                  </h1>
-                  <div className="px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                    <span className="text-sm font-semibold text-blue-400">Live</span>
+                {/* Title Section */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <h1 className="text-4xl font-bold text-white tracking-tight">
+                      Dashboard
+                    </h1>
+                    {/* Live Badge */}
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/20">
+                      <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-sm shadow-green-400/50" />
+                      <span className="text-sm font-semibold text-green-400">Live</span>
+                    </div>
                   </div>
                 </div>
                 
-                {/* Subtitle mit Icon */}
+                {/* Subtitle with Icon */}
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
-                  <p className="text-slate-400">
+                  <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <p className="text-sm text-slate-400">
                     Willkommen zurück! Dein Shop läuft gerade.
                   </p>
                 </div>

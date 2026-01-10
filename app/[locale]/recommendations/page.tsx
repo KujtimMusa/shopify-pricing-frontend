@@ -168,21 +168,23 @@ function RecommendationsContent() {
     <div className="min-h-screen flex recommendations-page" style={{ backgroundColor: '#0f172a' }}>
       {/* Sidebar mit Shop-Switcher */}
       <aside className="w-80 border-r p-6 overflow-y-auto shadow-sm" style={{ background: 'linear-gradient(to bottom, #1e293b, #0f172a, #1e293b)', borderColor: '#334155' }}>
-        <div className="mb-6 px-2">
+        <div className="px-4 pt-6 pb-4 border-b border-gray-800/30">
           {/* Logo & Brand */}
-          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-800/50">
-            <div className="relative group">
-              {/* Icon Container mit Glow */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="relative group cursor-pointer">
+              {/* Icon mit Premium Glow */}
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-blue-500/40 group-hover:scale-105">
-                <span className="text-2xl">💡</span>
+                <span className="text-xl">💡</span>
               </div>
+              {/* Subtle Glow Background */}
+              <div className="absolute inset-0 bg-blue-500/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
             </div>
             
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-white tracking-tight mb-0.5">
+              <h2 className="text-lg font-bold text-white tracking-tight leading-none">
                 PriceIQ
               </h2>
-              <p className="text-xs font-medium text-slate-400 tracking-wide uppercase">
+              <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-widest mt-0.5">
                 Pricing Intelligence
               </p>
             </div>

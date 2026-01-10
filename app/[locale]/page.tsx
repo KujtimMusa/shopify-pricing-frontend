@@ -432,38 +432,48 @@ function TrustLadder({ stats }: { stats: DashboardStats }) {
         </div>
         
         {/* Progress Bar */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm mb-2">
+        <div className="space-y-3 pt-4">
+          {/* Progress Info Header */}
+          <div className="flex items-center justify-between">
+            {/* Left: Progress mit Color Dot */}
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-gradient-to-r from-gray-300 to-gray-500"></div>
-              <span className="font-medium text-slate-300">
-                {Math.round(progress)}% zum nächsten Level
+              <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${config.color} flex-shrink-0`} />
+              <span className="text-sm font-semibold text-slate-200">
+                {Math.round(progress)}% abgeschlossen
               </span>
             </div>
+            
+            {/* Right: XP Badge */}
             {points_needed && points_needed > 0 && (
-              <div className="px-2 py-1 rounded-md bg-purple-500/10 border border-purple-500/20">
-                <span className="text-xs font-semibold text-purple-400">
-                  +{points_needed} XP benötigt
+              <div className="flex-shrink-0 px-3 py-1 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                <span className="text-xs font-bold text-purple-300">
+                  +{points_needed} XP
                 </span>
               </div>
             )}
           </div>
           
-          <div className="relative h-3 overflow-hidden rounded-full bg-slate-700/50 border border-slate-600">
-            {/* Progress Fill */}
-            <div
-              className={`h-full bg-gradient-to-r ${config.color} transition-all duration-500 ease-out`}
-              style={{ 
-                width: `${Math.min(Math.max(progress, 0), 100)}%`,
-                maxWidth: '100%'
-              }}
-            />
-            
-            {/* Shine Effect */}
-            <div 
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer pointer-events-none"
-              style={{ maxWidth: '100%' }}
-            />
+          {/* Progress Bar Container */}
+          <div className="relative w-full">
+            {/* Background Track */}
+            <div className="h-3 w-full rounded-full bg-slate-800/80 border border-slate-700/50 overflow-hidden">
+              {/* Progress Fill - MIT OVERFLOW-FIX */}
+              <div
+                className={`h-full bg-gradient-to-r ${config.color} transition-all duration-700 ease-out relative overflow-hidden`}
+                style={{ 
+                  width: `${Math.min(Math.max(progress, 0), 100)}%`,
+                  maxWidth: '100%'
+                }}
+              >
+                {/* Shine Effect innerhalb Fill */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <div 
+                    className="h-full w-[200%] bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"
+                    style={{ transform: 'translateX(-50%)' }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         

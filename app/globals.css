@@ -593,15 +593,12 @@ aside[class*="w-80"] {
   z-index: 1000 !important;
 }
 
-/* Main Content: Füllt verfügbaren Platz + SICHTBARER ABSTAND */
+/* Main Content: Füllt verfügbaren Platz */
+/* Spacing wird jetzt über Tailwind-Klassen (pl-12, pr-8, py-8) gesteuert */
 div.min-h-screen.flex > main,
 .min-h-screen.flex > main,
 [class*="recommendations-page"] > main {
   margin-left: 0 !important;
-  padding-left: 32px !important; /* ← SICHTBARER ABSTAND zur Sidebar */
-  padding-right: 32px !important; /* Symmetrie */
-  padding-top: 32px !important; /* Top Spacing */
-  padding-bottom: 32px !important; /* Bottom Spacing */
   width: 100% !important;
   max-width: 100% !important;
   flex: 1 1 auto !important;

@@ -133,7 +133,7 @@ export default function ProductsPage() {
       </aside>
       
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 pl-12 pr-8 py-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
         {/* Page Header - Enhanced */}
         <div className="mb-10">

@@ -266,19 +266,59 @@ export function PriceReasoningStory({
         </>
       )}
 
-      {/* ========== 3. PRICE COMPARISON ========== */}
+      {/* ========== 3. PRICE COMPARISON - PREMIUM ========== */}
       <div className="price-comparison-hero">
+        {/* CURRENT PRICE CARD */}
         <div className="price-box-current">
-          <div className="price-label">Aktuell</div>
-          <div className="price-amount">{formatCurrency(currentPrice)}</div>
+          <div className="space-y-4">
+            {/* Label */}
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-slate-500" />
+              <div className="price-label">Aktueller Preis</div>
+            </div>
+            
+            {/* Price */}
+            <div className="space-y-2">
+              <div className="price-amount">{formatCurrency(currentPrice)}</div>
+            </div>
+          </div>
         </div>
         
-        <div className="price-box-recommended">
-          <div className="price-label price-label-recommended">Empfohlen</div>
-          <div className="price-amount price-amount-recommended">{formatCurrency(recommendedPrice)}</div>
-          <div className="price-difference">
-            <TrendingDown className="price-difference-icon" />
-            <span>{priceChange < 0 ? '-' : '+'}{formatCurrency(Math.abs(priceChange))} ({priceChange < 0 ? '-' : '+'}{Math.abs(priceChangePct).toFixed(1)}%)</span>
+        {/* RECOMMENDED PRICE CARD - HIGHLIGHTED */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600/20 to-indigo-600/20 border-2 border-blue-500/50 p-8 shadow-2xl shadow-blue-500/20">
+          {/* Animated Glow */}
+          <div className="absolute -top-20 -right-20 w-60 h-60 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+          
+          {/* Recommended Badge */}
+          <div className="absolute top-4 right-4">
+            <div className="px-3 py-1.5 rounded-lg bg-blue-500/20 border border-blue-500/50 backdrop-blur-sm">
+              <span className="text-xs font-bold text-blue-300">⭐ EMPFOHLEN</span>
+            </div>
+          </div>
+          
+          <div className="relative z-10 space-y-4">
+            {/* Label */}
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" />
+              <div className="price-label price-label-recommended">Empfohlener Preis</div>
+            </div>
+            
+            {/* Price */}
+            <div className="space-y-2">
+              <div className="price-amount price-amount-recommended">{formatCurrency(recommendedPrice)}</div>
+              
+              {/* Price Change Indicator */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500/20 border border-green-500/30">
+                {priceChange > 0 ? (
+                  <TrendingUp className="w-4 h-4 text-green-400" />
+                ) : (
+                  <TrendingDown className="w-4 h-4 text-green-400" />
+                )}
+                <span className="text-sm font-bold text-green-400">
+                  {priceChange > 0 ? '+' : ''}{formatCurrency(Math.abs(priceChange))} ({priceChange > 0 ? '+' : ''}{Math.abs(priceChangePct).toFixed(1)}%)
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

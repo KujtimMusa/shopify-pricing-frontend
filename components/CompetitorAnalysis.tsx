@@ -472,22 +472,44 @@ export function CompetitorAnalysis({ productId, currentPrice }: CompetitorAnalys
           }
           
           return (
-            <div key={idx} className="competitor-card">
-              <div className={`competitor-rank ${isCheapest ? 'cheapest' : isExpensive ? 'expensive' : ''}`}>
+            <div key={idx} className="competitor-card group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm p-6 hover:border-slate-600/50 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
+              {/* Glow Effect */}
+              <div className={`absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+                isCheapest ? 'bg-green-500/5' : isExpensive ? 'bg-red-500/5' : 'bg-blue-500/5'
+              }`} />
+              
+              {/* Rank Badge - Prominenter */}
+              <div className={`absolute top-4 left-4 w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg shadow-lg ${
+                isCheapest 
+                  ? 'bg-green-500/20 border-2 border-green-500/50 text-green-400' 
+                  : isExpensive 
+                  ? 'bg-red-500/20 border-2 border-red-500/50 text-red-400'
+                  : 'bg-blue-500/20 border-2 border-blue-500/50 text-blue-400'
+              }`}>
                 {isCheapest ? '#1' : isExpensive ? 'TEUER' : `#${idx + 1}`}
               </div>
               
-              <div className="competitor-card-content">
-                <div className="competitor-merchant-row">
-                  <div className={`competitor-avatar ${avatarClass}`}>
+              {/* Card Content */}
+              <div className="pl-16">
+                {/* Competitor Info */}
+                <div className="flex items-center gap-4 mb-4">
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl shadow-md ${
+                    isCheapest 
+                      ? 'bg-green-500/20 border border-green-500/30' 
+                      : isExpensive 
+                      ? 'bg-red-500/20 border border-red-500/30'
+                      : 'bg-blue-500/20 border border-blue-500/30'
+                  }`}>
                     {avatarEmoji}
                   </div>
                   
-                  <div className="competitor-info">
-                    <div className="competitor-name">{competitor.source || 'Unbekannt'}</div>
-                    <div className="competitor-product">
+                  <div className="flex-1">
+                    <p className="text-lg font-bold text-white mb-1">
+                      {competitor.source || 'Unbekannt'}
+                    </p>
+                    <p className="text-sm text-slate-400 line-clamp-2 mb-2">
                       {competitor.title || 'Kein Titel verfügbar'}
-                    </div>
+                    </p>
                     <div className="competitor-badges">
                       {competitor.rating && (
                         <span className="competitor-badge badge-rating">
@@ -512,15 +534,27 @@ export function CompetitorAnalysis({ productId, currentPrice }: CompetitorAnalys
                     </div>
                   </div>
                   
-                  <div className="competitor-price">{formatCurrency(competitor.price)}</div>
-                </div>
-                
-                <div className="competitor-price-section">
-                  <div className="competitor-savings">
-                    <TrendingDown className="competitor-savings-icon" />
-                    <span>
-                      {formatCurrency(Math.abs(priceDiff))} günstiger als du ({priceDiffPct > 0 ? '-' : '+'}{Math.abs(priceDiffPct).toFixed(0)}%)
-                    </span>
+                  {/* Price - Prominenter */}
+                  <div className="text-right">
+                    <p className="text-3xl font-bold text-white mb-1">
+                      {formatCurrency(competitor.price)}
+                    </p>
+                    <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg ${
+                      priceDiff < 0
+                        ? 'bg-green-500/10 border border-green-500/20'
+                        : 'bg-red-500/10 border border-red-500/20'
+                    }`}>
+                      {priceDiff < 0 ? (
+                        <TrendingDown className="w-3.5 h-3.5 text-green-400" />
+                      ) : (
+                        <TrendingUp className="w-3.5 h-3.5 text-red-400" />
+                      )}
+                      <span className={`text-xs font-bold ${
+                        priceDiff < 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {priceDiff < 0 ? '' : '+'}{formatCurrency(Math.abs(priceDiff))}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

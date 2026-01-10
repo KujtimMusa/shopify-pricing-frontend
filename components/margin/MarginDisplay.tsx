@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle, CheckCircle2, DollarSign, Edit2, Edit3 } from 'lucide-react'
+import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle, CheckCircle2, DollarSign, Edit2, Edit3, Target, ShoppingCart, Calendar, LineChart, Zap, ArrowUpRight } from 'lucide-react'
 import '@/app/styles/recommendations.css'
 
 interface MarginDisplayProps {
@@ -134,25 +134,55 @@ export function MarginDisplay({ marginData, compact = false, onAddCosts, onEditC
         </div>
       </div>
 
-      {/* Price Grid */}
+      {/* Premium Price Grid with Icons & Gradients */}
       <div className="price-grid">
-        <div className="price-box">
-          <div className="price-box-label">Verkaufspreis</div>
-          <div className="price-box-value">
-            €{marginData.selling_price?.toFixed(2) || '0.00'}
+        {/* Verkaufspreis Card */}
+        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm p-6 hover:border-slate-600/50 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+          {/* Glow Effect */}
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
+          <div className="relative z-10">
+            {/* Icon */}
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 mb-4">
+              <DollarSign className="w-6 h-6 text-purple-400" />
+            </div>
+            
+            {/* Label */}
+            <div className="price-box-label">Verkaufspreis</div>
+            
+            {/* Value */}
+            <div className="price-box-value">
+              €{marginData.selling_price?.toFixed(2) || '0.00'}
+            </div>
           </div>
         </div>
         
-        <div className="price-box">
-          <div className="price-box-label">Nettoerlös</div>
-          <div className="price-box-value">
-            €{marginData.net_revenue?.toFixed(2) || '0.00'}
-          </div>
-          {marginData.vat_rate && (
-            <div className="price-box-meta">
-              (nach {(marginData.vat_rate * 100).toFixed(0)}% MwSt)
+        {/* Nettoerlös Card */}
+        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm p-6 hover:border-slate-600/50 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
+          {/* Glow Effect */}
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
+          <div className="relative z-10">
+            {/* Icon */}
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 mb-4">
+              <Target className="w-6 h-6 text-blue-400" />
             </div>
-          )}
+            
+            {/* Label */}
+            <div className="price-box-label">Nettoerlös</div>
+            
+            {/* Value */}
+            <div className="price-box-value">
+              €{marginData.net_revenue?.toFixed(2) || '0.00'}
+            </div>
+            
+            {/* Meta */}
+            {marginData.vat_rate && (
+              <div className="price-box-meta">
+                (nach {(marginData.vat_rate * 100).toFixed(0)}% MwSt)
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

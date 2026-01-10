@@ -1,7 +1,6 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { ErrorBoundaryWrapper } from '@/components/ErrorBoundaryWrapper';
 import '../globals.css'
 

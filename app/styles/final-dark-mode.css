@@ -275,10 +275,37 @@ aside:not([role="navigation"])::-webkit-scrollbar-thumb:hover,
 
 /* === MAIN CONTENT OFFSET === */
 /* Verschiebe Hauptinhalt nach rechts, wenn Sidebar fixed ist */
-/* WICHTIG: Nur main Elemente, die nach einer fixed Sidebar kommen */
-body > main,
+
+/* Container mit flex und Sidebar: Verschiebe den gesamten Container */
+/* Da Sidebar fixed ist, braucht der Container padding-left */
+.min-h-screen.flex,
+[class*="recommendations-page"] {
+  padding-left: 280px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Main Elemente innerhalb von flex-Containern - keine zusätzliche Verschiebung */
+.min-h-screen.flex > main,
 [class*="recommendations-page"] > main,
-.min-h-screen.flex > main {
+.flex > main {
+  margin-left: 0 !important;
+  width: 100% !important;
+  flex: 1 !important;
+  box-sizing: border-box !important;
+}
+
+/* Sidebar innerhalb von flex-Containern: Aus dem Flow nehmen */
+.min-h-screen.flex > aside,
+[class*="recommendations-page"] > aside {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Direkte main Elemente unter body (Layout) - nur wenn keine Sidebar im Container */
+body > main:not(.min-h-screen.flex > main) {
   margin-left: 280px !important;
   width: calc(100% - 280px) !important;
   box-sizing: border-box !important;
@@ -292,9 +319,12 @@ body > main,
     width: 240px !important;
   }
   
-  body > main,
-  [class*="recommendations-page"] > main,
-  .min-h-screen.flex > main {
+  .min-h-screen.flex,
+  [class*="recommendations-page"] {
+    padding-left: 240px !important;
+  }
+  
+  body > main:not(.min-h-screen.flex > main) {
     margin-left: 240px !important;
     width: calc(100% - 240px) !important;
   }

@@ -168,62 +168,121 @@ function RecommendationsContent() {
     <div className="min-h-screen flex recommendations-page" style={{ backgroundColor: '#0f172a' }}>
       {/* Sidebar mit Shop-Switcher */}
       <aside className="w-80 border-r p-6 overflow-y-auto shadow-sm" style={{ background: 'linear-gradient(to bottom, #1e293b, #0f172a, #1e293b)', borderColor: '#334155' }}>
-        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-700">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
-            <span className="text-2xl">💡</span>
+        <div className="mb-6 px-2">
+          {/* Logo & Brand */}
+          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-800/50">
+            <div className="relative">
+              {/* Icon Container mit Glow */}
+              <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-xl">💡</span>
+              </div>
+              {/* Subtiler Glow-Effekt */}
+              <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full -z-10"></div>
+            </div>
+            
+            <div>
+              <h2 className="text-lg font-bold text-white tracking-tight">
+                PriceIQ
+              </h2>
+              <p className="text-xs text-gray-500">Pricing Intelligence</p>
+            </div>
           </div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-            PriceIQ
-          </h2>
-        </div>
-        
-        {/* Shop Switcher */}
-        <div className="mb-6" style={{ borderTop: 'none' }}>
-          <ShopSwitcher />
+          
+          {/* Shop Switcher */}
+          <div className="mb-5">
+            <ShopSwitcher />
+          </div>
         </div>
         
         {/* Navigation */}
-        <nav className="space-y-1 px-3">
+        <nav className="space-y-1 px-2">
+          {/* Navigation Label */}
+          <div className="px-3 mb-2">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Navigation
+            </p>
+          </div>
+          
+          {/* Dashboard Link */}
           <Link 
             href="/" 
             className={`
-              flex items-center gap-3 px-4 py-3 rounded-lg transition-all group
+              group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
               ${pathname === '/' || pathname === '/de' || pathname === '/en'
-                ? 'bg-slate-800 text-blue-400 border-l-4 border-blue-500 shadow-sm' 
-                : 'text-gray-400 hover:bg-slate-800/50 hover:text-gray-200 border-l-4 border-transparent'
+                ? 'bg-blue-500/10 text-blue-400 shadow-sm' 
+                : 'text-gray-400 hover:text-gray-200 hover:bg-slate-800/50'
               }
             `}
           >
-            <LayoutDashboard className="w-5 h-5" />
-            <span className="font-medium">Dashboard</span>
+            <div className={`
+              p-1.5 rounded-md transition-colors
+              ${pathname === '/' || pathname === '/de' || pathname === '/en'
+                ? 'bg-blue-500/20' 
+                : 'bg-slate-800/50 group-hover:bg-slate-800'
+              }
+            `}>
+              <LayoutDashboard className="w-4 h-4" />
+            </div>
+            <span className="text-sm font-medium">Dashboard</span>
+            
+            {/* Active Indicator */}
+            {(pathname === '/' || pathname === '/de' || pathname === '/en') && (
+              <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+            )}
           </Link>
           
+          {/* Products Link */}
           <Link 
             href="/products" 
             className={`
-              flex items-center gap-3 px-4 py-3 rounded-lg transition-all group
+              group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
               ${pathname?.includes('/products')
-                ? 'bg-slate-800 text-blue-400 border-l-4 border-blue-500 shadow-sm' 
-                : 'text-gray-400 hover:bg-slate-800/50 hover:text-gray-200 border-l-4 border-transparent'
+                ? 'bg-blue-500/10 text-blue-400 shadow-sm' 
+                : 'text-gray-400 hover:text-gray-200 hover:bg-slate-800/50'
               }
             `}
           >
-            <Package className="w-5 h-5" />
-            <span className="font-medium">Produkte</span>
+            <div className={`
+              p-1.5 rounded-md transition-colors
+              ${pathname?.includes('/products')
+                ? 'bg-blue-500/20' 
+                : 'bg-slate-800/50 group-hover:bg-slate-800'
+              }
+            `}>
+              <Package className="w-4 h-4" />
+            </div>
+            <span className="text-sm font-medium">Produkte</span>
+            
+            {pathname?.includes('/products') && (
+              <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+            )}
           </Link>
           
+          {/* Recommendations Link */}
           <Link 
             href="/recommendations" 
             className={`
-              flex items-center gap-3 px-4 py-3 rounded-lg transition-all group
+              group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
               ${pathname?.includes('/recommendations')
-                ? 'bg-slate-800 text-blue-400 border-l-4 border-blue-500 shadow-sm' 
-                : 'text-gray-400 hover:bg-slate-800/50 hover:text-gray-200 border-l-4 border-transparent'
+                ? 'bg-blue-500/10 text-blue-400 shadow-sm' 
+                : 'text-gray-400 hover:text-gray-200 hover:bg-slate-800/50'
               }
             `}
           >
-            <Lightbulb className="w-5 h-5" />
-            <span className="font-medium">Empfehlungen</span>
+            <div className={`
+              p-1.5 rounded-md transition-colors
+              ${pathname?.includes('/recommendations')
+                ? 'bg-blue-500/20' 
+                : 'bg-slate-800/50 group-hover:bg-slate-800'
+              }
+            `}>
+              <Lightbulb className="w-4 h-4" />
+            </div>
+            <span className="text-sm font-medium">Empfehlungen</span>
+            
+            {pathname?.includes('/recommendations') && (
+              <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+            )}
           </Link>
         </nav>
       </aside>

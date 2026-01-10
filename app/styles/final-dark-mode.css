@@ -223,7 +223,7 @@ main > section {
 aside:not([role="navigation"]):not([class*="header"]),
 [class*="sidebar"]:not([role="navigation"]),
 [class*="Sidebar"]:not([role="navigation"]) {
-  background-color: #0f172a !important;
+  background: linear-gradient(180deg, #0f172a 0%, #0a0f1a 100%) !important;
   width: 280px !important;
   height: 100vh !important;
   position: fixed !important;

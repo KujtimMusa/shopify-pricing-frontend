@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Package, ArrowRight, ArrowLeft, Sparkles, RefreshCw, LayoutDashboard, Lightbulb } from 'lucide-react'
+import { Package, ArrowRight, ArrowLeft, Sparkles, RefreshCw, LayoutDashboard, Lightbulb, Check, Store, ChevronDown } from 'lucide-react'
 import { fetchProducts, syncProducts } from '@/lib/api'
 import { ShopSwitcher } from '@/components/ShopSwitcher'
 import { useShop } from '@/hooks/useShop'
@@ -219,71 +219,86 @@ export default function ProductsPage() {
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-8 py-8">
           <div className="space-y-8">
-        {/* Page Header - Enhanced */}
+        {/* Page Header - Premium */}
         <div className="mb-10">
-          <div className="flex items-center justify-between mb-8">
-            {/* Left Side */}
-            <div>
-              <h1 className="text-5xl font-bold tracking-tight mb-3" style={{ color: '#f1f5f9' }}>
-                Produkte
-              </h1>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2" style={{ color: '#94a3b8' }}>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ backgroundColor: '#334155' }}>
-                    <Package className="h-4 w-4" />
-                  </div>
-                  <span className="text-lg font-medium">
-                    {products.length} Produkte
-                  </span>
-                </div>
-                
-                {productsWithRecommendations > 0 && (
-                  <>
-                    <div className="h-4 w-px" style={{ backgroundColor: '#475569' }} />
-                    <div className="flex items-center gap-2 text-purple-600">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100">
-                        <Sparkles className="h-4 w-4" />
-                      </div>
-                      <span className="text-lg font-semibold">
-                        {productsWithRecommendations} mit AI-Empfehlungen
-                      </span>
-                    </div>
-                  </>
-                )}
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-2 mb-4" aria-label="Breadcrumb">
+            <span className="text-xs font-medium text-slate-500">PriceIQ</span>
+            <svg className="w-3 h-3 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <span className="text-xs font-semibold text-slate-300">Produkte</span>
+          </nav>
+          
+          {/* Title Section */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              {/* Icon */}
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/25">
+                <Package className="w-6 h-6 text-white" />
+              </div>
+              
+              {/* Title + Counter */}
+              <div>
+                <h1 className="text-4xl font-bold text-white tracking-tight">
+                  Produkte
+                </h1>
+                <p className="text-sm text-slate-400 mt-1">
+                  {products.length} Produkte synchronisiert
+                  {productsWithRecommendations > 0 && (
+                    <span className="ml-2 text-purple-400">
+                      • {productsWithRecommendations} mit AI-Empfehlungen
+                    </span>
+                  )}
+                </p>
               </div>
             </div>
+          </div>
 
-            {/* Right Side - Buttons */}
-            <div className="flex items-center gap-3">
-              {currentShop && (
-                <div className="flex items-center gap-2 px-5 py-3 border rounded-xl font-medium shadow-sm" style={{ backgroundColor: '#1e293b', borderColor: '#475569', color: '#cbd5e1' }}>
-                  <span>{currentShop.name} {isDemoMode && '(Demo)'}</span>
-                </div>
-              )}
-              {!isDemoMode && currentShop && currentShop.type === 'shopify' && (
-                <button
-                  onClick={handleSync}
-                  disabled={loading}
-                  className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-xl font-semibold hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                  {loading ? 'Synchronisiere...' : 'Produkte synchronisieren'}
-                </button>
-              )}
-              {isDemoMode && (
-                <div className="flex items-center gap-2 px-5 py-3 border rounded-xl font-medium cursor-not-allowed" style={{ backgroundColor: '#334155', borderColor: '#475569', color: '#94a3b8' }}>
-                  <RefreshCw className="h-4 w-4" />
-                  <span>Demo-Mode: Keine Synchronisation möglich</span>
-                </div>
-              )}
-              <Link
-                href="/"
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-xl font-semibold hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40"
+          {/* Action Bar */}
+          <div className="flex flex-wrap items-center gap-3 mb-8 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+            {/* Shop Switcher */}
+            {currentShop && (
+              <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 hover:border-slate-600 text-sm font-medium text-slate-200 hover:text-white transition-colors">
+                <Store className="w-4 h-4" />
+                <span>{currentShop.name} {isDemoMode && '(Demo)'}</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            )}
+            
+            {/* Demo Mode Indicator */}
+            {isDemoMode && (
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+                <span className="text-xs font-semibold text-orange-400">
+                  Demo-Mode: Keine Synchronisation
+                </span>
+              </div>
+            )}
+            
+            {/* Sync Button */}
+            {!isDemoMode && currentShop && currentShop.type === 'shopify' && (
+              <button
+                onClick={handleSync}
+                disabled={loading}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-semibold text-sm shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Zurück</span>
-              </Link>
-            </div>
+                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                {loading ? 'Synchronisiere...' : 'Produkte synchronisieren'}
+              </button>
+            )}
+            
+            {/* Spacer */}
+            <div className="flex-1" />
+            
+            {/* Back Button */}
+            <Link 
+              href="/"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all hover:scale-105"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Zurück</span>
+            </Link>
           </div>
         </div>
 
@@ -306,59 +321,84 @@ export default function ProductsPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center justify-center py-20 px-6"
+            className="flex flex-col items-center justify-center py-20 px-4"
           >
-            <div className="relative mb-6">
-              <div className="absolute inset-0 animate-pulse rounded-full bg-purple-300/30 blur-2xl" />
-              <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-purple-600 shadow-xl">
-                <Package className="h-10 w-10 text-white" />
-              </div>
+            <div className="w-20 h-20 rounded-2xl bg-slate-800/50 border border-slate-700/50 flex items-center justify-center mb-6">
+              <Package className="w-10 h-10 text-slate-500" />
             </div>
-            
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            <h3 className="text-xl font-bold text-slate-200 mb-2">
               Keine Produkte gefunden
             </h3>
             {isDemoMode ? (
               <>
-                <p className="text-gray-600 mb-6 text-center max-w-md">
+                <p className="text-sm text-slate-400 text-center max-w-md mb-6">
                   Demo-Shop: Produkte werden automatisch geladen. Falls keine angezeigt werden, prüfe die Browser-Console.
                 </p>
                 <button
                   onClick={() => loadProducts()}
-                  className="btn-modern btn-primary"
+                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg transition-all"
                 >
-                  <RefreshCw className="h-4 w-4" />
+                  <RefreshCw className="h-4 w-4 inline mr-2" />
                   Produkte neu laden
                 </button>
               </>
             ) : (
               <>
-                <p className="text-gray-600 mb-6 text-center max-w-md">
-                  Synchronisiere deine Produkte oder füge welche manuell hinzu.
+                <p className="text-sm text-slate-400 text-center max-w-md mb-6">
+                  Es wurden noch keine Produkte synchronisiert. Verbinde deinen Shop, um Produkte zu importieren.
                 </p>
                 <button
                   onClick={handleSync}
-                  className="btn-modern btn-primary"
+                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg transition-all"
                 >
-                  <RefreshCw className="h-4 w-4" />
-                  Produkte synchronisieren
+                  <RefreshCw className="h-4 w-4 inline mr-2" />
+                  Shop verbinden
                 </button>
               </>
             )}
           </motion.div>
         ) : (
-          <div className="products-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
             {products.map((product, index) => {
               const hasRecommendation = product.has_recommendation || product.recommendation_count > 0
               const inventory = product.inventory || product.inventory_quantity || 0
+              const currentPrice = product.price?.toFixed(2) || '0.00'
               
               // Bestimme Inventory-Level
-              const getInventoryClass = (inv: number) => {
-                if (inv < 10) return 'inventory-critical'
-                if (inv < 30) return 'inventory-low'
-                if (inv < 100) return 'inventory-good'
-                return 'inventory-high'
+              const getInventoryBadge = (inv: number) => {
+                if (inv < 10) {
+                  return {
+                    bg: 'bg-red-500/10',
+                    border: 'border-red-500/20',
+                    text: 'text-red-400',
+                    label: 'Kritisch'
+                  }
+                }
+                if (inv < 30) {
+                  return {
+                    bg: 'bg-orange-500/10',
+                    border: 'border-orange-500/20',
+                    text: 'text-orange-400',
+                    label: 'Niedrig'
+                  }
+                }
+                if (inv < 100) {
+                  return {
+                    bg: 'bg-green-500/10',
+                    border: 'border-green-500/20',
+                    text: 'text-green-400',
+                    label: 'Gut'
+                  }
+                }
+                return {
+                  bg: 'bg-slate-500/10',
+                  border: 'border-slate-500/20',
+                  text: 'text-slate-400',
+                  label: 'Hoch'
+                }
               }
+
+              const inventoryBadge = getInventoryBadge(inventory)
 
               return (
                 <motion.div
@@ -366,58 +406,80 @@ export default function ProductsPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className={`product-card ${hasRecommendation ? 'has-recommendation' : ''}`}
-                  style={{
-                    animationDelay: `${index * 50}ms`,
-                  }}
+                  className="group relative"
                 >
-                  {/* AI Badge - Only if has recommendation */}
-                  {hasRecommendation && (
-                    <div className="ai-badge">
-                      <Sparkles className="ai-badge-icon" />
-                      AI
-                    </div>
-                  )}
-
-                  {/* Product Image Area */}
-                  <div className="product-image-container">
-                    <Package className="product-image-icon" />
-                  </div>
-
-                  {/* Product Content */}
-                  <div className="product-content">
-                    {/* Title */}
-                    <h3 className="product-title">
-                      {product.title}
-                    </h3>
-
-                    {/* Price Section */}
-                    <div className="product-price-section">
-                      <div className="product-price-main">
-                        €{product.price?.toFixed(2) || '0.00'}
+                  {/* Premium Card Container */}
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 backdrop-blur-sm p-6 transition-all duration-300 hover:border-slate-600/50 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1">
+                    {/* Decorative Glow (subtle) */}
+                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* AI Badge - Only if has recommendation */}
+                    {hasRecommendation && (
+                      <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20 backdrop-blur-sm">
+                        <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                        <span className="text-xs font-semibold text-purple-400">AI</span>
                       </div>
+                    )}
+
+                    {/* Image Placeholder - DARK THEME */}
+                    <div className="relative mb-5 aspect-[4/3] rounded-xl bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-slate-600/30 flex items-center justify-center overflow-hidden group-hover:border-slate-500/50 transition-colors">
+                      {/* Icon */}
+                      <div className="relative z-10">
+                        <Package className="w-16 h-16 text-slate-500 group-hover:text-slate-400 transition-colors" strokeWidth={1.5} />
+                      </div>
+                      {/* Subtle Pattern Background */}
+                      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #cbd5e1 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+                    </div>
+
+                    {/* Content Container */}
+                    <div className="relative z-10 space-y-4">
+                      {/* Product Title */}
+                      <h3 className="text-lg font-semibold text-slate-100 line-clamp-2 group-hover:text-white transition-colors min-h-[3.5rem]">
+                        {product.title}
+                      </h3>
+
+                      {/* Price Section - IMPROVED */}
+                      <div className="space-y-1">
+                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                          Aktueller Preis
+                        </p>
+                        <div className="flex items-baseline gap-3">
+                          {/* Current Price */}
+                          <span className="text-3xl font-bold text-white">
+                            €{currentPrice}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status Badge - PREMIUM STYLE */}
                       <div className="flex items-center gap-2">
-                        <span className="product-price-label">Preis:</span>
-                        <span className="product-price-original">
-                          €{product.price?.toFixed(2) || '0.00'}
-                        </span>
+                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${inventoryBadge.bg} ${inventoryBadge.border} group-hover:opacity-80 transition-opacity`}>
+                          <Check className={`w-3.5 h-3.5 ${inventoryBadge.text}`} />
+                          <span className={`text-xs font-semibold ${inventoryBadge.text}`}>
+                            {inventoryBadge.label} ({inventory})
+                          </span>
+                        </div>
+                        
+                        {/* Optional: "Empfohlen" Badge */}
+                        {hasRecommendation && (
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                            <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                            <span className="text-xs font-semibold text-blue-400">
+                              Empfohlen
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    </div>
 
-                    {/* Inventory Badge */}
-                    <div className={`inventory-badge ${getInventoryClass(inventory)}`}>
-                      <Package className="inventory-icon h-4 w-4" />
-                      <span>Lager: {inventory}</span>
+                      {/* CTA Button - PREMIUM GLOW */}
+                      <Link
+                        href={`/recommendations?product_id=${product.id}`}
+                        className="group/btn relative w-full px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                      >
+                        <span>Preisempfehlungen anzeigen</span>
+                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-0.5 transition-transform" />
+                      </Link>
                     </div>
-
-                    {/* Recommendation Link */}
-                    <Link
-                      href={`/recommendations?product_id=${product.id}`}
-                      className="recommendation-link"
-                    >
-                      <span>Preisempfehlungen anzeigen</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
                   </div>
                 </motion.div>
               )

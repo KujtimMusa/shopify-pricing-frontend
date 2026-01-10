@@ -515,8 +515,8 @@ function RecommendationsContent() {
                     )}
             </div>
           )}
+          </div>
         </div>
-      </div>
       </main>
 
       {/* Cost Input Modal */}

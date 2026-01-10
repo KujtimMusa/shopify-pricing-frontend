@@ -218,11 +218,11 @@ main > section {
    ============================================ */
 
 /* === SIDEBAR CONTAINER === */
+/* Nur aside Elemente, die als Sidebar fungieren (nicht nav im Layout!) */
 
-aside,
-nav,
-[class*="sidebar"],
-[class*="Sidebar"] {
+aside:not([role="navigation"]):not([class*="header"]),
+[class*="sidebar"]:not([role="navigation"]),
+[class*="Sidebar"]:not([role="navigation"]) {
   background-color: #0f172a !important;
   width: 280px !important;
   height: 100vh !important;
@@ -236,29 +236,68 @@ nav,
   display: flex !important;
   flex-direction: column !important;
   gap: 0 !important;
+  z-index: 1000 !important;
+}
+
+/* Layout nav (Header) NICHT als Sidebar behandeln */
+body > nav,
+[class*="layout"] > nav,
+header > nav {
+  position: relative !important;
+  width: auto !important;
+  height: auto !important;
+  background-color: #1e293b !important;
+  border-right: none !important;
 }
 
 /* === SCROLLBAR === */
 
-aside::-webkit-scrollbar,
-nav::-webkit-scrollbar {
+aside:not([role="navigation"])::-webkit-scrollbar,
+[class*="sidebar"]::-webkit-scrollbar {
   width: 6px !important;
 }
 
-aside::-webkit-scrollbar-track,
-nav::-webkit-scrollbar-track {
+aside:not([role="navigation"])::-webkit-scrollbar-track,
+[class*="sidebar"]::-webkit-scrollbar-track {
   background: transparent !important;
 }
 
-aside::-webkit-scrollbar-thumb,
-nav::-webkit-scrollbar-thumb {
+aside:not([role="navigation"])::-webkit-scrollbar-thumb,
+[class*="sidebar"]::-webkit-scrollbar-thumb {
   background: #334155 !important;
   border-radius: 3px !important;
 }
 
-aside::-webkit-scrollbar-thumb:hover,
-nav::-webkit-scrollbar-thumb:hover {
+aside:not([role="navigation"])::-webkit-scrollbar-thumb:hover,
+[class*="sidebar"]::-webkit-scrollbar-thumb:hover {
   background: #475569 !important;
+}
+
+/* === MAIN CONTENT OFFSET === */
+/* Verschiebe Hauptinhalt nach rechts, wenn Sidebar fixed ist */
+/* WICHTIG: Nur main Elemente, die nach einer fixed Sidebar kommen */
+body > main,
+[class*="recommendations-page"] > main,
+.min-h-screen.flex > main {
+  margin-left: 280px !important;
+  width: calc(100% - 280px) !important;
+  box-sizing: border-box !important;
+}
+
+/* Responsive: Auf mobilen Geräten kleinere Sidebar */
+@media (max-width: 768px) {
+  aside:not([role="navigation"]),
+  [class*="sidebar"]:not([role="navigation"]),
+  [class*="Sidebar"]:not([role="navigation"]) {
+    width: 240px !important;
+  }
+  
+  body > main,
+  [class*="recommendations-page"] > main,
+  .min-h-screen.flex > main {
+    margin-left: 240px !important;
+    width: calc(100% - 240px) !important;
+  }
 }
 
 /* === LOGO SECTION === */
